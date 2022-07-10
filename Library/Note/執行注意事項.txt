@@ -1,0 +1,13 @@
+﻿1.新增package.json
+2.新增webpack.config.js
+3.
+npm install
+npm install webpack --save-dev
+npm install webpack-cli --save-dev
+
+PM> cd D:\Github\Library\Library
+PM> npm run build
+
+
+安裝Element
+npm i element-ui -S
