@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="scss\" />
     <Folder Include="wwwroot\bundle\" />
   </ItemGroup>
 
