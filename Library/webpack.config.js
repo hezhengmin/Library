@@ -32,7 +32,8 @@ module.exports = {
         extensions: ['.js', '.vue', '.json'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
-            '@': path.join(__dirname, appBasePath)
+            '@': path.join(__dirname, appBasePath),
+            '@scss': path.resolve(__dirname, './scss'),
         }
     },
     module: {
@@ -75,6 +76,9 @@ module.exports = {
                 use: [
                     {
                         loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[ext][query]',
+                        },
                     },
                 ],
             },
@@ -82,7 +86,11 @@ module.exports = {
     },
     plugins: [
         // make sure to include the plugin for the magic
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+
+        new webpack.DefinePlugin({
+            'process.env.ASSET_PATH': JSON.stringify(publicPath),
+        }),
     ],
     optimization: {
         minimizer: [new UglifyJsPlugin()],
