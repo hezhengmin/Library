@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="assert\account\" />
     <Folder Include="scss\" />
     <Folder Include="wwwroot\bundle\" />
   </ItemGroup>

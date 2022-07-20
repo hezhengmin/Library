@@ -78,9 +78,11 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[path][name].[ext][query]',
+                            esModule: false,
                         },
                     },
                 ],
+                type: 'javascript/auto'
             },
         ],
     },

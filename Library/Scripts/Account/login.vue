@@ -23,8 +23,6 @@
             <div class="col">
             </div>
         </div>
-
-       
     </div>
 </template>
 <script>
@@ -34,7 +32,7 @@
 </script>
 
 <style lang="scss">
-    .login {
-        background-image: url(../../assert/account/signin.jpg);
+    body {
+        background: url('../../assert/account/img/signin.jpg') no-repeat;
     }
 </style>
