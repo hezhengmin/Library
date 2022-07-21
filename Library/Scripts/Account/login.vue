@@ -1,26 +1,18 @@
 ﻿<template>
-    <div id="login" class="login g-2">
-        <div class="row align-items-center mt-5">
-            <div class="col">
+    <div id="login">
+        <div class="row bg-light align-items-center w-100">
+            <div class="col-12">
+                <label for="acc" class="form-label">帳號222</label>
+                <input id="acc" type="text" class="form-control" />
             </div>
-            <div class="col">
-                <div class="row g-2 bg-light p-3">
-                    <div class="col-12">
-                        <label for="acc" class="form-label">帳號</label>
-                        <input id="acc" type="text" class="form-control" />
-                    </div>
-                    <div class="col-12">
-                        <label for="pwd" class="form-label">密碼</label>
-                        <input id="pwd" type="password" class="form-control" />
-                    </div>
-                    <div class="col-12">
-                        <div class="d-flex justify-content-center mt-2">
-                            <button type="submit" class="btn btn-primary">登入</button>
-                        </div>
-                    </div>
+            <div class="col-12">
+                <label for="pwd" class="form-label">密碼</label>
+                <input id="pwd" type="password" class="form-control" />
+            </div>
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">登入</button>
                 </div>
-            </div>
-            <div class="col">
             </div>
         </div>
     </div>
@@ -33,6 +25,9 @@
 
 <style lang="scss">
     body {
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
         background: url('../../assert/account/img/signin.jpg') no-repeat;
     }
 </style>

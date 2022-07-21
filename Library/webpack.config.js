@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader')
 const fs = require('fs');
+const HtmlWebpackPlugin = require('html-webpack-plugin'); //靜態檔案做自動引入的動作
+
 
 var appBasePath = './Scripts/'; // where the source files located
 var publicPath = '../bundle/'; // public path to modify asset urls. eg: '../bundle' => 'www.example.com/bundle/main.js'
@@ -20,6 +22,8 @@ fs.readdirSync(appBasePath).forEach(function (name) {
     }
 });
 module.exports = {
+    mode: 'development',
+    devtool: 'inline-source-map',
     /*Entry進入哪隻檔案，可以放相對路徑*/
     entry: jsEntries,
     output: {
@@ -78,21 +82,23 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[path][name].[ext][query]',
-                            esModule: false,
+                            esModule: false, //前面css-loader會把url解析錯誤
                         },
                     },
                 ],
-                type: 'javascript/auto'
+                type: 'javascript/auto' //避免輸出重複圖片
             },
         ],
     },
+
     plugins: [
         // make sure to include the plugin for the magic
         new VueLoaderPlugin(),
+        new HtmlWebpackPlugin(),
 
         new webpack.DefinePlugin({
-            'process.env.ASSET_PATH': JSON.stringify(publicPath),
-        }),
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
     ],
     optimization: {
         minimizer: [new UglifyJsPlugin()],
