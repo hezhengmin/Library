@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Zheng.Infrastructure.Model
+namespace Zheng.Infrastructure.Models
 {
     public partial class Account
     {

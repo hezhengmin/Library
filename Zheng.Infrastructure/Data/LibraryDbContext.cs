@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Zheng.Infrastructure.Model;
+using Zheng.Infrastructure.Models;
 
 namespace Zheng.Infrastructure.Data
 {
@@ -20,7 +20,7 @@ namespace Zheng.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-      
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +31,6 @@ namespace Zheng.Infrastructure.Data
 
                 entity.Property(e => e.AccountId)
                     .IsRequired()
-                    .HasColumnName("AccountID")
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasComment("帳號");
