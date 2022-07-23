@@ -97,10 +97,11 @@ module.exports = {
         new HtmlWebpackPlugin(),
 
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
+            'process.env.NODE_ENV': JSON.stringify('development')
         })
     ],
     optimization: {
-        minimizer: [new UglifyJsPlugin()],
+        //minify your JavaScript，JS壓縮成一行
+        minimizer: [new UglifyJsPlugin()], 
     },
 };
