@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Zheng.Application.Services;
 using Zheng.Infrastructure.Data;
 
 namespace LibraryWebAPI
@@ -30,6 +31,9 @@ namespace LibraryWebAPI
             //資料庫連線
             services.AddDbContext<LibraryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //註冊服務
+            services.AddScoped<AccountService>();
 
             services.AddControllers();
         }

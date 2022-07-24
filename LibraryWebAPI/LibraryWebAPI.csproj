@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Zheng.Application\Zheng.Application.csproj" />
     <ProjectReference Include="..\Zheng.Infrastructure\Zheng.Infrastructure.csproj" />
   </ItemGroup>
 
