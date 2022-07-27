@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-12 p-3">
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">登入</button>
+                                <button type="submit" class="btn btn-primary" v-on:click="SignIn">登入</button>
                             </div>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
 </template>
 <script>
@@ -38,6 +38,13 @@
                 password: '',
             };
         },
+        methods: {
+            SignIn() {
+                this.$axios.get('https://localhost:44323/api/Account')
+                    .then((response) => console.log(response)) //得出來的是類似Response的物件，裏面的data才是我們想抓的資料
+                    .catch((error) => console.log(error))
+            }
+        }
     };
 </script>
 
