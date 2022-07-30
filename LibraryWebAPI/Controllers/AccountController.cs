@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Zheng.Application.Services;
 using Zheng.Application.ViewModels.Account;
@@ -13,7 +15,6 @@ namespace LibraryWebAPI.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-      
         private readonly AccountService _accountService;
 
         public AccountController(AccountService accountService)
@@ -50,7 +51,7 @@ namespace LibraryWebAPI.Controllers
         {
             Account account = new Account();
             var result = _accountService.Add(entity, out account);
-             
+
             return CreatedAtAction(nameof(Get), new { Id = account.Id }, account);
         }
 
@@ -87,6 +88,28 @@ namespace LibraryWebAPI.Controllers
             _accountService.Remove(id);
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// 首頁登入
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost("SignIn")]
+        public IActionResult SignIn([FromBody] Account_SignInVM entity)
+        {
+            var result = _accountService.SingIn(entity);
+
+            //登入成功
+            if (result)
+            {
+                HttpContext.Session.SetString("accountIdKey", entity.AccountId);
+                return new OkObjectResult(new { entity.AccountId , Message = "登入成功" });
+            }
+            else 
+            {
+                return StatusCode((int)HttpStatusCode.NotFound);
+            }
         }
     }
 }

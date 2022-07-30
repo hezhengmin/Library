@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zheng.Infrastructure\Zheng.Infrastructure.csproj" />
+    <ProjectReference Include="..\Zheng.Utilities\Zheng.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

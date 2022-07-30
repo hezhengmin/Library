@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,19 @@ namespace LibraryWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //加入Session服務
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "Library.Session";
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+
+            //啟用 CORS (跨原始來源要求)
             services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -67,6 +81,17 @@ namespace LibraryWebAPI
             app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
+
+
+            //Session服務
+            app.UseSession();
+
+            app.Run(async (context) =>
+            {
+                context.Session.SetString("Sample", "This is Session.");
+                string message = context.Session.GetString("Sample");
+                await context.Response.WriteAsync($"{message}");
+            });
 
             app.UseEndpoints(endpoints =>
             {

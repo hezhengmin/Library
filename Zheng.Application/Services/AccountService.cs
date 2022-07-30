@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
-using Zheng.Application.ViewModels;
 using Zheng.Application.ViewModels.Account;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
+using Zheng.Utilities.Compare;
+using Zheng.Utilities.Cryptography;
 
 namespace Zheng.Application.Services
 {
@@ -21,19 +20,6 @@ namespace Zheng.Application.Services
             _context = context;
         }
 
-        public byte[] PasswordSHA512Hash(string password)
-        {
-            byte[] hashBytes = new byte[64];
-            using (SHA512 sha512Hash = SHA512.Create())
-            {
-                //From String to byte array
-                byte[] sourceBytes = Encoding.UTF8.GetBytes(password);
-                hashBytes = sha512Hash.ComputeHash(sourceBytes);
-            }
-
-            return hashBytes;
-        }
-
         /// <summary>
         /// 新增帳號
         /// </summary>
@@ -43,7 +29,7 @@ namespace Zheng.Application.Services
         public bool Add(Account_AddVM accountSignInVM, out Account accountEntity)
         {
 
-            byte[] hashBytes = PasswordSHA512Hash(accountSignInVM.Password);
+            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountSignInVM.Password);
 
             var account = new Account()
             {
@@ -74,6 +60,11 @@ namespace Zheng.Application.Services
             return await _context.Account.FindAsync(id);
         }
 
+        public async Task<Account> Get(string accountId)
+        {
+            return await _context.Account.FirstOrDefaultAsync(x => x.AccountId == accountId);
+        }
+
         public async Task<List<Account>> Get()
         {
             return await _context.Account.ToListAsync();
@@ -83,7 +74,7 @@ namespace Zheng.Application.Services
         {
             var account = Get(vm.Id).Result;
 
-            byte[] hashBytes = PasswordSHA512Hash(vm.Password);
+            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(vm.Password);
 
             //更新欄位
             account.AccountId = vm.AccountId;
@@ -102,7 +93,6 @@ namespace Zheng.Application.Services
             return true;
         }
 
-
         public bool Check(Guid id)
         {
             return _context.Account.Any(x => x.Id == id);
@@ -114,5 +104,29 @@ namespace Zheng.Application.Services
             _context.Account.Remove(entity);
             _context.SaveChanges();
         }
+
+
+        /// <summary>
+        /// 登入驗證
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool SingIn(Account_SignInVM entity)
+        {
+            var account = Get(entity.AccountId).Result;
+
+            //登入密碼加密
+            var secondByteArray = SHAExtensions.PasswordSHA512Hash(entity.Password);
+
+            //跟資料庫的，該帳號的密碼比對
+            if (account.Password.CompareByteArray(secondByteArray))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static
     }
 }
