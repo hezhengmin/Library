@@ -1,7 +1,7 @@
+using LibraryWebAPI.Wappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,15 +31,20 @@ namespace LibraryWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
+
             //加入Session服務
             services.AddDistributedMemoryCache();
-
             services.AddSession(options =>
             {
-                options.Cookie.Name = "Library.Session";
-                options.IdleTimeout = TimeSpan.FromMinutes(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
+                options.Cookie.Name = "Library.Session"; //這邊會呈現在cookie name
+                options.IdleTimeout = TimeSpan.FromMinutes(10); //設定多少時間過期
+                options.Cookie.HttpOnly = true; //設定此Cookie是否可以透過client端腳本發送
+                options.Cookie.IsEssential = true; //設定此Cookie是否對應用程式為必要
             });
 
 
@@ -50,15 +55,21 @@ namespace LibraryWebAPI
                                   policy =>
                                   {
                                       policy.WithOrigins("https://localhost:44319",
-                                                          "https://localhost:44323");
+                                                          "https://localhost:44323")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
                                   });
             });
+
+
 
             //資料庫連線
             services.AddDbContext<LibraryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //註冊服務
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ISessionWapper, SessionWapper>();
             services.AddScoped<AccountService>();
 
             services.AddControllers();
@@ -85,13 +96,6 @@ namespace LibraryWebAPI
 
             //Session服務
             app.UseSession();
-
-            app.Run(async (context) =>
-            {
-                context.Session.SetString("Sample", "This is Session.");
-                string message = context.Session.GetString("Sample");
-                await context.Response.WriteAsync($"{message}");
-            });
 
             app.UseEndpoints(endpoints =>
             {

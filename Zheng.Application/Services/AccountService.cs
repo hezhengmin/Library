@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,6 +116,9 @@ namespace Zheng.Application.Services
         {
             var account = Get(entity.AccountId).Result;
 
+            //沒有該帳號，直接回傳false
+            if (account == null) return false;
+
             //登入密碼加密
             var secondByteArray = SHAExtensions.PasswordSHA512Hash(entity.Password);
 
@@ -126,7 +130,6 @@ namespace Zheng.Application.Services
 
             return false;
         }
-
-        public static
+       
     }
 }

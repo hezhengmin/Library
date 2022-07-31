@@ -40,8 +40,17 @@
         },
         methods: {
             SignIn() {
-                this.$axios.get('https://localhost:44323/api/Account')
-                    .then((response) => console.log(response)) //得出來的是類似Response的物件，裏面的data才是我們想抓的資料
+
+                //this.$axios.get('https://localhost:44323/api/Account')
+                //    .then((response) => console.log(response)) //得出來的是類似Response的物件，裏面的data才是我們想抓的資料
+                //    .catch((error) => console.log(error))
+
+                this.$axios.post('https://localhost:44323/api/Account/SignIn',
+                    {
+                        accountId: this.account,
+                        password: this.password
+                    })
+                    .then((response) => console.log(response.data)) //得出來的是類似Response的物件，裏面的data才是我們想抓的資料
                     .catch((error) => console.log(error))
             }
         }

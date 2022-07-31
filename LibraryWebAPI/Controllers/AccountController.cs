@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LibraryWebAPI.Wappers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Zheng.Application.Services;
@@ -16,16 +15,18 @@ namespace LibraryWebAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly ISessionWapper _sessionWapper;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, ISessionWapper sessionWapper)
         {
             _accountService = accountService;
+            _sessionWapper = sessionWapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Account>>> Get()
         {
-           return await _accountService.Get();
+            return await _accountService.Get();
         }
 
         [HttpGet("{id}")]
@@ -64,7 +65,8 @@ namespace LibraryWebAPI.Controllers
             }
 
             //更新前確認Id，沒有此帳號回傳404
-            if (!_accountService.Check(id)){
+            if (!_accountService.Check(id))
+            {
                 return NotFound();
             }
 
@@ -98,18 +100,31 @@ namespace LibraryWebAPI.Controllers
         [HttpPost("SignIn")]
         public IActionResult SignIn([FromBody] Account_SignInVM entity)
         {
-            var result = _accountService.SingIn(entity);
 
-            //登入成功
-            if (result)
+            //Session有物件，已經登入過
+            if (_sessionWapper.SingInAccount != null)
             {
-                HttpContext.Session.SetString("accountIdKey", entity.AccountId);
-                return new OkObjectResult(new { entity.AccountId , Message = "登入成功" });
+                return new OkObjectResult(new { entity.AccountId, Message = "已經登入" });
             }
-            else 
+            else
             {
-                return StatusCode((int)HttpStatusCode.NotFound);
+                var result = _accountService.SingIn(entity);
+
+                //登入成功
+                if (result)
+                {
+                    _sessionWapper.SingInAccount = entity;
+                    return new OkObjectResult(new { entity.AccountId, Message = "登入成功" });
+                }
+                else
+                {
+                    return StatusCode((int)HttpStatusCode.NotFound);
+                }
             }
+
         }
+
+
+
     }
 }
