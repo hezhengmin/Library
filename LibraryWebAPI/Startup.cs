@@ -89,6 +89,7 @@ namespace LibraryWebAPI
 
             //啟用驗證
             app.UseAuthentication();
+            //授權身分
             app.UseAuthorization(); 
 
             app.UseEndpoints(endpoints =>
