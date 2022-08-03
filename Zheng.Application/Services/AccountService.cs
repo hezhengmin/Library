@@ -112,23 +112,20 @@ namespace Zheng.Application.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public bool SingIn(Account_SignInVM entity)
+        public Account SingIn(Account_SignInVM entity)
         {
             var account = Get(entity.AccountId).Result;
 
             //沒有該帳號，直接回傳false
-            if (account == null) return false;
+            if (account == null) return null;
 
             //登入密碼加密
             var secondByteArray = SHAExtensions.PasswordSHA512Hash(entity.Password);
 
             //跟資料庫的，該帳號的密碼比對
-            if (account.Password.CompareByteArray(secondByteArray))
-            {
-                return true;
-            }
-
-            return false;
+            if (!account.Password.CompareByteArray(secondByteArray)) return null;
+            
+            return account;
         }
        
     }

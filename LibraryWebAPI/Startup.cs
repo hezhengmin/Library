@@ -1,4 +1,4 @@
-using LibraryWebAPI.Wappers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,9 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Zheng.Application.Services;
 using Zheng.Infrastructure.Data;
@@ -31,23 +33,6 @@ namespace LibraryWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
-            //});
-
-            //加入Session服務
-            services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.Cookie.Name = "Library.Session"; //這邊會呈現在cookie name
-                options.IdleTimeout = TimeSpan.FromMinutes(10); //設定多少時間過期
-                options.Cookie.HttpOnly = true; //設定此Cookie是否可以透過client端腳本發送
-                options.Cookie.IsEssential = true; //設定此Cookie是否對應用程式為必要
-            });
-
-
             //啟用 CORS (跨原始來源要求)
             services.AddCors(options =>
             {
@@ -61,15 +46,27 @@ namespace LibraryWebAPI
                                   });
             });
 
+            //JWT 設定
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],// 簽發者
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["Jwt:Audience"],// 接收者
+                    ValidateLifetime = true,// 驗證時間
+                    ClockSkew = TimeSpan.Zero,//時間偏移，確定發行到期
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:KEY"]))// Key
+                };
+            });
+
 
 
             //資料庫連線
             services.AddDbContext<LibraryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //註冊服務
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<ISessionWapper, SessionWapper>();
             services.AddScoped<AccountService>();
 
             services.AddControllers();
@@ -83,7 +80,6 @@ namespace LibraryWebAPI
                 app.UseDeveloperExceptionPage();
             }
 
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -91,11 +87,9 @@ namespace LibraryWebAPI
             //CORS (跨原始來源要求)
             app.UseCors(MyAllowSpecificOrigins);
 
-            app.UseAuthorization();
-
-
-            //Session服務
-            app.UseSession();
+            //啟用驗證
+            app.UseAuthentication();
+            app.UseAuthorization(); 
 
             app.UseEndpoints(endpoints =>
             {
