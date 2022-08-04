@@ -56,11 +56,19 @@ namespace LibraryWebAPI.Controllers
             return result;
         }
 
+
+        /// <summary>
+        /// 新增帳號
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<Account> Post([FromBody] Account_AddVM entity)
         {
             Account account = new Account();
             var result = _accountService.Add(entity, out account);
+
+            if (!result) return BadRequest("新增帳號失敗");
 
             return CreatedAtAction(nameof(Get), new { Id = account.Id }, account);
         }

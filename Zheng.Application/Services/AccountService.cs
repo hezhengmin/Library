@@ -29,6 +29,9 @@ namespace Zheng.Application.Services
         /// <returns></returns>
         public bool Add(Account_AddVM accountSignInVM, out Account accountEntity)
         {
+            accountEntity = null;
+            //帳號已存在，不能重複
+            if (Exits(accountSignInVM.AccountId)) return false;
 
             byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountSignInVM.Password);
 
@@ -97,6 +100,11 @@ namespace Zheng.Application.Services
         public bool Check(Guid id)
         {
             return _context.Account.Any(x => x.Id == id);
+        }
+
+        public bool Exits(string accountId)
+        {
+            return _context.Account.Any(x => x.AccountId == accountId);
         }
 
         public void Remove(Guid id)
