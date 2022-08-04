@@ -1,11 +1,14 @@
+using LibraryWebAPI.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +36,7 @@ namespace LibraryWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             //啟用 CORS (跨原始來源要求)
             services.AddCors(options =>
             {
@@ -47,7 +51,9 @@ namespace LibraryWebAPI
             });
 
             //JWT 設定
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -61,12 +67,12 @@ namespace LibraryWebAPI
                 };
             });
 
-
-
+           
             //資料庫連線
             services.AddDbContext<LibraryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddSingleton<JwtHelper>();
             services.AddScoped<AccountService>();
 
             services.AddControllers();
@@ -87,10 +93,12 @@ namespace LibraryWebAPI
             //CORS (跨原始來源要求)
             app.UseCors(MyAllowSpecificOrigins);
 
+            app.UseCookiePolicy();
+
             //啟用驗證
             app.UseAuthentication();
             //授權身分
-            app.UseAuthorization(); 
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

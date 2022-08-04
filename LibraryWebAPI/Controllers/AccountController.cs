@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LibraryWebAPI.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -20,16 +23,16 @@ namespace LibraryWebAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
-        private readonly IConfiguration _configuration;
+        private readonly JwtHelper _jwtHelper;
 
-        public AccountController(AccountService accountService, IConfiguration configuration)
+        public AccountController(AccountService accountService, JwtHelper jwtHelper)
         {
             _accountService = accountService;
-            _configuration = configuration;
+            _jwtHelper = jwtHelper;
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<Account>>> Get()
         {
             return await _accountService.Get();
@@ -112,29 +115,7 @@ namespace LibraryWebAPI.Controllers
             //登入成功
             if (account != null)
             {
-                //設定使用者資訊
-                var claims = new List<Claim>
-                {
-                    new Claim("Id",account.Id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, account.AccountId)
-                };
-
-                //取出appsettings.json裡的KEY處理
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:KEY"]));
-                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-                //設定jwt相關資訊
-                var jwt = new JwtSecurityToken
-                (
-                    issuer: _configuration["JWT:Issuer"], //發行者
-                    audience: _configuration["JWT:Audience"], //接收者
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(30),
-                    signingCredentials: credentials
-                );
-
-                //產生JWT Token
-                var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+                var token = _jwtHelper.GenerateJwtToken(account);
 
                 return Ok(token);
             }
@@ -143,7 +124,5 @@ namespace LibraryWebAPI.Controllers
                 return NotFound("帳號登入失敗");
             }
         }
-
-
     }
 }

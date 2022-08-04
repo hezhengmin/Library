@@ -18,6 +18,7 @@
                         <div class="col-12 p-3">
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary" v-on:click="SignIn">登入</button>
+                                <button type="submit" class="btn btn-primary" v-on:click="Get">Get</button>
                             </div>
                         </div>
                     </div>
@@ -40,11 +41,6 @@
         },
         methods: {
             SignIn() {
-
-                //this.$axios.get('https://localhost:44323/api/Account')
-                //    .then((response) => console.log(response)) //得出來的是類似Response的物件，裏面的data才是我們想抓的資料
-                //    .catch((error) => console.log(error))
-
                 this.$axios.post('https://localhost:44323/api/Account/SignIn',
                     {
                         accountId: this.account,
@@ -52,7 +48,26 @@
                     })
                     .then((response) => console.log(response.data)) //得出來的是類似Response的物件，裏面的data才是我們想抓的資料
                     .catch((error) => console.log(error))
+            },
+            Get() {
+
+                //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjIzMDllOGU5LTFlODUtNDM1NS1iN2YxLTkwNTU4OTFiYjFiNiIsImVtYWlsIjoiemhlbmciLCJleHAiOjE2NTk2MjE0MzQsImlzcyI6IkxpYnJhcnkiLCJhdWQiOiJBdWRpZW5jZSJ9.SrwFrxpCoQjkbrEM2qvR5zzaklRNg3ZgJXKXA77VduoeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjQwMDFmNTg0LTA3MWYtNDY1OS1hZTIwLTlmNTkwYzIzNWUyZSIsImVtYWlsIjoiZ3Vlc3QiLCJleHAiOjE2NTk2MjE0NjEsImlzcyI6IkxpYnJhcnkiLCJhdWQiOiJBdWRpZW5jZSJ9.1aYLjOTudGTAwnPn04HYjOjjvMNzMYKJdOjsGdBtpcI";
+
+                //this.$axios.get('https://localhost:44323/api/Account',
+                //{
+                //    headers: {
+                //        'Authorization': `Bearer ${token}`
+                //    }
+                //})
+                //.then((response) => console.log(response.data))
+                //.catch((error) => console.log(error))
+
+
+                this.$axios.get('https://localhost:44323/api/Account')
+                .then((response) => console.log(response.data))
+                .catch((error) => console.log(error))
             }
+            
         }
     };
 </script>
