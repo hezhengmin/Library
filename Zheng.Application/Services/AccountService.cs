@@ -24,21 +24,21 @@ namespace Zheng.Application.Services
         /// <summary>
         /// 新增帳號
         /// </summary>
-        /// <param name="accountSignInVM"></param>
+        /// <param name="accountAddEntity"></param>
         /// <param name="accountEntity"></param>
         /// <returns></returns>
-        public bool Add(Account_AddDto accountSignInVM, out Account accountEntity)
+        public bool Add(Account_AddDto accountAddEntity, out Account accountEntity)
         {
             accountEntity = null;
             //帳號已存在，不能重複
-            if (Exits(accountSignInVM.AccountId)) return false;
+            if (Exits(accountAddEntity.AccountId)) return false;
 
-            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountSignInVM.Password);
+            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountAddEntity.Password);
 
             var account = new Account()
             {
                 Id = Guid.NewGuid(),
-                AccountId = accountSignInVM.AccountId,
+                AccountId = accountAddEntity.AccountId,
                 Password = hashBytes,
                 SystemDate = DateTime.Now
             };
@@ -62,26 +62,64 @@ namespace Zheng.Application.Services
         public async Task<Account> Get(Guid id)
         {
             return await _context.Account.FindAsync(id);
+            #region SQL 查詢語法
+            /*
+            exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[Password], [a][SystemDate]
+            FROM [Account] AS [a]
+            WHERE [a].[Id] = @__p_0',N'@__p_0 uniqueidentifier',@__p_0='6B568F00-ECD6-4C69-94C9-C812DC574B98'
+            */
+            #endregion
+        }
+
+        public async Task<Account_Dto> GetDto(Guid id)
+        {
+            return await _context.Account
+                .Select(x => new Account_Dto { Id = x.Id, AccountId = x.AccountId })
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Account> Get(string accountId)
         {
             return await _context.Account.FirstOrDefaultAsync(x => x.AccountId == accountId);
+            #region SQL 查詢語法 FirstOrDefaultAsync
+            /*
+            exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[Password], [a].[SystemDate]
+            FROM[Account] AS[a]
+            WHERE[a].[AccountId] = @__accountId_0',N'@__accountId_0 varchar(20)',@__accountId_0='admin'
+            */
+            #endregion
+            #region SQL 查詢語法 SingleOrDefaultAsync，兩個admin帳號會發生錯誤
+            /*
+            exec sp_executesql N'SELECT TOP(2) [a].[Id], [a].[AccountId], [a].[Password], [a].[SystemDate]
+            FROM [Account] AS [a]
+            WHERE [a].[AccountId] = @__accountId_0',N'@__accountId_0 varchar(20)',@__accountId_0='admin'*/
+            #endregion
         }
 
-        public async Task<List<Account>> Get()
+        public async Task<List<Account_Dto>> Get()
         {
-            return await _context.Account.ToListAsync();
+            return await _context.Account
+                .Select(x => new Account_Dto
+                {
+                    Id = x.Id,
+                    AccountId = x.AccountId
+                }
+            ).ToListAsync();
         }
 
-        public bool Update(Account_UpdateDto vm)
+        public bool Update(Account_UpdateDto entity)
         {
-            var account = Get(vm.Id).Result;
+            var account = Get(entity.Id).Result;
 
-            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(vm.Password);
+            //無此帳號
+            if (account == null) return false;
+            //帳號已存在，不能重複
+            if (Exits(entity.AccountId)) return false;
+
+            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(entity.Password);
 
             //更新欄位
-            account.AccountId = vm.AccountId;
+            account.AccountId = entity.AccountId;
             account.Password = hashBytes;
 
             try
@@ -132,9 +170,9 @@ namespace Zheng.Application.Services
 
             //跟資料庫的，該帳號的密碼比對
             if (!account.Password.CompareByteArray(secondByteArray)) return null;
-            
+
             return account;
         }
-       
+
     }
 }

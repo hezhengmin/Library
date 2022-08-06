@@ -25,23 +25,15 @@ namespace LibraryWebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Account>>> Get()
+        public async Task<ActionResult<List<Account_Dto>>> Get()
         {
             return await _accountService.Get();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> Get(Guid id)
+        public async Task<ActionResult<Account_Dto>> Get(Guid id)
         {
-            var result = await _accountService.Get(id);
-
-            #region SQL 查詢語法
-            /*
-           exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[Password], [a][SystemDate]
-           FROM [Account] AS [a]
-           WHERE [a].[Id] = @__p_0',N'@__p_0 uniqueidentifier',@__p_0='6B568F00-ECD6-4C69-94C9-C812DC574B98'
-           */
-            #endregion
+            var result = await _accountService.GetDto(id);
 
             if (result == null) return NotFound("找不到帳號");
 
@@ -93,7 +85,6 @@ namespace LibraryWebAPI.Controllers
             return NoContent();
         }
 
-
         /// <summary>
         /// 刪除帳號
         /// </summary>
@@ -128,7 +119,7 @@ namespace LibraryWebAPI.Controllers
             {
                 var token = _jwtHelper.GenerateJwtToken(account);
 
-                return Ok(token);
+                return Ok(new { jwtToken = token});
             }
             else
             {
