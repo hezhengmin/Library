@@ -1,23 +1,16 @@
 ﻿using LibraryWebAPI.Helpers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Zheng.Application.Services;
-using Zheng.Application.ViewModels.Account;
+using Zheng.Application.Dtos.Account;
 using Zheng.Infrastructure.Models;
 
 namespace LibraryWebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -32,7 +25,6 @@ namespace LibraryWebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<Account>>> Get()
         {
             return await _accountService.Get();
@@ -56,14 +48,13 @@ namespace LibraryWebAPI.Controllers
             return result;
         }
 
-
         /// <summary>
         /// 新增帳號
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<Account> Post([FromBody] Account_AddVM entity)
+        public ActionResult<Account> Post([FromBody] Account_AddDto entity)
         {
             Account account = new Account();
             var result = _accountService.Add(entity, out account);
@@ -73,8 +64,14 @@ namespace LibraryWebAPI.Controllers
             return CreatedAtAction(nameof(Get), new { Id = account.Id }, account);
         }
 
+        /// <summary>
+        /// 更新帳密
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public IActionResult Put(Guid id, [FromBody] Account_UpdateVM entity)
+        public IActionResult Put(Guid id, [FromBody] Account_UpdateDto entity)
         {
             if (id != entity.Id)
             {
@@ -96,6 +93,12 @@ namespace LibraryWebAPI.Controllers
             return NoContent();
         }
 
+
+        /// <summary>
+        /// 刪除帳號
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
@@ -116,7 +119,7 @@ namespace LibraryWebAPI.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("SignIn")]
-        public IActionResult SignIn([FromBody] Account_SignInVM entity)
+        public IActionResult SignIn([FromBody] Account_SignInDto entity)
         {
             var account = _accountService.SingIn(entity);
 

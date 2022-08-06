@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Zheng.Application.ViewModels.Account;
+using Zheng.Application.Dtos.Account;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 using Zheng.Utilities.Compare;
@@ -27,7 +27,7 @@ namespace Zheng.Application.Services
         /// <param name="accountSignInVM"></param>
         /// <param name="accountEntity"></param>
         /// <returns></returns>
-        public bool Add(Account_AddVM accountSignInVM, out Account accountEntity)
+        public bool Add(Account_AddDto accountSignInVM, out Account accountEntity)
         {
             accountEntity = null;
             //帳號已存在，不能重複
@@ -74,7 +74,7 @@ namespace Zheng.Application.Services
             return await _context.Account.ToListAsync();
         }
 
-        public bool Update(Account_UpdateVM vm)
+        public bool Update(Account_UpdateDto vm)
         {
             var account = Get(vm.Id).Result;
 
@@ -120,7 +120,7 @@ namespace Zheng.Application.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public Account SingIn(Account_SignInVM entity)
+        public Account SingIn(Account_SignInDto entity)
         {
             var account = Get(entity.AccountId).Result;
 

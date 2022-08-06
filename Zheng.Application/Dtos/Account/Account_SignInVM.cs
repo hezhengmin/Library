@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zheng.Application.ViewModels.Account
+namespace Zheng.Application.Dtos.Account
 {
     /// <summary>
     /// 登入帳密
     /// </summary>
-    public class Account_SignInVM : Account_AddVM
+    public class Account_SignInDto : Account_AddDto
     {
 
     }
