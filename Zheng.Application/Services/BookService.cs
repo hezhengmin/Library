@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zheng.Application.Parameters.Book;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 
@@ -23,18 +24,18 @@ namespace Zheng.Application.Services
             return await _context.Books.ToListAsync();
         }
 
-        public async Task<List<Book>> Get(string title, DateTime? createAt)
+        public async Task<List<Book>> Get(BookSelectParameter filter)
         {
             var query = _context.Books.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(title))
+            if (!string.IsNullOrWhiteSpace(filter.title))
             {
-                query = query.Where(x => x.Title.Contains(title));
+                query = query.Where(x => x.Title.Contains(filter.title));
             }
 
-            if (createAt != null)
+            if (filter.createAt != null)
             {
-                query = query.Where(x => x.CreatedAt.Date == createAt);
+                query = query.Where(x => x.CreatedAt.Date == filter.createAt);
             }
 
             return await query.ToListAsync();
