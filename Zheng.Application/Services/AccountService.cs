@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +46,7 @@ namespace Zheng.Application.Services
 
             try
             {
-                _context.Account.Add(account);
+                _context.Accounts.Add(account);
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -61,7 +60,7 @@ namespace Zheng.Application.Services
 
         public async Task<Account> Get(Guid id)
         {
-            return await _context.Account.FindAsync(id);
+            return await _context.Accounts.FindAsync(id);
             #region SQL 查詢語法
             /*
             exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[Password], [a][SystemDate]
@@ -73,14 +72,14 @@ namespace Zheng.Application.Services
 
         public async Task<Account_Dto> GetDto(Guid id)
         {
-            return await _context.Account
+            return await _context.Accounts
                 .Select(x => new Account_Dto { Id = x.Id, AccountId = x.AccountId })
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Account> Get(string accountId)
         {
-            return await _context.Account.FirstOrDefaultAsync(x => x.AccountId == accountId);
+            return await _context.Accounts.SingleOrDefaultAsync(x => x.AccountId == accountId);
             #region SQL 查詢語法 FirstOrDefaultAsync
             /*
             exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[Password], [a].[SystemDate]
@@ -88,7 +87,7 @@ namespace Zheng.Application.Services
             WHERE[a].[AccountId] = @__accountId_0',N'@__accountId_0 varchar(20)',@__accountId_0='admin'
             */
             #endregion
-            #region SQL 查詢語法 SingleOrDefaultAsync，兩個admin帳號會發生錯誤
+            #region SQL 查詢語法 SingleOrDefaultAsync，兩個帳號會發生錯誤
             /*
             exec sp_executesql N'SELECT TOP(2) [a].[Id], [a].[AccountId], [a].[Password], [a].[SystemDate]
             FROM [Account] AS [a]
@@ -98,7 +97,7 @@ namespace Zheng.Application.Services
 
         public async Task<List<Account_Dto>> Get()
         {
-            return await _context.Account
+            return await _context.Accounts
                 .Select(x => new Account_Dto
                 {
                     Id = x.Id,
@@ -137,18 +136,18 @@ namespace Zheng.Application.Services
 
         public bool Check(Guid id)
         {
-            return _context.Account.Any(x => x.Id == id);
+            return _context.Accounts.Any(x => x.Id == id);
         }
 
         public bool Exits(string accountId)
         {
-            return _context.Account.Any(x => x.AccountId == accountId);
+            return _context.Accounts.Any(x => x.AccountId == accountId);
         }
 
         public void Remove(Guid id)
         {
             var entity = Get(id).Result;
-            _context.Account.Remove(entity);
+            _context.Accounts.Remove(entity);
             _context.SaveChanges();
         }
 
@@ -158,7 +157,7 @@ namespace Zheng.Application.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public Account SingIn(Account_SignInDto entity)
+        public Account Login(Account_LoginDto entity)
         {
             var account = Get(entity.AccountId).Result;
 

@@ -9,7 +9,7 @@ namespace Zheng.Application.Dtos.Account
     /// <summary>
     /// 登入帳密
     /// </summary>
-    public class Account_SignInDto : Account_AddDto
+    public class Account_LoginDto : Account_AddDto
     {
 
     }

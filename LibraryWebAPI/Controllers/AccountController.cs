@@ -109,10 +109,10 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpPost("SignIn")]
-        public IActionResult SignIn([FromBody] Account_SignInDto entity)
+        [HttpPost("Login")]
+        public IActionResult Login([FromBody] Account_LoginDto entity)
         {
-            var account = _accountService.SingIn(entity);
+            var account = _accountService.Login(entity);
 
             //登入成功
             if (account != null)
@@ -123,7 +123,7 @@ namespace LibraryWebAPI.Controllers
             }
             else
             {
-                return NotFound("帳號登入失敗");
+                return NotFound("帳號或密碼錯誤");
             }
         }
     }

@@ -43,7 +43,7 @@ namespace LibraryWebAPI
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("https://localhost:44319",
+                                      policy.WithOrigins("http://127.0.0.1:8080",
                                                           "https://localhost:44323")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
@@ -74,6 +74,7 @@ namespace LibraryWebAPI
 
             services.AddSingleton<JwtHelper>();
             services.AddScoped<AccountService>();
+            services.AddScoped<BookService>();
 
             services.AddControllers();
         }

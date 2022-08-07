@@ -16,17 +16,22 @@ namespace Zheng.Infrastructure.Data
         {
         }
 
-        public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("Relational:Collation", "Chinese_Taiwan_Stroke_CI_AS");
+
             modelBuilder.Entity<Account>(entity =>
             {
+                entity.ToTable("Account");
+
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.AccountId)
@@ -38,12 +43,37 @@ namespace Zheng.Infrastructure.Data
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(64)
-                    .IsFixedLength()
+                    .IsFixedLength(true)
                     .HasComment("密碼");
 
                 entity.Property(e => e.SystemDate)
                     .HasColumnType("datetime")
                     .HasComment("系統日期");
+            });
+
+            modelBuilder.Entity<Book>(entity =>
+            {
+                entity.ToTable("Book");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Author)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.Isbn)
+                    .IsRequired()
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("ISBN");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
             });
 
             OnModelCreatingPartial(modelBuilder);
