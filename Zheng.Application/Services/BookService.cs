@@ -19,6 +19,11 @@ namespace Zheng.Application.Services
             _context = context;
         }
 
+        public async Task<Book> Get(Guid id)
+        {
+            return await _context.Books.SingleOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<List<Book>> Get()
         {
             return await _context.Books.ToListAsync();

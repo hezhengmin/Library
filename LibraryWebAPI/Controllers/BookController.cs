@@ -27,5 +27,11 @@ namespace LibraryWebAPI.Controllers
         {
             return await _bookService.Get(filter);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Book>> Get([FromRoute] Guid id)
+        {
+            return await _bookService.Get(id);
+        }
     }
 }
