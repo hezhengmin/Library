@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 namespace Zheng.Infrastructure.Models
 {
-    public partial class Account
+    public partial class BookPhoto
     {
         public Guid Id { get; set; }
-        public string AccountId { get; set; }
-        public byte[] Password { get; set; }
+        public Guid BookId { get; set; }
+        public Guid FileId { get; set; }
         public DateTime SystemDate { get; set; }
+
+        public virtual Book Book { get; set; }
     }
 }

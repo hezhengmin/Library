@@ -7,6 +7,11 @@ namespace Zheng.Infrastructure.Models
 {
     public partial class Book
     {
+        public Book()
+        {
+            BookPhotos = new HashSet<BookPhoto>();
+        }
+
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
@@ -16,5 +21,7 @@ namespace Zheng.Infrastructure.Models
         public Guid CreatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
         public Guid UpdatedBy { get; set; }
+
+        public virtual ICollection<BookPhoto> BookPhotos { get; set; }
     }
 }

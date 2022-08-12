@@ -37,7 +37,7 @@ namespace LibraryWebAPI.Controllers
 
             if (result == null) return NotFound("找不到帳號");
 
-            return result;
+            return Ok(result);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace LibraryWebAPI.Controllers
             Account account = new Account();
             var result = _accountService.Add(entity, out account);
 
-            if (!result) return BadRequest("新增帳號失敗");
+            if (!result) return BadRequest("新增失敗");
 
             return CreatedAtAction(nameof(Get), new { Id = account.Id }, account);
         }

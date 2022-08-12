@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Zheng.Application.Services;
 using Zheng.Infrastructure.Data;
 
+
 namespace LibraryWebAPI
 {
     public class Startup
@@ -71,7 +72,7 @@ namespace LibraryWebAPI
             //資料庫連線
             services.AddDbContext<LibraryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<JwtHelper>();
             services.AddScoped<AccountService>();
             services.AddScoped<BookService>();
@@ -100,6 +101,9 @@ namespace LibraryWebAPI
             app.UseAuthentication();
             //授權身分
             app.UseAuthorization();
+
+            //靜態檔案，用來讀取路徑
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

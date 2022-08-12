@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zheng.Application.Dtos.Book;
 using Zheng.Application.Parameters.Book;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
@@ -44,6 +45,40 @@ namespace Zheng.Application.Services
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<Book> Add(Book_AddDto entity)
+        {
+            var Book = new Book()
+            {
+                Id = Guid.NewGuid(),
+                Title = entity.Title,
+                Author = entity.Author,
+                Isbn = entity.Isbn,
+                Status = entity.Status,
+                CreatedAt = DateTime.Now,
+                CreatedBy = Guid.NewGuid(),
+                UpdatedAt = DateTime.Now,
+                UpdatedBy = Guid.NewGuid()
+            };
+
+            try
+            {
+                await _context.Books.AddAsync(Book);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                //新增失敗
+                return null;
+            }
+
+            return Book;
+        }
+
+        public async Task<bool> Exits(string accountId)
+        {
+            return await _context.Accounts.AnyAsync(x => x.AccountId == accountId);
         }
     }
 }

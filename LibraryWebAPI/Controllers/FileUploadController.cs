@@ -56,7 +56,7 @@ namespace LibraryWebAPI.Controllers
             List<IFormFile>
             ICollection<IFormFile>
             */
-            var rootPath = _env.ContentRootPath + "\\Uploads\\";
+            var rootPath = $"{_env.ContentRootPath}\\Uploads\\";
 
             //路徑如果不存在，創建起來
             if (!Directory.Exists(rootPath))

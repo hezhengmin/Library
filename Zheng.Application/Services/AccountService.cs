@@ -30,7 +30,7 @@ namespace Zheng.Application.Services
         {
             accountEntity = null;
             //帳號已存在，不能重複
-            if (Exits(accountAddEntity.AccountId)) return false;
+            if (Exits(accountAddEntity.AccountId).Result) return false;
 
             byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountAddEntity.Password);
 
@@ -113,7 +113,7 @@ namespace Zheng.Application.Services
             //無此帳號
             if (account == null) return false;
             //帳號已存在，不能重複
-            if (Exits(entity.AccountId)) return false;
+            if (Exits(entity.AccountId).Result) return false;
 
             byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(entity.Password);
 
@@ -139,9 +139,9 @@ namespace Zheng.Application.Services
             return _context.Accounts.Any(x => x.Id == id);
         }
 
-        public bool Exits(string accountId)
+        public async Task<bool> Exits(string accountId)
         {
-            return _context.Accounts.Any(x => x.AccountId == accountId);
+            return await _context.Accounts.AnyAsync(x => x.AccountId == accountId);
         }
 
         public void Remove(Guid id)
