@@ -25,7 +25,7 @@ namespace Zheng.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-       
+         
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,6 +45,12 @@ namespace Zheng.Infrastructure.Data
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasComment("帳號");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasComment("信箱");
 
                 entity.Property(e => e.Password)
                     .IsRequired()

@@ -10,5 +10,6 @@ namespace LibraryWebAPI.Dtos.Account
     {
         public Guid Id { get; set; }
         public string AccountId { get; set; }
+        public string Email { get; set; }
     }
 }

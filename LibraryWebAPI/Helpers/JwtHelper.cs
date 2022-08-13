@@ -25,7 +25,7 @@ namespace LibraryWebAPI.Helpers
                 {
                     new Claim("id",account.Id.ToString()),//主key
                     new Claim("account",account.AccountId.ToString()),//帳號
-                    new Claim(JwtRegisteredClaimNames.Email, account.AccountId)
+                    new Claim(JwtRegisteredClaimNames.Email, account.Email)
                 };
 
             //取出appsettings.json裡的KEY處理

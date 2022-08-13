@@ -45,6 +45,7 @@ namespace LibraryWebAPI.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult<Account> Post([FromBody] Account_AddDto entity)
         {

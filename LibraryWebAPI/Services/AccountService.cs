@@ -39,6 +39,7 @@ namespace LibraryWebAPI.Services
                 Id = Guid.NewGuid(),
                 AccountId = accountAddEntity.AccountId,
                 Password = hashBytes,
+                Email = accountAddEntity.Email,
                 SystemDate = DateTime.Now
             };
 
@@ -73,7 +74,7 @@ namespace LibraryWebAPI.Services
         public async Task<Account_Dto> GetDto(Guid id)
         {
             return await _context.Accounts
-                .Select(x => new Account_Dto { Id = x.Id, AccountId = x.AccountId })
+                .Select(x => new Account_Dto { Id = x.Id, AccountId = x.AccountId ,Email = x.Email})
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
@@ -101,7 +102,8 @@ namespace LibraryWebAPI.Services
                 .Select(x => new Account_Dto
                 {
                     Id = x.Id,
-                    AccountId = x.AccountId
+                    AccountId = x.AccountId,
+                    Email = x.Email
                 }
             ).ToListAsync();
         }
