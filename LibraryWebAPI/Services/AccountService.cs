@@ -30,7 +30,7 @@ namespace LibraryWebAPI.Services
         {
             accountEntity = null;
             //帳號已存在，不能重複
-            if (Exits(accountAddEntity.AccountId).Result) return false;
+            if ( Exits(accountAddEntity.AccountId).Result) return false;
 
             byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountAddEntity.Password);
 
@@ -108,9 +108,9 @@ namespace LibraryWebAPI.Services
             ).ToListAsync();
         }
 
-        public bool Update(Account_UpdateDto entity)
+        public async Task<bool> Update(Account_UpdateDto entity)
         {
-            var account = Get(entity.Id).Result;
+            var account =await Get(entity.Id);
 
             //無此帳號
             if (account == null) return false;
@@ -146,7 +146,7 @@ namespace LibraryWebAPI.Services
             return await _context.Accounts.AnyAsync(x => x.AccountId == accountId);
         }
 
-        public void Remove(Guid id)
+        public void Delete(Guid id)
         {
             var entity = Get(id).Result;
             _context.Accounts.Remove(entity);

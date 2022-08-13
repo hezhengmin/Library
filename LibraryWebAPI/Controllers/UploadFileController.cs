@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace LibraryWebAPI.Controllers
 {
@@ -48,6 +50,19 @@ namespace LibraryWebAPI.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (!await _uploadFileService.Check(id))
+            {
+                return NotFound();
+            }
 
+            var result = await _uploadFileService.Delete(id);
+
+            if (!result) return BadRequest();
+
+            return NoContent();
+        }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
@@ -79,7 +80,7 @@ namespace LibraryWebAPI.Services
                     }
                 }
             }
-            
+
             try
             {
                 await _context.UploadFiles.AddRangeAsync(uploadFiles);
@@ -94,9 +95,33 @@ namespace LibraryWebAPI.Services
             return true;
         }
 
+        public async Task<bool> Check(Guid id)
+        {
+            return await _context.UploadFiles.AnyAsync(x => x.Id == id);
+        }
+
         public async Task<bool> Exits(string accountId)
         {
             return await _context.Accounts.AnyAsync(x => x.AccountId == accountId);
+        }
+
+        public async Task<bool> Delete(Guid id)
+        {
+            try
+            {
+                var entity = await Get(id);
+                //刪除檔案
+                File.Delete($"{RootPath}{entity.Id}{entity.Extension}");
+                //刪除資料庫的檔案紀錄
+                _context.UploadFiles.Remove(entity);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -106,7 +131,7 @@ namespace LibraryWebAPI.Services
         {
             get
             {
-                return  $"{_env.ContentRootPath}\\{saveDirectoryPath}\\";
+                return $"{_env.ContentRootPath}\\{saveDirectoryPath}\\";
             }
         }
     }

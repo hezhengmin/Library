@@ -77,7 +77,7 @@ namespace LibraryWebAPI.Controllers
                 return NotFound();
             }
 
-            if (!_accountService.Update(entity))
+            if (!_accountService.Update(entity).Result)
             {
                 return StatusCode(500, "存取發生錯誤");
             }
@@ -99,7 +99,7 @@ namespace LibraryWebAPI.Controllers
                 return NotFound();
             }
 
-            _accountService.Remove(id);
+            _accountService.Delete(id);
 
             return NoContent();
         }
