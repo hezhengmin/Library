@@ -60,9 +60,9 @@ namespace LibraryWebAPI.Services
                 Isbn = entity.Isbn,
                 Status = entity.Status,
                 CreatedAt = DateTime.Now,
-                CreatedBy = _userService.GetCurrentAccountId(),
+                CreatedBy = _userService.CurrentAccountId,
                 UpdatedAt = DateTime.Now,
-                UpdatedBy = _userService.GetCurrentAccountId(),
+                UpdatedBy = _userService.CurrentAccountId,
             };
 
             try

@@ -74,6 +74,8 @@ namespace LibraryWebAPI
             services.AddScoped<BookService>();
             //登入的帳號資訊
             services.AddTransient<IUserService, UserService>();
+            //檔案上傳
+            services.AddScoped<UploadFileService>();
 
             services.AddControllers();
         }

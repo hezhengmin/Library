@@ -5,14 +5,13 @@ using System.Collections.Generic;
 
 namespace Zheng.Infrastructure.Models
 {
-    public partial class File
+    public partial class UploadFile
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Extension { get; set; }
         public string ContentType { get; set; }
-        public string Path { get; set; }
-        public int Length { get; set; }
+        public long Length { get; set; }
         public DateTime CreatedAt { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }

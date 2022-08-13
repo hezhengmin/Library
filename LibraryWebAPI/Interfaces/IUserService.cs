@@ -4,6 +4,9 @@ namespace LibraryWebAPI.Interfaces
 {
     public interface IUserService
     {
-        Guid GetCurrentAccountId(); 
+        /// <summary>
+        /// 目前登入的帳號id
+        /// </summary>
+        Guid CurrentAccountId { get; }
     }
 }

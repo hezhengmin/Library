@@ -21,7 +21,7 @@ namespace Zheng.Infrastructure.Data
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<BookPhoto> BookPhotos { get; set; }
-        public virtual DbSet<File> Files { get; set; }
+        public virtual DbSet<UploadFile> UploadFiles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -78,9 +78,9 @@ namespace Zheng.Infrastructure.Data
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
-                    .HasComment("新增者");
+                    .HasComment("新增時間");
 
-                entity.Property(e => e.CreatedBy).HasComment("新增時間");
+                entity.Property(e => e.CreatedBy).HasComment("新增者");
 
                 entity.Property(e => e.Isbn)
                     .IsRequired()
@@ -97,9 +97,9 @@ namespace Zheng.Infrastructure.Data
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
-                    .HasComment("修改者");
+                    .HasComment("修改時間");
 
-                entity.Property(e => e.UpdatedBy).HasComment("修改時間");
+                entity.Property(e => e.UpdatedBy).HasComment("修改者");
             });
 
             modelBuilder.Entity<BookPhoto>(entity =>
@@ -112,11 +112,11 @@ namespace Zheng.Infrastructure.Data
 
                 entity.Property(e => e.BookId).HasComment("書籍Id");
 
-                entity.Property(e => e.FileId).HasComment("檔案Id");
-
                 entity.Property(e => e.SystemDate)
                     .HasColumnType("datetime")
                     .HasComment("系統日期");
+
+                entity.Property(e => e.UploadFileId).HasComment("檔案Id");
 
                 entity.HasOne(d => d.Book)
                     .WithMany(p => p.BookPhotos)
@@ -125,9 +125,9 @@ namespace Zheng.Infrastructure.Data
                     .HasConstraintName("FK_BookPhoto_Book");
             });
 
-            modelBuilder.Entity<File>(entity =>
+            modelBuilder.Entity<UploadFile>(entity =>
             {
-                entity.ToTable("File");
+                entity.ToTable("UploadFile");
 
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
@@ -135,14 +135,15 @@ namespace Zheng.Infrastructure.Data
 
                 entity.Property(e => e.ContentType)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
                     .HasComment("檔案類型");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
-                    .HasComment("新增者");
+                    .HasComment("新增時間");
 
-                entity.Property(e => e.CreatedBy).HasComment("新增時間");
+                entity.Property(e => e.CreatedBy).HasComment("新增者");
 
                 entity.Property(e => e.Extension)
                     .IsRequired()
@@ -157,16 +158,11 @@ namespace Zheng.Infrastructure.Data
                     .HasMaxLength(50)
                     .HasComment("名稱");
 
-                entity.Property(e => e.Path)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasComment("檔案路徑");
-
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
-                    .HasComment("修改者");
+                    .HasComment("修改時間");
 
-                entity.Property(e => e.UpdatedBy).HasComment("修改時間");
+                entity.Property(e => e.UpdatedBy).HasComment("修改者");
             });
 
             OnModelCreatingPartial(modelBuilder);

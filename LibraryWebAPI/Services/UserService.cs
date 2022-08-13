@@ -7,7 +7,10 @@ namespace LibraryWebAPI.Services
     public class UserService : IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private static readonly string _account = "id";
+        /// <summary>
+        /// PAYLOAD 的內部資訊 id，是Account資料表的主鍵
+        /// </summary>
+        private static readonly string _accountKey = "id";
 
         public UserService(IHttpContextAccessor httpContextAccessor)
         {
@@ -17,11 +20,13 @@ namespace LibraryWebAPI.Services
         /// <summary>
         /// 目前登入的帳號id
         /// </summary>
-        /// <returns></returns>
-        public Guid GetCurrentAccountId()
+        public Guid CurrentAccountId
         {
-            string id = _httpContextAccessor.HttpContext.User.FindFirst(_account).Value;
-            return new Guid(id);
+            get
+            {
+                string id = _httpContextAccessor.HttpContext.User.FindFirst(_accountKey).Value;
+                return Guid.Parse(id);
+            }
         }
     }
 }
