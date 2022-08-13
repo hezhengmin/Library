@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zheng.Application.Dtos.Book
+namespace LibraryWebAPI.Dtos.Book
 {
     public class Book_AddDto
     {

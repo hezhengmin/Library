@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zheng.Application.Parameters.Book
+namespace LibraryWebAPI.Parameters.Book
 {
     public class BookSelectParameter
     {

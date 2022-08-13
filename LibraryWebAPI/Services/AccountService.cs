@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Zheng.Application.Dtos.Account;
+using LibraryWebAPI.Dtos.Account;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 using Zheng.Utilities.Compare;
 using Zheng.Utilities.Cryptography;
 
-namespace Zheng.Application.Services
+namespace LibraryWebAPI.Services
 {
     public class AccountService
     {

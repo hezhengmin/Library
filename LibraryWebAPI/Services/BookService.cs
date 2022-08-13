@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Zheng.Application.Dtos.Book;
-using Zheng.Application.Parameters.Book;
+using LibraryWebAPI.Dtos.Book;
+using LibraryWebAPI.Parameters.Book;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
+using LibraryWebAPI.Interfaces;
 
-namespace Zheng.Application.Services
+namespace LibraryWebAPI.Services
 {
     public class BookService
     {
         private readonly LibraryDbContext _context;
+        private readonly IUserService _userService;
 
-        public BookService(LibraryDbContext context)
+        public BookService(LibraryDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         public async Task<Book> Get(Guid id)
@@ -57,9 +60,9 @@ namespace Zheng.Application.Services
                 Isbn = entity.Isbn,
                 Status = entity.Status,
                 CreatedAt = DateTime.Now,
-                CreatedBy = Guid.NewGuid(),
+                CreatedBy = _userService.GetCurrentAccountId(),
                 UpdatedAt = DateTime.Now,
-                UpdatedBy = Guid.NewGuid()
+                UpdatedBy = _userService.GetCurrentAccountId(),
             };
 
             try

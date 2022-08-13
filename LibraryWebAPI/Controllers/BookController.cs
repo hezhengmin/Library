@@ -3,11 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Zheng.Application.Dtos.Book;
-using Zheng.Application.Parameters.Book;
-using Zheng.Application.Services;
+using LibraryWebAPI.Dtos.Book;
+using LibraryWebAPI.Parameters.Book;
+using LibraryWebAPI.Services;
 using Zheng.Infrastructure.Models;
 
 namespace LibraryWebAPI.Controllers
@@ -41,7 +40,6 @@ namespace LibraryWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Book_AddDto entity)
         {
-            string id = _httpContextAccessor.HttpContext.User.FindFirst("id").Value;
 
             var book = await _bookService.Add(entity);
             if (book == null) return BadRequest("新增失敗");

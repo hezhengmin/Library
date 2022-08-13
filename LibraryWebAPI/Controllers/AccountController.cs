@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Zheng.Application.Services;
-using Zheng.Application.Dtos.Account;
+using LibraryWebAPI.Services;
+using LibraryWebAPI.Dtos.Account;
 using Zheng.Infrastructure.Models;
 
 namespace LibraryWebAPI.Controllers

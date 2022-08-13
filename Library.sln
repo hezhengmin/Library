@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Infrastructure", "Zhe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI", "LibraryWebAPI\LibraryWebAPI.csproj", "{C92908CE-50AC-4141-AB21-676CE6DE5B48}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Application", "Zheng.Application\Zheng.Application.csproj", "{5C1DAD5A-B9D7-41F7-857A-8F0A0075DC4F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zheng.Utilities", "Zheng.Utilities\Zheng.Utilities.csproj", "{04BE4E32-55C3-4D09-AE1A-CF4CCF2A6E69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Utilities", "Zheng.Utilities\Zheng.Utilities.csproj", "{04BE4E32-55C3-4D09-AE1A-CF4CCF2A6E69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{C92908CE-50AC-4141-AB21-676CE6DE5B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C92908CE-50AC-4141-AB21-676CE6DE5B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C92908CE-50AC-4141-AB21-676CE6DE5B48}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C1DAD5A-B9D7-41F7-857A-8F0A0075DC4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C1DAD5A-B9D7-41F7-857A-8F0A0075DC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C1DAD5A-B9D7-41F7-857A-8F0A0075DC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C1DAD5A-B9D7-41F7-857A-8F0A0075DC4F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04BE4E32-55C3-4D09-AE1A-CF4CCF2A6E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04BE4E32-55C3-4D09-AE1A-CF4CCF2A6E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04BE4E32-55C3-4D09-AE1A-CF4CCF2A6E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
