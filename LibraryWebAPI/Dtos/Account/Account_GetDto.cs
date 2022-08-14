@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace LibraryWebAPI.Dtos.Account
 {
-    /// <summary>
-    /// 更新的帳號
-    /// </summary>
-    public class Account_UpdateDto
+    public class Account_GetDto
     {
         public Guid Id { get; set; }
         public string AccountId { get; set; }
-        public string Password { get; set; }
+        public string Email { get; set; }
     }
 }

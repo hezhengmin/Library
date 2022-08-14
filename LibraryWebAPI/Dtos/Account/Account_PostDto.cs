@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibraryWebAPI.Abstract.Account;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace LibraryWebAPI.Dtos.Account
     /// <summary>
     /// 新增的帳號
     /// </summary>
-    public class Account_AddDto : Account_Dto_Base
+    public class Account_PostDto : Account_Dto_Base
     {
         [Required]
         [EmailAddress]

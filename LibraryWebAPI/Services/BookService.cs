@@ -9,6 +9,8 @@ using LibraryWebAPI.Parameters.Book;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 using LibraryWebAPI.Interfaces;
+using LibraryWebAPI.Dtos.BookPhoto;
+using LibraryWebAPI.Abstract.BookPhoto;
 
 namespace LibraryWebAPI.Services
 {
@@ -23,6 +25,35 @@ namespace LibraryWebAPI.Services
             _userService = userService;
         }
 
+        public async Task<Book_GetDto> GetDto(Guid id)
+        {
+            var book = await _context.Books
+                .Include(x => x.BookPhotos)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (book == null) return null;
+
+            //轉換成Dto
+            var bookPhoto_GetDto = new List<BookPhoto_Dto_Base>();
+            foreach (var item in book.BookPhotos)
+            {
+                var bookPhoto = new BookPhoto_Dto_Base()
+                {
+                    UploadFileId = item.UploadFileId,
+                };
+                bookPhoto_GetDto.Add(bookPhoto);
+            }
+
+            return new Book_GetDto
+            {
+                Id = book.Id, 
+                Author = book.Author,
+                BookPhotos = bookPhoto_GetDto,
+                Isbn = book.Isbn,
+                Status = book.Status,
+                Title = book.Title,
+            };
+        }
         public async Task<Book> Get(Guid id)
         {
             return await _context.Books.SingleOrDefaultAsync(x => x.Id == id);
@@ -35,7 +66,9 @@ namespace LibraryWebAPI.Services
 
         public async Task<List<Book>> Get(BookSelectParameter filter)
         {
-            var query = _context.Books.AsQueryable();
+            var query = _context.Books
+                .Include(x => x.BookPhotos)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(filter.title))
             {
@@ -50,9 +83,9 @@ namespace LibraryWebAPI.Services
             return await query.ToListAsync();
         }
 
-        public async Task<Book> Add(Book_AddDto entity)
+        public async Task<Book> Add(Book_PostDto entity)
         {
-            var Book = new Book()
+            var book = new Book()
             {
                 Id = Guid.NewGuid(),
                 Title = entity.Title,
@@ -65,9 +98,23 @@ namespace LibraryWebAPI.Services
                 UpdatedBy = _userService.CurrentAccountId,
             };
 
+            if (entity.BookPhotos.Count > 0)
+            {
+                foreach (var item in entity.BookPhotos)
+                {
+                    var bookPhoto = new BookPhoto()
+                    {
+                        Id = Guid.NewGuid(),
+                        UploadFileId = item.UploadFileId,
+                        SystemDate = DateTime.Now,
+                    };
+                    book.BookPhotos.Add(bookPhoto);
+                }
+            }
+
             try
             {
-                await _context.Books.AddAsync(Book);
+                await _context.Books.AddAsync(book);
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -76,7 +123,7 @@ namespace LibraryWebAPI.Services
                 return null;
             }
 
-            return Book;
+            return book;
         }
 
         public async Task<bool> Exits(string accountId)

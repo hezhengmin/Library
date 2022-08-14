@@ -25,13 +25,13 @@ namespace LibraryWebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Account_Dto>>> Get()
+        public async Task<ActionResult<List<Account_GetDto>>> Get()
         {
             return await _accountService.Get();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account_Dto>> Get(Guid id)
+        public async Task<ActionResult<Account_GetDto>> Get(Guid id)
         {
             var result = await _accountService.GetDto(id);
 
@@ -47,13 +47,15 @@ namespace LibraryWebAPI.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<Account>> Post([FromBody] Account_AddDto entity)
+        public async Task<ActionResult<Account>> Post([FromBody] Account_PostDto entity)
         {
-            var result = await _accountService.Add(entity);
+            var account = await _accountService.Add(entity);
 
-            if (!result) return BadRequest("新增失敗");
+            if (account == null) return BadRequest("新增失敗");
 
-            return NoContent();
+            var result = await _accountService.GetDto(account.Id);
+
+            return CreatedAtAction(nameof(Get), new { account.Id }, result);
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, [FromBody] Account_UpdateDto entity)
+        public async Task<IActionResult> PutAsync(Guid id, [FromBody] Account_PutDto entity)
         {
             if (id != entity.Id)
             {
@@ -99,7 +101,7 @@ namespace LibraryWebAPI.Controllers
                 return NotFound();
             }
 
-             await _accountService.Delete(id);
+            await _accountService.Delete(id);
 
             return NoContent();
         }
@@ -120,7 +122,7 @@ namespace LibraryWebAPI.Controllers
             {
                 var token = _jwtHelper.GenerateJwtToken(account);
 
-                return Ok(new { jwtToken = token});
+                return Ok(new { jwtToken = token });
             }
             else
             {

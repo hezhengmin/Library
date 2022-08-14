@@ -17,12 +17,10 @@ namespace LibraryWebAPI.Controllers
     public class BookController : ControllerBase
     {
         private readonly BookService _bookService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BookController(BookService bookService, IHttpContextAccessor httpContextAccessor)
+        public BookController(BookService bookService)
         {
             _bookService = bookService;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -37,6 +35,14 @@ namespace LibraryWebAPI.Controllers
             return await _bookService.Get(id);
         }
 
+        [HttpGet("GetDto/{id}")]
+        public async Task<ActionResult<Book_GetDto>> GetDto([FromRoute] Guid id)
+        {
+            var result = await _bookService.GetDto(id);
+            if (result == null) return NotFound();
+            return result;
+        }
+
 
         /// <summary>
         /// 新增書籍
@@ -44,12 +50,14 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Book_AddDto entity)
+        public async Task<ActionResult<Book_GetDto>> Post([FromBody] Book_PostDto entity)
         {
             var book = await _bookService.Add(entity);
             if (book == null) return BadRequest("新增失敗");
 
-            return CreatedAtAction(nameof(Get), new { Id = book.Id }, book);
+            var result = await _bookService.GetDto(book.Id);
+
+            return CreatedAtAction(nameof(GetDto), new { id = book.Id }, result);
         }
     }
 }

@@ -26,11 +26,11 @@ namespace LibraryWebAPI.Services
         /// <param name="accountAddEntity"></param>
         /// <param name="accountEntity"></param>
         /// <returns></returns>
-        public async Task<bool> Add(Account_AddDto accountAddEntity)
+        public async Task<Account> Add(Account_PostDto accountAddEntity)
         {
             //帳號已存在，不能重複
             var result =await Exits(accountAddEntity.AccountId);
-            if (result) return false;
+            if (result) return null;
 
             byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountAddEntity.Password);
 
@@ -51,10 +51,10 @@ namespace LibraryWebAPI.Services
             catch (Exception ex)
             {
                 //新增失敗
-                return false;
+                return null;
             }
 
-            return true;
+            return account;
         }
 
         public async Task<Account> Get(Guid id)
@@ -69,10 +69,10 @@ namespace LibraryWebAPI.Services
             #endregion
         }
 
-        public async Task<Account_Dto> GetDto(Guid id)
+        public async Task<Account_GetDto> GetDto(Guid id)
         {
             return await _context.Accounts
-                .Select(x => new Account_Dto { Id = x.Id, AccountId = x.AccountId ,Email = x.Email})
+                .Select(x => new Account_GetDto { Id = x.Id, AccountId = x.AccountId ,Email = x.Email})
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
@@ -94,10 +94,10 @@ namespace LibraryWebAPI.Services
             #endregion
         }
 
-        public async Task<List<Account_Dto>> Get()
+        public async Task<List<Account_GetDto>> Get()
         {
             return await _context.Accounts
-                .Select(x => new Account_Dto
+                .Select(x => new Account_GetDto
                 {
                     Id = x.Id,
                     AccountId = x.AccountId,
@@ -106,7 +106,7 @@ namespace LibraryWebAPI.Services
             ).ToListAsync();
         }
 
-        public async Task<bool> Update(Account_UpdateDto entity)
+        public async Task<bool> Update(Account_PutDto entity)
         {
             var account =await Get(entity.Id);
             //無此帳號
@@ -155,7 +155,6 @@ namespace LibraryWebAPI.Services
             _context.Accounts.Remove(entity);
             _context.SaveChanges();
         }
-
 
         /// <summary>
         /// 登入驗證

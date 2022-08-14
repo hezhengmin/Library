@@ -36,6 +36,11 @@ namespace LibraryWebAPI.Services
             return await _context.UploadFiles.ToListAsync();
         }
 
+        /// <summary>
+        /// 單一檔案上傳
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public async Task<bool> Add(IFormFile file)
         {
             ICollection<IFormFile> x = new List<IFormFile>();
@@ -43,6 +48,11 @@ namespace LibraryWebAPI.Services
             return await AddMultiple(x);
         }
 
+        /// <summary>
+        /// 多檔上傳
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
         public async Task<bool> AddMultiple(ICollection<IFormFile> files)
         {
             List<UploadFile> uploadFiles = new List<UploadFile>();
@@ -53,7 +63,7 @@ namespace LibraryWebAPI.Services
 
             foreach (var file in files)
             {
-                if (file.Length > 0)
+                if (file != null && file.Length > 0)
                 {
                     //檔名要儲存成guid
                     var id = Guid.NewGuid();
