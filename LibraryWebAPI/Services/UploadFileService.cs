@@ -105,6 +105,61 @@ namespace LibraryWebAPI.Services
             return true;
         }
 
+        public bool AddMultiple(ICollection<IFormFile> files, out List<Guid> guidList)
+        {
+            List<UploadFile> uploadFiles = new List<UploadFile>();
+            guidList = new List<Guid>();
+
+            //路徑如果不存在，創建目錄起來
+            if (!Directory.Exists(RootPath))
+                Directory.CreateDirectory(RootPath);
+
+            foreach (var file in files)
+            {
+                if (file != null && file.Length > 0)
+                {
+                    //檔名要儲存成guid
+                    var id = Guid.NewGuid();
+
+                    guidList.Add(id);
+
+                    using (var stream = File.Create($"{RootPath}{id}{Path.GetExtension(file.FileName)}"))
+                    {
+                        //複製檔案
+                        file.CopyTo(stream);
+
+                        var uploadFile = new UploadFile()
+                        {
+                            Id = id,
+                            Name = Path.GetFileNameWithoutExtension(file.FileName),
+                            ContentType = file.ContentType,
+                            Extension = Path.GetExtension(file.FileName),
+                            Length = file.Length,
+                            CreatedAt = DateTime.Now,
+                            CreatedBy = _userService.CurrentAccountId,
+                            UpdatedAt = DateTime.Now,
+                            UpdatedBy = _userService.CurrentAccountId,
+                        };
+
+                        uploadFiles.Add(uploadFile);
+                    }
+                }
+            }
+
+            try
+            {
+                _context.UploadFiles.AddRange(uploadFiles);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                //新增失敗
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task<bool> Check(Guid id)
         {
             return await _context.UploadFiles.AnyAsync(x => x.Id == id);

@@ -18,11 +18,13 @@ namespace LibraryWebAPI.Services
     {
         private readonly LibraryDbContext _context;
         private readonly IUserService _userService;
+        private readonly UploadFileService _uploadFileService;
 
-        public BookService(LibraryDbContext context, IUserService userService)
+        public BookService(LibraryDbContext context, IUserService userService, UploadFileService uploadFileService)
         {
             _context = context;
             _userService = userService;
+            _uploadFileService = uploadFileService;
         }
 
         public async Task<Book_GetDto> GetDto(Guid id)
@@ -46,7 +48,7 @@ namespace LibraryWebAPI.Services
 
             return new Book_GetDto
             {
-                Id = book.Id, 
+                Id = book.Id,
                 Author = book.Author,
                 BookPhotos = bookPhoto_GetDto,
                 Isbn = book.Isbn,
@@ -98,17 +100,21 @@ namespace LibraryWebAPI.Services
                 UpdatedBy = _userService.CurrentAccountId,
             };
 
-            if (entity.BookPhotos.Count > 0)
+            //如果有附檔
+            if (entity.Files != null)
             {
-                foreach (var item in entity.BookPhotos)
+                List<Guid> guidList;
+                var result = _uploadFileService.AddMultiple(entity.Files, out guidList);
+
+                foreach (var id in guidList)
                 {
-                    var bookPhoto = new BookPhoto()
+                    book.BookPhotos.Add(new BookPhoto()
                     {
                         Id = Guid.NewGuid(),
-                        UploadFileId = item.UploadFileId,
+                        UploadFileId = id,
                         SystemDate = DateTime.Now,
-                    };
-                    book.BookPhotos.Add(bookPhoto);
+                    });
+
                 }
             }
 

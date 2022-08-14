@@ -43,14 +43,13 @@ namespace LibraryWebAPI.Controllers
             return result;
         }
 
-
         /// <summary>
         /// 新增書籍
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Book_GetDto>> Post([FromBody] Book_PostDto entity)
+        public async Task<ActionResult<Book_GetDto>> Post([FromForm] Book_PostDto entity)
         {
             var book = await _bookService.Add(entity);
             if (book == null) return BadRequest("新增失敗");

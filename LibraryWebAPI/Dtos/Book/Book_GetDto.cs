@@ -12,7 +12,6 @@ namespace LibraryWebAPI.Dtos.Book
     public class Book_GetDto : Book_Dto_Base
     {
         public Guid Id { get; set; }
-        public override List<BookPhoto_Dto_Base> BookPhotos { get; set; } = new List<BookPhoto_Dto_Base>();
-
+        public List<BookPhoto_Dto_Base> BookPhotos { get; set; } = new List<BookPhoto_Dto_Base>();
     }
 }

@@ -18,6 +18,5 @@ namespace LibraryWebAPI.Abstract.Book
         /// 狀態
         /// </summary>
         public int Status { get; set; }
-        public abstract List<BookPhoto_Dto_Base> BookPhotos { get; set; } 
     }
 }
