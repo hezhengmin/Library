@@ -47,14 +47,13 @@ namespace LibraryWebAPI.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult<Account> Post([FromBody] Account_AddDto entity)
+        public async Task<ActionResult<Account>> Post([FromBody] Account_AddDto entity)
         {
-            Account account = new Account();
-            var result = _accountService.Add(entity, out account);
+            var result = await _accountService.Add(entity);
 
             if (!result) return BadRequest("新增失敗");
 
-            return CreatedAtAction(nameof(Get), new { Id = account.Id }, account);
+            return NoContent();
         }
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public IActionResult Put(Guid id, [FromBody] Account_UpdateDto entity)
+        public async Task<IActionResult> PutAsync(Guid id, [FromBody] Account_UpdateDto entity)
         {
             if (id != entity.Id)
             {
@@ -77,7 +76,8 @@ namespace LibraryWebAPI.Controllers
                 return NotFound();
             }
 
-            if (!_accountService.Update(entity).Result)
+            var result = await _accountService.Update(entity);
+            if (!result)
             {
                 return StatusCode(500, "存取發生錯誤");
             }
@@ -92,14 +92,14 @@ namespace LibraryWebAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
             if (!_accountService.Check(id))
             {
                 return NotFound();
             }
 
-            _accountService.Delete(id);
+             await _accountService.Delete(id);
 
             return NoContent();
         }
@@ -111,9 +111,9 @@ namespace LibraryWebAPI.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] Account_LoginDto entity)
+        public async Task<IActionResult> Login([FromBody] Account_LoginDto entity)
         {
-            var account = _accountService.Login(entity);
+            var account = await _accountService.Login(entity);
 
             //登入成功
             if (account != null)
