@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LibraryWebAPI.Services;
 using LibraryWebAPI.Dtos.Account;
 using Zheng.Infrastructure.Models;
+using LibraryWebAPI.Dtos.Responses;
 
 namespace LibraryWebAPI.Controllers
 {
@@ -107,7 +108,7 @@ namespace LibraryWebAPI.Controllers
         }
 
         /// <summary>
-        /// 首頁登入
+        /// 登入
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
@@ -121,12 +122,24 @@ namespace LibraryWebAPI.Controllers
             if (account != null)
             {
                 var token = _jwtHelper.GenerateJwtToken(account);
+                var accountDto = await _accountService.GetDto(account.Id);
 
-                return Ok(new { jwtToken = token });
+                return Ok(new AccountResponse()
+                {
+                    Success = true,
+                    JwtToken = token,
+                    account = accountDto
+                });
             }
             else
             {
-                return NotFound("帳號或密碼錯誤");
+                return BadRequest(new AccountResponse()
+                {
+                    Errors = new List<string>() {
+                        "帳號或密碼錯誤"
+                    },
+                    Success = false
+                });
             }
         }
     }
