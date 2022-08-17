@@ -3,6 +3,7 @@ using LibraryWebAPI.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,12 +19,17 @@ namespace LibraryWebAPI.Services
         private readonly LibraryDbContext _context;
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment _env;
-        private static string saveDirectoryPath = "Uploads"; //存放檔案的資料夾
-        public UploadFileService(LibraryDbContext context, IUserService userService, IWebHostEnvironment env)
+        private readonly IConfiguration _configuration;
+      
+        public UploadFileService(LibraryDbContext context, 
+            IUserService userService, 
+            IWebHostEnvironment env,
+            IConfiguration configuration)
         {
             _context = context;
             _userService = userService;
             _env = env;
+            _configuration = configuration;
         }
 
         public async Task<UploadFile> Get(Guid id)
@@ -192,12 +198,24 @@ namespace LibraryWebAPI.Services
         /// <summary>
         /// 完整路徑(檔案放置位置)
         /// </summary>
-        public string RootPath
+        private string RootPath
         {
             get
             {
-                return $"{_env.ContentRootPath}\\{saveDirectoryPath}\\";
+                return $"{_env.ContentRootPath}\\{FileDirectoryPath}\\";
             }
         }
+
+
+        /// <summary>
+        /// 存放檔案的資料夾
+        /// </summary>
+        private string FileDirectoryPath
+        {
+            get
+            {
+                return _configuration.GetValue<string>("UploadFilePath"); ;
+            }
+        } 
     }
 }

@@ -24,9 +24,9 @@ namespace LibraryWebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Book>>> Get([FromQuery] BookSelectParameter filter)
+        public async Task<ActionResult<List<Book_GetDto>>> Get([FromQuery] BookSelectParameter filter)
         {
-            return await _bookService.Get(filter);
+            return await _bookService.GetList(filter);
         }
 
         [HttpGet("{id}")]

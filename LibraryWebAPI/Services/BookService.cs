@@ -85,6 +85,41 @@ namespace LibraryWebAPI.Services
             return await query.ToListAsync();
         }
 
+        /// <summary>
+        /// 書籍列表
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public async Task<List<Book_GetDto>> GetList(BookSelectParameter filter)
+        {
+            var query = _context.Books
+                .Include(x => x.BookPhotos)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filter.title))
+            {
+                query = query.Where(x => x.Title.Contains(filter.title));
+            }
+
+            if (filter.createAt != null)
+            {
+                query = query.Where(x => x.CreatedAt.Date == filter.createAt);
+            }
+
+            return await query.Select(x => new Book_GetDto
+            {
+                Id = x.Id,
+                Author = x.Author,
+                BookPhotos = x.BookPhotos.Select(y => new BookPhoto_Dto_Base
+                {
+                    UploadFileId = y.UploadFileId
+                }).ToList(),
+                Isbn = x.Isbn,
+                Status = x.Status,
+                Title = x.Title,
+            }).ToListAsync();
+        }
+
         public async Task<Book> Add(Book_PostDto entity)
         {
             var book = new Book()
