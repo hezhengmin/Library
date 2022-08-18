@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibraryWebAPI.Filter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace LibraryWebAPI.Parameters.Book
         /// </summary>
         public string title { get; set; }
         public DateTime? createAt { get; set; }
+        public PaginationFilter paginationFilter { get; set; }
     }
 }

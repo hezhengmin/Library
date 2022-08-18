@@ -65,26 +65,7 @@ namespace LibraryWebAPI.Services
         {
             return await _context.Books.ToListAsync();
         }
-
-        public async Task<List<Book>> Get(BookSelectParameter filter)
-        {
-            var query = _context.Books
-                .Include(x => x.BookPhotos)
-                .AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(filter.title))
-            {
-                query = query.Where(x => x.Title.Contains(filter.title));
-            }
-
-            if (filter.createAt != null)
-            {
-                query = query.Where(x => x.CreatedAt.Date == filter.createAt);
-            }
-
-            return await query.ToListAsync();
-        }
-
+       
         /// <summary>
         /// 書籍列表
         /// </summary>
@@ -105,6 +86,9 @@ namespace LibraryWebAPI.Services
             {
                 query = query.Where(x => x.CreatedAt.Date == filter.createAt);
             }
+
+            query = query.Skip((filter.paginationFilter.PageNumber - 1) * filter.paginationFilter.PageSize)
+                .Take(filter.paginationFilter.PageSize);
 
             return await query.Select(x => new Book_GetDto
             {
