@@ -24,20 +24,24 @@ namespace LibraryWebAPI.Controllers
             _uploadFileService = uploadFileService;
         }
 
+        /// <summary>
+        /// 多筆書籍
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<Book_GetDto>>> GetList([FromBody] BookSelectParameter filter)
+        public async Task<ActionResult<List<Book_GetDto>>> Get([FromBody] BookSelectParameter filter)
         {
-            return await _bookService.GetList(filter);
+            return await _bookService.Get(filter);
         }
 
+        /// <summary>
+        /// 單筆書籍
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> Get([FromRoute] Guid id)
-        {
-            return await _bookService.Get(id);
-        }
-
-        [HttpGet("GetDto/{id}")]
-        public async Task<ActionResult<Book_GetDto>> GetDto([FromRoute] Guid id)
+        public async Task<ActionResult<Book_GetDto>> Get([FromRoute] Guid id)
         {
             var result = await _bookService.GetDto(id);
             if (result == null) return NotFound();
@@ -57,7 +61,7 @@ namespace LibraryWebAPI.Controllers
 
             var result = await _bookService.GetDto(book.Id);
 
-            return CreatedAtAction(nameof(GetDto), new { id = book.Id }, result);
+            return CreatedAtAction(nameof(Get), new { id = book.Id }, result);
         }
     }
 }

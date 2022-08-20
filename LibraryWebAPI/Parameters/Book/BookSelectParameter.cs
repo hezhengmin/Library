@@ -12,8 +12,16 @@ namespace LibraryWebAPI.Parameters.Book
         /// <summary>
         /// 書的標題
         /// </summary>
-        public string title { get; set; }
-        public DateTime? createAt { get; set; }
-        public PaginationFilter paginationFilter { get; set; }
+        public string Title { get; set; }
+        public string Isbn { get; set; }
+        /// <summary>
+        /// 版次
+        /// </summary>
+        public string Edition { get; set; }
+        /// <summary>
+        /// 新增時間
+        /// </summary>
+        public DateTime? CreateAt { get; set; }
+        public PaginationFilter PaginationFilter { get; set; }
     }
 }

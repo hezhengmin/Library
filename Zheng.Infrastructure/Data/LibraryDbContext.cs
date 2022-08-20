@@ -71,10 +71,39 @@ namespace Zheng.Infrastructure.Data
                     .ValueGeneratedNever()
                     .HasComment("系統編號");
 
-                entity.Property(e => e.Author)
+                entity.Property(e => e.Attachment)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .HasComment("作者");
+                    .HasComment("附件");
+
+                entity.Property(e => e.Authority)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasComment("授權資訊");
+
+                entity.Property(e => e.Binding)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasComment("裝訂");
+
+                entity.Property(e => e.Catalog)
+                    .IsRequired()
+                    .HasMaxLength(3000)
+                    .HasComment("目次");
+
+                entity.Property(e => e.CeasedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("停刊註記");
+
+                entity.Property(e => e.Classify)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("書籍分類");
+
+                entity.Property(e => e.Cover)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasComment("書封連結");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -82,24 +111,133 @@ namespace Zheng.Infrastructure.Data
 
                 entity.Property(e => e.CreatedBy).HasComment("新增者");
 
+                entity.Property(e => e.Creator)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasComment("作者資訊");
+
+                entity.Property(e => e.Duration)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("播放時間長度");
+
+                entity.Property(e => e.Edition)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("版次");
+
+                entity.Property(e => e.Governance)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("施政分類");
+
+                entity.Property(e => e.Gpn)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("GPN");
+
+                entity.Property(e => e.Gpntype)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("GPNType")
+                    .HasComment("出版品分類");
+
+                entity.Property(e => e.Grade)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasComment("級別");
+
+                entity.Property(e => e.Introduction)
+                    .IsRequired()
+                    .HasMaxLength(2000)
+                    .HasComment("abstract(書籍介紹)");
+
                 entity.Property(e => e.Isbn)
                     .IsRequired()
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("ISBN");
 
+                entity.Property(e => e.Issn)
+                    .IsRequired()
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .HasColumnName("ISSN");
+
+                entity.Property(e => e.Language)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasComment("語言");
+
+                entity.Property(e => e.Numbers)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("字號");
+
+                entity.Property(e => e.Pages).HasComment("頁數");
+
+                entity.Property(e => e.Price).HasComment("價格");
+
+                entity.Property(e => e.PublishDate)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasComment("出版日期");
+
+                entity.Property(e => e.Publisher)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("出版單位");
+
+                entity.Property(e => e.Restriction)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasComment("權利範圍");
+
+                entity.Property(e => e.RightCondition)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("出版情況");
+
+                entity.Property(e => e.Size)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("開數");
+
                 entity.Property(e => e.Status).HasComment("狀態");
+
+                entity.Property(e => e.Subject)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("主題分類");
+
+                entity.Property(e => e.TargetPeople)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("適用對象");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(150)
                     .HasComment("書名標題");
+
+                entity.Property(e => e.Types)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasComment("資料類型");
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
                     .HasComment("修改時間");
 
                 entity.Property(e => e.UpdatedBy).HasComment("修改者");
+
+                entity.Property(e => e.Url)
+                    .IsRequired()
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasComment("出版品網址-線上版或試閱版");
             });
 
             modelBuilder.Entity<BookPhoto>(entity =>

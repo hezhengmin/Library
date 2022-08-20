@@ -1,5 +1,4 @@
-﻿using LibraryWebAPI.Dtos.UploadFile;
-using LibraryWebAPI.Interfaces;
+﻿using LibraryWebAPI.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
+using Microsoft.AspNetCore.StaticFiles;
+
 
 namespace LibraryWebAPI.Services
 {
@@ -42,7 +43,7 @@ namespace LibraryWebAPI.Services
             return await _context.UploadFiles.ToListAsync();
         }
 
-        public async Task<bool> AddByStream(Stream source, string path)
+        public async Task<Guid> AddByStream(Stream source, string path)
         {
             //檔名要儲存成guid
             var id = Guid.NewGuid();
@@ -51,11 +52,39 @@ namespace LibraryWebAPI.Services
             {
                 //複製檔案
                 await source.CopyToAsync(stream);
+
+                #region 取得ContentType
+
+                const string DefaultContentType = "application/octet-stream";
+
+                var provider = new FileExtensionContentTypeProvider();
+
+                if (!provider.TryGetContentType(path, out string contentType))
+                {
+                    contentType = DefaultContentType;
+                }
+
+                #endregion
+
+                var uploadFile = new UploadFile()
+                {
+                    Id = id,
+                    Name = Path.GetFileNameWithoutExtension(path),
+                    ContentType = contentType,
+                    Extension = Path.GetExtension(path),
+                    Length = stream.Length,
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = _userService.CurrentAccountId,
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = _userService.CurrentAccountId,
+                };
+
+                _context.UploadFiles.Add(uploadFile);
+                _context.SaveChanges();
             }
 
-            return true;
+            return id;
         }
-
 
         /// <summary>
         /// 單一檔案上傳
