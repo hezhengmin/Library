@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,10 +16,12 @@ namespace LibraryWebAPI.Controllers
     public class BookController : ControllerBase
     {
         private readonly BookService _bookService;
+        private readonly UploadFileService _uploadFileService;
 
-        public BookController(BookService bookService)
+        public BookController(BookService bookService, UploadFileService uploadFileService)
         {
             _bookService = bookService;
+            _uploadFileService = uploadFileService;
         }
 
         [HttpGet]

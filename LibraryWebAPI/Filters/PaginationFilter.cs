@@ -1,4 +1,4 @@
-﻿namespace LibraryWebAPI.Filter
+﻿namespace LibraryWebAPI.Filters
 {
     public class PaginationFilter
     {

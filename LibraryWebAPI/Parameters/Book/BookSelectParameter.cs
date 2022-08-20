@@ -1,4 +1,4 @@
-﻿using LibraryWebAPI.Filter;
+﻿using LibraryWebAPI.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;

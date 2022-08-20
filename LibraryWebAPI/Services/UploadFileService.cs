@@ -42,6 +42,21 @@ namespace LibraryWebAPI.Services
             return await _context.UploadFiles.ToListAsync();
         }
 
+        public async Task<bool> AddByStream(Stream source, string path)
+        {
+            //檔名要儲存成guid
+            var id = Guid.NewGuid();
+
+            using (var stream = File.Create($"{RootPath}{id}{Path.GetExtension(path)}"))
+            {
+                //複製檔案
+                await source.CopyToAsync(stream);
+            }
+
+            return true;
+        }
+
+
         /// <summary>
         /// 單一檔案上傳
         /// </summary>
@@ -205,7 +220,6 @@ namespace LibraryWebAPI.Services
                 return $"{_env.ContentRootPath}\\{FileDirectoryPath}\\";
             }
         }
-
 
         /// <summary>
         /// 存放檔案的資料夾

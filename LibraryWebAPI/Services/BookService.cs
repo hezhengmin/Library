@@ -2,14 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LibraryWebAPI.Dtos.Book;
 using LibraryWebAPI.Parameters.Book;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 using LibraryWebAPI.Interfaces;
-using LibraryWebAPI.Dtos.BookPhoto;
 using LibraryWebAPI.Abstract.BookPhoto;
 
 namespace LibraryWebAPI.Services
