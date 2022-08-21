@@ -64,9 +64,10 @@ namespace LibraryWebAPI
                 };
             });
 
+            //AutoMapper
+            services.AddAutoMapper(typeof(Startup));
             //註冊HttpClient
             services.AddHttpClient();
-
             //資料庫連線
             services.AddDbContext<LibraryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

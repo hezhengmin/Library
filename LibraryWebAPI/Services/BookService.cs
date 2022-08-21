@@ -9,6 +9,7 @@ using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Abstract.BookPhoto;
+using AutoMapper;
 
 namespace LibraryWebAPI.Services
 {
@@ -17,12 +18,14 @@ namespace LibraryWebAPI.Services
         private readonly LibraryDbContext _context;
         private readonly IUserService _userService;
         private readonly UploadFileService _uploadFileService;
+        private readonly IMapper _mapper;
 
-        public BookService(LibraryDbContext context, IUserService userService, UploadFileService uploadFileService)
+        public BookService(LibraryDbContext context, IUserService userService, UploadFileService uploadFileService, IMapper mapper)
         {
             _context = context;
             _userService = userService;
             _uploadFileService = uploadFileService;
+            _mapper = mapper;
         }
 
         public async Task<Book_GetDto> GetDto(Guid id)
@@ -78,7 +81,8 @@ namespace LibraryWebAPI.Services
                 Duration = book.Duration,
                 Numbers = book.Numbers,
                 Restriction = book.Restriction,
-                CeasedDate = book.CeasedDate
+                CeasedDate = book.CeasedDate,
+                Authority = book.Authority
             };
         }
         public async Task<Book> Get(Guid id)
@@ -169,17 +173,13 @@ namespace LibraryWebAPI.Services
         }
         public async Task<Book> Add(Book_PostDto entity)
         {
-            var book = new Book()
-            {
-                Id = Guid.NewGuid(),
-                Title = entity.Title,
-                Isbn = entity.Isbn,
-                Status = entity.Status,
-                CreatedAt = DateTime.Now,
-                CreatedBy = _userService.CurrentAccountId,
-                UpdatedAt = DateTime.Now,
-                UpdatedBy = _userService.CurrentAccountId,
-            };
+            var book = _mapper.Map<Book>(entity);
+
+            book.Id = Guid.NewGuid();
+            book.CreatedAt = DateTime.Now;
+            book.CreatedBy = _userService.CurrentAccountId;
+            book.UpdatedAt = DateTime.Now;
+            book.UpdatedBy = _userService.CurrentAccountId;
 
             //如果有附檔
             if (entity.Files != null)
@@ -201,7 +201,7 @@ namespace LibraryWebAPI.Services
 
             try
             {
-                await _context.Books.AddAsync(book).;
+                await _context.Books.AddAsync(book);
                 _context.SaveChanges();
             }
             catch (Exception ex)
