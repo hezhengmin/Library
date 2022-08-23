@@ -1,5 +1,4 @@
 ﻿using LibraryWebAPI.Abstract.BookPhoto;
-using System;
 
 namespace LibraryWebAPI.Dtos.BookPhoto
 {

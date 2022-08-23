@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using LibraryWebAPI.Abstract.BookPhoto;
+using LibraryWebAPI.Dtos.Book;
+using LibraryWebAPI.Interfaces;
+using LibraryWebAPI.Parameters.Book;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LibraryWebAPI.Dtos.Book;
-using LibraryWebAPI.Parameters.Book;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
-using LibraryWebAPI.Interfaces;
-using LibraryWebAPI.Abstract.BookPhoto;
-using AutoMapper;
 
 namespace LibraryWebAPI.Services
 {

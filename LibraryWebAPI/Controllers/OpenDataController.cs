@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Net.Http;
-using System.Collections.Generic;
-using System;
-using System.Threading.Tasks;
-using LibraryWebAPI.Services;
+﻿using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LibraryWebAPI.Controllers
 {

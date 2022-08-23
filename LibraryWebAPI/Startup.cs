@@ -1,4 +1,6 @@
 using LibraryWebAPI.Helpers;
+using LibraryWebAPI.Interfaces;
+using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,13 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using LibraryWebAPI.Services;
 using Zheng.Infrastructure.Data;
-using LibraryWebAPI.Interfaces;
 
 namespace LibraryWebAPI
 {
@@ -80,7 +77,7 @@ namespace LibraryWebAPI
             //ÀÉ®×¤W¶Ç
             services.AddScoped<UploadFileService>();
             services.AddScoped<OpenDataService>();
-            
+
             services.AddControllers().AddNewtonsoftJson();
         }
 

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace LibraryWebAPI.Dtos.Book
 {
@@ -100,7 +99,7 @@ namespace LibraryWebAPI.Dtos.Book
             get => _restriction;
             set => _restriction = value ?? "";
         }
-        
+
         /// <summary>
         /// 多檔或單一檔案
         /// </summary>

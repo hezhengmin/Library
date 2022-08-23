@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{D56A06BD-5B9B-4F19-8281-540895FF3EEF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Infrastructure", "Zheng.Infrastructure\Zheng.Infrastructure.csproj", "{294C2E46-2364-48B4-B5EF-2E978DF803CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI", "LibraryWebAPI\LibraryWebAPI.csproj", "{C92908CE-50AC-4141-AB21-676CE6DE5B48}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D56A06BD-5B9B-4F19-8281-540895FF3EEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D56A06BD-5B9B-4F19-8281-540895FF3EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D56A06BD-5B9B-4F19-8281-540895FF3EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D56A06BD-5B9B-4F19-8281-540895FF3EEF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{294C2E46-2364-48B4-B5EF-2E978DF803CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{294C2E46-2364-48B4-B5EF-2E978DF803CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{294C2E46-2364-48B4-B5EF-2E978DF803CD}.Release|Any CPU.ActiveCfg = Release|Any CPU

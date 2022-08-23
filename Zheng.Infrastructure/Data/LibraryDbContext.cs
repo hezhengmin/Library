@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Zheng.Infrastructure.Models;
 
 #nullable disable
@@ -25,7 +23,7 @@ namespace Zheng.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-         
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

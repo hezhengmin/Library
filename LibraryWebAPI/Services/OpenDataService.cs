@@ -106,7 +106,7 @@ namespace LibraryWebAPI.Services
                     };
 
                     await _context.Books.AddAsync(entity);
-                   
+
                     var imgUrl = book.cover;
 
                     using var httpResponse = await client.GetAsync(imgUrl).ConfigureAwait(false);

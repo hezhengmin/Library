@@ -1,11 +1,7 @@
 ﻿using LibraryWebAPI.Abstract.Book;
 using LibraryWebAPI.Abstract.BookPhoto;
-using LibraryWebAPI.Dtos.BookPhoto;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibraryWebAPI.Dtos.Book
 {

@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LibraryWebAPI.Dtos.Account;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LibraryWebAPI.Dtos.Account;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 using Zheng.Utilities.Compare;
@@ -29,7 +29,7 @@ namespace LibraryWebAPI.Services
         public async Task<Account> Add(Account_PostDto accountAddEntity)
         {
             //帳號已存在，不能重複
-            var result =await Exits(accountAddEntity.AccountId);
+            var result = await Exits(accountAddEntity.AccountId);
             if (result) return null;
 
             byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountAddEntity.Password);
@@ -72,7 +72,7 @@ namespace LibraryWebAPI.Services
         public async Task<Account_GetDto> GetDto(Guid id)
         {
             return await _context.Accounts
-                .Select(x => new Account_GetDto { Id = x.Id, AccountId = x.AccountId ,Email = x.Email})
+                .Select(x => new Account_GetDto { Id = x.Id, AccountId = x.AccountId, Email = x.Email })
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
@@ -108,7 +108,7 @@ namespace LibraryWebAPI.Services
 
         public async Task<bool> Update(Account_PutDto entity)
         {
-            var account =await Get(entity.Id);
+            var account = await Get(entity.Id);
             //無此帳號
             if (account == null) return false;
 
@@ -163,7 +163,7 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task<Account> Login(Account_LoginDto entity)
         {
-            var account =await Get(entity.AccountId);
+            var account = await Get(entity.AccountId);
 
             //沒有該帳號，直接回傳false
             if (account == null) return null;

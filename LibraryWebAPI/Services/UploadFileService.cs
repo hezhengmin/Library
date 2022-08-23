@@ -1,16 +1,15 @@
 ﻿using LibraryWebAPI.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
-using Microsoft.AspNetCore.StaticFiles;
 
 
 namespace LibraryWebAPI.Services
@@ -21,9 +20,9 @@ namespace LibraryWebAPI.Services
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment _env;
         private readonly IConfiguration _configuration;
-      
-        public UploadFileService(LibraryDbContext context, 
-            IUserService userService, 
+
+        public UploadFileService(LibraryDbContext context,
+            IUserService userService,
             IWebHostEnvironment env,
             IConfiguration configuration)
         {
@@ -259,6 +258,6 @@ namespace LibraryWebAPI.Services
             {
                 return _configuration.GetValue<string>("UploadFilePath"); ;
             }
-        } 
+        }
     }
 }

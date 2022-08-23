@@ -1,6 +1,4 @@
-﻿using LibraryWebAPI.Abstract.BookPhoto;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace LibraryWebAPI.Abstract.Book
 {

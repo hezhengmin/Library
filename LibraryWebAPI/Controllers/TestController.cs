@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace LibraryWebAPI.Controllers
@@ -9,14 +8,15 @@ namespace LibraryWebAPI.Controllers
     public class TestController : ControllerBase
     {
 
-        public class TestDto {
+        public class TestDto
+        {
             public int A { get; set; }
             public int B { get; set; }
         }
 
         [HttpGet("{id}")]
-        public dynamic Get([FromRoute] string id, 
-            [FromQuery] string query, 
+        public dynamic Get([FromRoute] string id,
+            [FromQuery] string query,
             [FromBody] TestDto testDto)
         {
             List<dynamic> list = new List<dynamic>();

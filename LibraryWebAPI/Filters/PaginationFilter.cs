@@ -6,7 +6,8 @@
         /// <summary>
         /// 第幾頁
         /// </summary>
-        public int PageNumber {
+        public int PageNumber
+        {
             get
             {
                 return _pageNumber;
