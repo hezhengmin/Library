@@ -28,7 +28,7 @@ namespace LibraryWebAPI.Controllers
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost("List")]
         public async Task<ActionResult<List<Book_GetDto>>> Get([FromBody] BookSelectParameter filter)
         {
             return await _bookService.Get(filter);

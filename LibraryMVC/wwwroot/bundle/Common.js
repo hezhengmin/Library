@@ -9,13 +9,13 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./Scripts/login.js":
-/*!**************************!*\
-  !*** ./Scripts/login.js ***!
-  \**************************/
+/***/ "./Scripts/Common/index.js":
+/*!*********************************!*\
+  !*** ./Scripts/Common/index.js ***!
+  \*********************************/
 /***/ (() => {
 
-eval("﻿\n\n//# sourceURL=webpack://library/./Scripts/login.js?");
+eval("﻿\r\n\n\n//# sourceURL=webpack://library/./Scripts/Common/index.js?");
 
 /***/ })
 
@@ -26,7 +26,7 @@ eval("﻿\n\n//# sourceURL=webpack://library/./Scripts/login.js?");
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
 /******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./Scripts/login.js"]();
+/******/ 	__webpack_modules__["./Scripts/Common/index.js"]();
 /******/ 	
 /******/ })()
 ;
