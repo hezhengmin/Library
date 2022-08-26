@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI", "LibraryWeb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Utilities", "Zheng.Utilities\Zheng.Utilities.csproj", "{04BE4E32-55C3-4D09-AE1A-CF4CCF2A6E69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryMVC", "LibraryMVC\LibraryMVC.csproj", "{6CBE9C53-14DD-4620-99B1-4F91D0DE1830}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryMVC", "LibraryMVC\LibraryMVC.csproj", "{6CBE9C53-14DD-4620-99B1-4F91D0DE1830}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

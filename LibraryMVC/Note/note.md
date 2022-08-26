@@ -14,3 +14,9 @@ PS D:\Github\Library\LibraryMVC> npm install
 ```
 NODE_ENV 環境變數，要多安裝cross-env
 ```
+* npm install fs
+* npm install vue-loader@15.9.8
+* npm install vue-template-compiler
+
+## 移除套件
+* npm uninstall vue-loader

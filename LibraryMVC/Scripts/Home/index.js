@@ -1,19 +1,13 @@
 ﻿import Vue from 'vue';
 import axios from 'axios';
+import LoginComponent from './login.vue';
 
 Vue.prototype.$axios = axios;
 
-let app = new Vue({
+
+new Vue({
     el: "#app",
-    data: {
-        num : 1
-    },
-    methods: {
-        test() {
-            this.num++;
-            console.log(this.num);
-        }
+    components: {
+        LoginComponent
     }
 })
-
-console.log(app);
