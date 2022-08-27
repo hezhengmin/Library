@@ -57,6 +57,7 @@ module.exports = {
         ]
     },
     plugins: [
+        //解析.vue 元件檔
         new VueLoaderPlugin(),
     ],
     optimization: {
