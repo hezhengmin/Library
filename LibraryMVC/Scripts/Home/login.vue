@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-    import { common } from "./common.js";
+    import common  from "./common.js";
 
     export default {
         name: "login-component",

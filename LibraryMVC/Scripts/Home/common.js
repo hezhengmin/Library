@@ -1,4 +1,4 @@
-﻿export const common = {
+﻿export default {
     data() {
         return {
             num: 0
