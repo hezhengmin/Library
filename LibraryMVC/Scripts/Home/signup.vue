@@ -6,6 +6,8 @@
         <br />
         電子郵件：<input type="email" v-model="email" required />
         <button type="submit">新增帳號</button>
+        <button type="button" @click="$store.commit('increment')">increment</button>
+        {{$store.state.count}}
     </form>
 </template>
 <script>

@@ -11,6 +11,9 @@
         <hr />
         <button type="button" @click="addNum">num++</button>
         {{num}}
+
+        <button type="button" @click="increment">increment</button>
+        {{$store.state.count}}
     </div>
 </template>
 <script>
@@ -37,6 +40,10 @@
                         console.log(response.data);
                         if (response.data.success) {
                             alert("登入成功");
+
+                            //localStorage 存 jwtToken
+                            localStorage.setItem('jwtToken', response.data.jwtToken);
+                            this.$store.commit('setJwtToken', response.data.jwtToken);
                         }
                     })
                     .catch((error) => {
@@ -46,6 +53,10 @@
             //新增帳密
             addAccount() {
                 
+            },
+            increment() {
+                this.$store.commit('increment')
+                console.log(this.$store.state.count)
             }
         }
     };
