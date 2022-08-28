@@ -14,11 +14,11 @@
     </div>
 </template>
 <script>
-    import common  from "./common.js";
+    import mixin from "../mixin.js";
 
     export default {
         name: "login-component",
-        mixins: [common],
+        mixins: [mixin],
         data() {
             return {
                 accountId: '',

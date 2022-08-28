@@ -9,17 +9,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./Scripts/Home/common.js":
-/*!********************************!*\
-  !*** ./Scripts/Home/common.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n﻿/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\r\n    data() {\r\n        return {\r\n            num: 0\r\n        };\r\n    },\r\n    methods: {\r\n        addNum() {\r\n            this.num ++;\r\n        }\r\n    }\r\n});\r\n\n\n//# sourceURL=webpack://library/./Scripts/Home/common.js?");
-
-/***/ }),
-
 /***/ "./Scripts/Home/index.js":
 /*!*******************************!*\
   !*** ./Scripts/Home/index.js ***!
@@ -27,7 +16,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.esm.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _login_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login.vue */ \"./Scripts/Home/login.vue\");\n/* harmony import */ var _signup_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signup.vue */ \"./Scripts/Home/signup.vue\");\n﻿\r\n\r\n\r\n\r\n\r\nvue__WEBPACK_IMPORTED_MODULE_3__[\"default\"].prototype.$axios = (axios__WEBPACK_IMPORTED_MODULE_0___default());\r\n\r\nnew vue__WEBPACK_IMPORTED_MODULE_3__[\"default\"]({\r\n    el: \"#app\",\r\n    components: {\r\n        LoginComponent: _login_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\r\n        SignupComponent: _signup_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"],\r\n    }\r\n})\n\n//# sourceURL=webpack://library/./Scripts/Home/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.esm.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _login_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login.vue */ \"./Scripts/Home/login.vue\");\n/* harmony import */ var _signup_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signup.vue */ \"./Scripts/Home/signup.vue\");\n/* harmony import */ var _account_edit_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./account-edit.vue */ \"./Scripts/Home/account-edit.vue\");\n﻿\r\n\r\n\r\n\r\n\r\n\r\n\r\nvue__WEBPACK_IMPORTED_MODULE_4__[\"default\"].prototype.$axios = (axios__WEBPACK_IMPORTED_MODULE_0___default());\r\n\r\nnew vue__WEBPACK_IMPORTED_MODULE_4__[\"default\"]({\r\n    el: \"#app\",\r\n    components: {\r\n        AccountEdit: _account_edit_vue__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\r\n        LoginComponent: _login_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\r\n        SignupComponent: _signup_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"],\r\n    }\r\n})\n\n//# sourceURL=webpack://library/./Scripts/Home/index.js?");
+
+/***/ }),
+
+/***/ "./Scripts/mixin.js":
+/*!**************************!*\
+  !*** ./Scripts/mixin.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n﻿/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\r\n    data() {\r\n        return {\r\n            num: 0\r\n        };\r\n    },\r\n    methods: {\r\n        addNum() {\r\n            this.num ++;\r\n        }\r\n    }\r\n});\r\n\n\n//# sourceURL=webpack://library/./Scripts/mixin.js?");
 
 /***/ }),
 
@@ -380,6 +380,28 @@ eval("\n\nvar bind = __webpack_require__(/*! ./helpers/bind */ \"./node_modules/
 
 /***/ }),
 
+/***/ "./Scripts/Home/account-edit.vue":
+/*!***************************************!*\
+  !*** ./Scripts/Home/account-edit.vue ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _account_edit_vue_vue_type_template_id_333a0435___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./account-edit.vue?vue&type=template&id=333a0435& */ \"./Scripts/Home/account-edit.vue?vue&type=template&id=333a0435&\");\n/* harmony import */ var _account_edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./account-edit.vue?vue&type=script&lang=js& */ \"./Scripts/Home/account-edit.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(\n  _account_edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  _account_edit_vue_vue_type_template_id_333a0435___WEBPACK_IMPORTED_MODULE_0__.render,\n  _account_edit_vue_vue_type_template_id_333a0435___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  null,\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"Scripts/Home/account-edit.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);\n\n//# sourceURL=webpack://library/./Scripts/Home/account-edit.vue?");
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/index.js??vue-loader-options!./Scripts/Home/account-edit.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/index.js??vue-loader-options!./Scripts/Home/account-edit.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n\r\n    /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\r\n        name: \"account-edit\",\r\n        data() {\r\n            return {\r\n                email: '',\r\n                oldPassword: '',\r\n                newPassword: '',\r\n                confirmPassword: '',\r\n            }\r\n        },\r\n        methods: {\r\n            updateEmail() {\r\n\r\n            },\r\n            //更改密碼\r\n            updatePassword() {\r\n\r\n            }\r\n        }\r\n\r\n    });\r\n\n\n//# sourceURL=webpack://library/./Scripts/Home/account-edit.vue?./node_modules/vue-loader/lib/index.js??vue-loader-options");
+
+/***/ }),
+
 /***/ "./Scripts/Home/login.vue":
 /*!********************************!*\
   !*** ./Scripts/Home/login.vue ***!
@@ -398,7 +420,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ \"./Scripts/Home/common.js\");\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n\r\n    \r\n\r\n    /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\r\n        name: \"login-component\",\r\n        mixins: [_common_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"]],\r\n        data() {\r\n            return {\r\n                accountId: '',\r\n                password: '',\r\n            };\r\n        },\r\n        methods: {\r\n            login() {\r\n                console.log(`accountId ${this.accountId} password ${this.password}`);\r\n                this.$axios.post('https://localhost:44323/api/Account/Login',\r\n                    {\r\n                        accountId: this.accountId,\r\n                        password: this.password\r\n                    })\r\n                    .then((response) => {\r\n                        console.log(response.data);\r\n                        if (response.data.success) {\r\n                            alert(\"登入成功\");\r\n                        }\r\n                    })\r\n                    .catch((error) => {\r\n                        alert(error.response.data.errors.join('\\n'));\r\n                    })\r\n            },\r\n            //新增帳密\r\n            addAccount() {\r\n                \r\n            }\r\n        }\r\n    });\r\n\n\n//# sourceURL=webpack://library/./Scripts/Home/login.vue?./node_modules/vue-loader/lib/index.js??vue-loader-options");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _mixin_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin.js */ \"./Scripts/mixin.js\");\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n\r\n    \r\n\r\n    /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\r\n        name: \"login-component\",\r\n        mixins: [_mixin_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"]],\r\n        data() {\r\n            return {\r\n                accountId: '',\r\n                password: '',\r\n            };\r\n        },\r\n        methods: {\r\n            login() {\r\n                console.log(`accountId ${this.accountId} password ${this.password}`);\r\n                this.$axios.post('https://localhost:44323/api/Account/Login',\r\n                    {\r\n                        accountId: this.accountId,\r\n                        password: this.password\r\n                    })\r\n                    .then((response) => {\r\n                        console.log(response.data);\r\n                        if (response.data.success) {\r\n                            alert(\"登入成功\");\r\n                        }\r\n                    })\r\n                    .catch((error) => {\r\n                        alert(error.response.data.errors.join('\\n'));\r\n                    })\r\n            },\r\n            //新增帳密\r\n            addAccount() {\r\n                \r\n            }\r\n        }\r\n    });\r\n\n\n//# sourceURL=webpack://library/./Scripts/Home/login.vue?./node_modules/vue-loader/lib/index.js??vue-loader-options");
 
 /***/ }),
 
@@ -421,6 +443,28 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n\r\n    /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\r\n        name: \"signup-component\",\r\n        data() {\r\n            return {\r\n                accountId: '',\r\n                password: '',\r\n                email: '',\r\n            };\r\n        },\r\n        methods: {\r\n            signup() {\r\n                this.$axios.post('https://localhost:44323/api/Account',\r\n                    {\r\n                        accountId: this.accountId,\r\n                        password: this.password,\r\n                        email: this.email\r\n                    })\r\n                    .then((response) => {\r\n                        console.log(response.data);\r\n                        if (response.data.success) {\r\n                            alert(\"註冊成功\");\r\n                        }\r\n                        else {\r\n                            alert(response.data.errors.join('\\n'));\r\n\r\n                        }\r\n                    })\r\n                    .catch((error) => {\r\n                        console.log(error);\r\n                    })\r\n            },\r\n        }\r\n    });\r\n\n\n//# sourceURL=webpack://library/./Scripts/Home/signup.vue?./node_modules/vue-loader/lib/index.js??vue-loader-options");
+
+/***/ }),
+
+/***/ "./Scripts/Home/account-edit.vue?vue&type=script&lang=js&":
+/*!****************************************************************!*\
+  !*** ./Scripts/Home/account-edit.vue?vue&type=script&lang=js& ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_vue_loader_lib_index_js_vue_loader_options_account_edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./account-edit.vue?vue&type=script&lang=js& */ \"./node_modules/vue-loader/lib/index.js??vue-loader-options!./Scripts/Home/account-edit.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_vue_loader_lib_index_js_vue_loader_options_account_edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[\"default\"]); \n\n//# sourceURL=webpack://library/./Scripts/Home/account-edit.vue?");
+
+/***/ }),
+
+/***/ "./Scripts/Home/account-edit.vue?vue&type=template&id=333a0435&":
+/*!**********************************************************************!*\
+  !*** ./Scripts/Home/account-edit.vue?vue&type=template&id=333a0435& ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_account_edit_vue_vue_type_template_id_333a0435___WEBPACK_IMPORTED_MODULE_0__.render),\n/* harmony export */   \"staticRenderFns\": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_account_edit_vue_vue_type_template_id_333a0435___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)\n/* harmony export */ });\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_account_edit_vue_vue_type_template_id_333a0435___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./account-edit.vue?vue&type=template&id=333a0435& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./Scripts/Home/account-edit.vue?vue&type=template&id=333a0435&\");\n\n\n//# sourceURL=webpack://library/./Scripts/Home/account-edit.vue?");
 
 /***/ }),
 
@@ -465,6 +509,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_signup_vue_vue_type_template_id_1a25b23a___WEBPACK_IMPORTED_MODULE_0__.render),\n/* harmony export */   \"staticRenderFns\": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_signup_vue_vue_type_template_id_1a25b23a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)\n/* harmony export */ });\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_signup_vue_vue_type_template_id_1a25b23a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./signup.vue?vue&type=template&id=1a25b23a& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./Scripts/Home/signup.vue?vue&type=template&id=1a25b23a&\");\n\n\n//# sourceURL=webpack://library/./Scripts/Home/signup.vue?");
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./Scripts/Home/account-edit.vue?vue&type=template&id=333a0435&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./Scripts/Home/account-edit.vue?vue&type=template&id=333a0435& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* binding */ render),\n/* harmony export */   \"staticRenderFns\": () => (/* binding */ staticRenderFns)\n/* harmony export */ });\nvar render = function () {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\"div\", [\n    _c(\"h1\", [_vm._v(\"帳號編輯\")]),\n    _vm._v(\" \"),\n    _c(\n      \"form\",\n      {\n        on: {\n          submit: function ($event) {\n            $event.preventDefault()\n            return _vm.updateEmail.apply(null, arguments)\n          },\n        },\n      },\n      [\n        _vm._v(\"\\n        電子郵件：\"),\n        _c(\"input\", {\n          directives: [\n            {\n              name: \"model\",\n              rawName: \"v-model\",\n              value: _vm.email,\n              expression: \"email\",\n            },\n          ],\n          attrs: { type: \"email\", required: \"\" },\n          domProps: { value: _vm.email },\n          on: {\n            input: function ($event) {\n              if ($event.target.composing) {\n                return\n              }\n              _vm.email = $event.target.value\n            },\n          },\n        }),\n        _vm._v(\" \"),\n        _c(\"br\"),\n        _vm._v(\" \"),\n        _c(\"button\", { attrs: { type: \"submit\" } }, [_vm._v(\"儲存\")]),\n      ]\n    ),\n    _vm._v(\" \"),\n    _c(\"h1\", [_vm._v(\"更改密碼\")]),\n    _vm._v(\" \"),\n    _c(\n      \"form\",\n      {\n        on: {\n          submit: function ($event) {\n            $event.preventDefault()\n            return _vm.updatePassword.apply(null, arguments)\n          },\n        },\n      },\n      [\n        _vm._v(\"\\n        舊密碼：\"),\n        _c(\"input\", {\n          directives: [\n            {\n              name: \"model\",\n              rawName: \"v-model\",\n              value: _vm.oldPassword,\n              expression: \"oldPassword\",\n            },\n          ],\n          attrs: { type: \"password\", required: \"\" },\n          domProps: { value: _vm.oldPassword },\n          on: {\n            input: function ($event) {\n              if ($event.target.composing) {\n                return\n              }\n              _vm.oldPassword = $event.target.value\n            },\n          },\n        }),\n        _vm._v(\" \"),\n        _c(\"br\"),\n        _vm._v(\"\\n        新密碼：\"),\n        _c(\"input\", {\n          directives: [\n            {\n              name: \"model\",\n              rawName: \"v-model\",\n              value: _vm.newPassword,\n              expression: \"newPassword\",\n            },\n          ],\n          attrs: { type: \"password\", required: \"\" },\n          domProps: { value: _vm.newPassword },\n          on: {\n            input: function ($event) {\n              if ($event.target.composing) {\n                return\n              }\n              _vm.newPassword = $event.target.value\n            },\n          },\n        }),\n        _vm._v(\" \"),\n        _c(\"br\"),\n        _vm._v(\"\\n        確認密碼：\"),\n        _c(\"input\", {\n          directives: [\n            {\n              name: \"model\",\n              rawName: \"v-model\",\n              value: _vm.confirmPassword,\n              expression: \"confirmPassword\",\n            },\n          ],\n          attrs: { type: \"password\", required: \"\" },\n          domProps: { value: _vm.confirmPassword },\n          on: {\n            input: function ($event) {\n              if ($event.target.composing) {\n                return\n              }\n              _vm.confirmPassword = $event.target.value\n            },\n          },\n        }),\n        _vm._v(\" \"),\n        _c(\"br\"),\n        _vm._v(\" \"),\n        _c(\"button\", { attrs: { type: \"submit\" } }, [_vm._v(\"修改密碼\")]),\n      ]\n    ),\n  ])\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack://library/./Scripts/Home/account-edit.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options");
 
 /***/ }),
 
