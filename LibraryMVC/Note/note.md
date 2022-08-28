@@ -18,5 +18,9 @@ NODE_ENV 環境變數，要多安裝cross-env
 * npm install vue-loader@15.9.8
 * npm install vue-template-compiler
 
+* npm install vuex@next --save
+```
+vuex 紀錄 token、使用者資訊
+```
 ## 移除套件
 * npm uninstall vue-loader

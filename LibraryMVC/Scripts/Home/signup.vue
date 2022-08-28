@@ -1,14 +1,12 @@
 ﻿<template>
-    <div class="login">
-        <form @submit.prevent="signup">
-            帳號：<input type="text" v-model="accountId" required />
-            <br />
-            密碼：<input type="password" v-model="password" required />
-            <br />
-            信箱：<input type="email" v-model="email" required />
-            <button type="submit">新增帳號</button>
-        </form>
-    </div>
+    <form @submit.prevent="signup">
+        帳號：<input type="text" v-model="accountId" required />
+        <br />
+        密碼：<input type="password" v-model="password" required />
+        <br />
+        電子郵件：<input type="email" v-model="email" required />
+        <button type="submit">新增帳號</button>
+    </form>
 </template>
 <script>
     export default {
@@ -17,7 +15,7 @@
             return {
                 accountId: '',
                 password: '',
-                email:'',
+                email: '',
             };
         },
         methods: {
@@ -26,7 +24,7 @@
                     {
                         accountId: this.accountId,
                         password: this.password,
-                        email:this.email
+                        email: this.email
                     })
                     .then((response) => {
                         console.log(response.data);

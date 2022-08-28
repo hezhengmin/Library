@@ -8,16 +8,21 @@
             <button type="submit">登入</button>
         </form>
         <button type="button" @click="addAccount">新增帳號</button>
+        <hr />
+        <button type="button" @click="addNum">num++</button>
+        {{num}}
     </div>
 </template>
 <script>
+    import { common } from "./common.js";
+
     export default {
         name: "login-component",
+        mixins: [common],
         data() {
             return {
                 accountId: '',
                 password: '',
-
             };
         },
         methods: {

@@ -13,15 +13,6 @@ var jsEntries = {}; // listing to compile
 
 // We search for js files inside basePath folder and make those as entries
 fs.readdirSync(appBasePath).forEach(function (name) {
-
-    // assumption: modules are located in separate directory and each module component is imported to index.js of particular module
-    var indexFile = appBasePath + name + '/index.js'
-    if (fs.existsSync(indexFile)) {
-        jsEntries[name] = indexFile
-    }
-});
-// We search for js files inside basePath folder and make those as entries
-fs.readdirSync(appBasePath).forEach(function (name) {
     // assumption: modules are located in separate directory and each module component is imported to index.js of particular module
     var indexFile = appBasePath + name + '/index.js'
     console.log(`indexFile： ${indexFile}`);
@@ -31,8 +22,6 @@ fs.readdirSync(appBasePath).forEach(function (name) {
     }
 });
 console.log(`jsEntries： ${JSON.stringify(jsEntries)}`);
-
-
 
 module.exports = {
     //Entry進入哪隻檔案，可以放相對路徑
