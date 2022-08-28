@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LibraryWebAPI.Dtos.Account
+namespace LibraryWebAPI.Dtos.AccountDto
 {
     /// <summary>
     /// 更新的帳號

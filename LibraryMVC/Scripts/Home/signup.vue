@@ -1,51 +1,50 @@
 ﻿<template>
     <div class="login">
-        <form @submit.prevent="login">
+        <form @submit.prevent="signup">
             帳號：<input type="text" v-model="accountId" required />
             <br />
             密碼：<input type="password" v-model="password" required />
             <br />
-            <button type="submit">登入</button>
+            信箱：<input type="email" v-model="email" required />
+            <button type="submit">新增帳號</button>
         </form>
-        <button type="button" @click="addAccount">新增帳號</button>
     </div>
 </template>
 <script>
     export default {
-        name: "login-component",
+        name: "signup-component",
         data() {
             return {
                 accountId: '',
                 password: '',
-
+                email:'',
             };
         },
         methods: {
-            login() {
-                console.log(`accountId ${this.accountId} password ${this.password}`);
-                this.$axios.post('https://localhost:44323/api/Account/Login',
+            signup() {
+                this.$axios.post('https://localhost:44323/api/Account',
                     {
                         accountId: this.accountId,
-                        password: this.password
+                        password: this.password,
+                        email:this.email
                     })
                     .then((response) => {
                         console.log(response.data);
                         if (response.data.success) {
-                            alert("登入成功");
+                            alert("註冊成功");
+                        }
+                        else {
+                            alert(response.data.errors.join('\n'));
+
                         }
                     })
                     .catch((error) => {
-                        alert(error.response.data.errors.join('\n'));
+                        console.log(error);
                     })
             },
-            //新增帳密
-            addAccount() {
-                
-            }
         }
     };
 </script>
 
 <style>
-   
 </style>

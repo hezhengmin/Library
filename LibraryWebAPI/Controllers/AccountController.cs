@@ -1,4 +1,4 @@
-﻿using LibraryWebAPI.Dtos.Account;
+﻿using LibraryWebAPI.Dtos.AccountDto;
 using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Helpers;
 using LibraryWebAPI.Services;
@@ -48,15 +48,11 @@ namespace LibraryWebAPI.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<Account>> Post([FromBody] Account_PostDto entity)
+        public async Task<IActionResult> Post([FromBody] Account_PostDto entity)
         {
-            var account = await _accountService.Add(entity);
+            var regResponse = await _accountService.Add(entity);
 
-            if (account == null) return BadRequest("新增失敗");
-
-            var result = await _accountService.GetDto(account.Id);
-
-            return CreatedAtAction(nameof(Get), new { account.Id }, result);
+            return Ok(regResponse);
         }
 
         /// <summary>
@@ -128,7 +124,7 @@ namespace LibraryWebAPI.Controllers
                 {
                     Success = true,
                     JwtToken = token,
-                    account = accountDto
+                    Account = accountDto
                 });
             }
             else

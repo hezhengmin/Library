@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LibraryWebAPI.Dtos.Book;
+using LibraryWebAPI.Dtos.BookDto;
 using Zheng.Infrastructure.Models;
 
 namespace LibraryWebAPI.Profiles

@@ -1,4 +1,5 @@
-﻿using LibraryWebAPI.Dtos.Account;
+﻿using LibraryWebAPI.Dtos.AccountDto;
+using LibraryWebAPI.Dtos.Responses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,11 +27,28 @@ namespace LibraryWebAPI.Services
         /// <param name="accountAddEntity"></param>
         /// <param name="accountEntity"></param>
         /// <returns></returns>
-        public async Task<Account> Add(Account_PostDto accountAddEntity)
+        public async Task<RegistrationResponse> Add(Account_PostDto accountAddEntity)
         {
+            var response = new RegistrationResponse();
+
             //帳號已存在，不能重複
-            var result = await Exits(accountAddEntity.AccountId);
-            if (result) return null;
+            var exitsAccountId = await Exits(accountAddEntity.AccountId);
+            if (exitsAccountId)
+            {
+                response.Success = false;
+                response.Errors.Add("帳號已存在，不能重複");
+                return response;
+            }
+
+            //Email已存在，不能重複
+            var exitsEmail = await ExitsEmail(accountAddEntity.Email);
+            if (exitsEmail)
+            {
+                response.Success = false;
+                response.Errors.Add("Email已存在，不能重複");
+                return response;
+            }
+
 
             byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountAddEntity.Password);
 
@@ -51,10 +69,20 @@ namespace LibraryWebAPI.Services
             catch (Exception ex)
             {
                 //新增失敗
-                return null;
+                response.Success = false;
+                response.Errors.Add($"資料庫新增失敗，{ex.ToString()}");
+                return response;
             }
 
-            return account;
+            response.RegAccount = new Account_GetDto()
+            {
+                Id = account.Id,
+                AccountId = account.AccountId,
+                Email = account.Email
+            };
+            response.Success = true;
+            response.Errors.Clear();
+            return response;
         }
 
         public async Task<Account> Get(Guid id)
@@ -147,6 +175,11 @@ namespace LibraryWebAPI.Services
         public async Task<bool> Exits(string accountId)
         {
             return await _context.Accounts.AnyAsync(x => x.AccountId == accountId);
+        }
+
+        public async Task<bool> ExitsEmail(string email)
+        {
+            return await _context.Accounts.AnyAsync(x => x.Email == email);
         }
 
         public async Task Delete(Guid id)

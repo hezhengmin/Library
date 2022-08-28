@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LibraryWebAPI.Dtos.Account
+namespace LibraryWebAPI.Dtos.AccountDto
 {
     public class Account_GetDto
     {

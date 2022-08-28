@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using LibraryWebAPI.Abstract.BookPhoto;
-using LibraryWebAPI.Dtos.Book;
+using LibraryWebAPI.Dtos.BookDto;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
 using Microsoft.EntityFrameworkCore;

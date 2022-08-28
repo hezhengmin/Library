@@ -4,10 +4,14 @@ namespace LibraryWebAPI.Abstract.Account
 {
     public abstract class Account_Dto_Base
     {
-        [Required(ErrorMessage = "帳號必填")]
-        [MaxLength(20)]
+        /// <summary>
+        /// 帳號
+        /// </summary>
         public virtual string AccountId { get; set; }
-        [Required(ErrorMessage = "密碼必填")]
+        /// <summary>
+        /// 密碼
+        /// </summary>
+        /// </summary>
         public virtual string Password { get; set; }
     }
 }

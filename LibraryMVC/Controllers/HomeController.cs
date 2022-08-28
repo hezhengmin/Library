@@ -34,7 +34,20 @@ namespace LibraryMVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        /// <summary>
+        /// 登入帳密
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Login()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 註冊帳號
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult SignUp()
         {
             return View();
         }

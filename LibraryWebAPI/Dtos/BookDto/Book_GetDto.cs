@@ -3,7 +3,7 @@ using LibraryWebAPI.Abstract.BookPhoto;
 using System;
 using System.Collections.Generic;
 
-namespace LibraryWebAPI.Dtos.Book
+namespace LibraryWebAPI.Dtos.BookDto
 {
     public class Book_GetDto : Book_Dto_Base
     {

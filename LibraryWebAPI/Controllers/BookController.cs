@@ -1,4 +1,4 @@
-﻿using LibraryWebAPI.Dtos.Book;
+﻿using LibraryWebAPI.Dtos.BookDto;
 using LibraryWebAPI.Parameters.Book;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;

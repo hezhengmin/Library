@@ -2,11 +2,9 @@
 
 namespace LibraryWebAPI.Dtos.Responses
 {
-    public class AccountResponse
+    public class AccountResponse : BaseResponse
     {
         public string JwtToken { get; set; }
-        public bool Success { get; set; }
-        public List<string> Errors { get; set; }
-        public object account { get; set; }
+        public object Account { get; set; }
     }
 }

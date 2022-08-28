@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace LibraryWebAPI.Dtos.Book
+namespace LibraryWebAPI.Dtos.BookDto
 {
     public class Book_PostDto : Book_Dto_Base
     {
