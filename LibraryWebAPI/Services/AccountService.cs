@@ -1,5 +1,6 @@
 ﻿using LibraryWebAPI.Dtos.AccountDto;
 using LibraryWebAPI.Dtos.Responses;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -132,6 +133,26 @@ namespace LibraryWebAPI.Services
                     Email = x.Email
                 }
             ).ToListAsync();
+        }
+
+        public async Task<bool> Update(Guid id, JsonPatchDocument<Account> patchEntity)
+        {
+            var account = await Get(id);
+            //無此帳號
+            if (account == null) return false;
+
+            patchEntity.ApplyTo(account);
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public async Task<bool> Update(Account_PutDto entity)

@@ -3,6 +3,7 @@ using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Helpers;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -84,6 +85,23 @@ namespace LibraryWebAPI.Controllers
             //更新成功
             return NoContent();
         }
+
+        /// <summary>
+        /// 部分更新
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<Account> patchEntity)
+        {
+            //https://docs.microsoft.com/zh-tw/aspnet/core/web-api/jsonpatch?view=aspnetcore-5.0
+            var result = await _accountService.Update(id, patchEntity);
+            if (!result) return BadRequest("更新失敗");
+            //更新成功
+            return NoContent();
+        }
+
 
         /// <summary>
         /// 刪除帳號
