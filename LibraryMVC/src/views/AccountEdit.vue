@@ -52,7 +52,13 @@
                         }
                     })
                     .then((response) => {
-                        console.log(response.data);
+                        console.log(typeof(response.status));
+                        if (response.status === 204) {
+                            alert("更新成功");
+                        }
+                        else {
+                            alert("更新失敗");
+                        }
                     })
                     .catch((error) => {
                         console.log(error);

@@ -1,16 +1,17 @@
 ﻿<template>
     <div id="app">
-        <login></login>
+        <Navigation/>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
-    import Login from '../src/views/Login.vue'
+    import Navigation from "../src/components/Navigation.vue";
     import { mapActions } from 'vuex';
     export default {
         name: "App",
         components: {
-            Login
+            Navigation
         },
         methods: {
             ...mapActions([
