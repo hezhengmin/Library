@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         count: 0,
-        jwtToken: ''
+        //登入成功的token
+        jwtToken: '' 
     },
     mutations: {
         increment(state) {

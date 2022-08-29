@@ -21,7 +21,7 @@
 </template>
 <script>
     export default {
-        name: "account-edit",
+        name: "AccountEdit",
         data() {
             return {
                 email: '',

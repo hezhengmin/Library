@@ -20,7 +20,7 @@
     import mixin from "../mixin.js";
 
     export default {
-        name: "login-component",
+        name: "Login",
         mixins: [mixin],
         data() {
             return {
