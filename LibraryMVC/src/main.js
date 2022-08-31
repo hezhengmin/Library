@@ -17,7 +17,7 @@ Vue.use(Router);//路由
 
 const router = new Router({
     routes,
-    mode: 'history'
+    mode: 'history' //省略井字號，不寫預設hash模式 (#)
 });
 
 new Vue({

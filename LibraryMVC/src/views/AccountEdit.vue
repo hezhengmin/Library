@@ -1,6 +1,6 @@
 ﻿<template>
     <div>
-        <h1>帳號編輯</h1>
+        <h1>帳號編輯 {{ $route.params.id }}</h1>
         <form @submit.prevent="updateEmail">
             電子郵件：<input type="email" v-model="email" required />
             <br />

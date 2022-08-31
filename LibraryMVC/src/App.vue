@@ -15,12 +15,15 @@
         },
         methods: {
             ...mapActions([
-                'fetchAccessToken'
+                'fetchAccessToken',
+                'fetchAccessAccount'
             ]),
         },
         created() {
             //之前有登入，從localStorage設定token
             this.fetchAccessToken();
+            //使用者資訊
+            this.fetchAccessAccount();
         }
     };
 </script>

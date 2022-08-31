@@ -4,11 +4,15 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+    //儲存狀態
     state: {
         count: 0,
         //登入成功的token
-        jwtToken: '' 
+        jwtToken: '',
+        //使用者基本資訊
+        accountInfo: {}
     },
+    //由Mutations去更改State
     mutations: {
         increment(state) {
             state.count++
@@ -16,11 +20,19 @@ export default new Vuex.Store({
         //token 
         setJwtToken(state, token) {
             state.jwtToken = token;
+        },
+        setAccountInfo(state, account) {
+            console.log(`setAccountInfo`,account);
+            state.accountInfo = JSON.parse(account);
         }
     },
+    // Commit去呼叫Mutations
     actions: {
         fetchAccessToken({ commit }) {
             commit('setJwtToken', localStorage.getItem('jwtToken'));
+        },
+        fetchAccessAccount({ commit }) {
+            commit('setAccountInfo', localStorage.getItem('account'));
         }
     }
 })

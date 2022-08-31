@@ -44,6 +44,20 @@
                             //localStorage 存 jwtToken
                             localStorage.setItem('jwtToken', response.data.jwtToken);
                             this.$store.commit('setJwtToken', response.data.jwtToken);
+
+
+                            let accountInfo = JSON.stringify(response.data.account);
+                            console.log(`accountInfo： ${accountInfo} ${typeof (accountInfo)}`);
+
+                            localStorage.setItem('account', accountInfo);
+
+                            this.$store.commit('setAccountInfo', accountInfo);
+
+                            //登入後回主頁
+                            //this.$router.push("/Home/Index");
+
+
+                            //this.$router.push({ name: 'AccountEdit', params: { id: response.data.account.id } })
                         }
                     })
                     .catch((error) => {
