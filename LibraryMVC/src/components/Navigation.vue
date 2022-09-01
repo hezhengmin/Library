@@ -6,7 +6,8 @@
         <li>
             <router-link to="/Home/SignUp">註冊帳號</router-link>
         </li>
-        <li>
+        <!--未登入不能編輯-->
+        <li v-if="hasAccountInfo">
             <router-link :to="{ 
                          name: 'AccountEdit', 
                          params: { id: primaryKeyId } 
@@ -21,8 +22,12 @@
   export default {
         name: 'Navigation',
         computed: {
+            //帳號的主key
             primaryKeyId() {
                 return this.$store.state.accountInfo.id
+            },
+            hasAccountInfo() {
+                return this.$store.state.accountInfo !== null;
             }
         },
         methods: {

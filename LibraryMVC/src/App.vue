@@ -16,7 +16,8 @@
         methods: {
             ...mapActions([
                 'fetchAccessToken',
-                'fetchAccessAccount'
+                'fetchAccessAccount',
+                'fetchAccessIsLogin' 
             ]),
         },
         created() {
@@ -24,6 +25,8 @@
             this.fetchAccessToken();
             //使用者資訊
             this.fetchAccessAccount();
+            //存取是否登入
+            this.fetchAccessIsLogin();
         }
     };
 </script>

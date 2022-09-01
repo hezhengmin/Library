@@ -156,5 +156,25 @@ namespace LibraryWebAPI.Controllers
                 });
             }
         }
+
+        /// <summary>
+        /// 重設密碼
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] Account_ResetPasswordDto entity)
+        {
+
+            var result = await _accountService.UpdatePassword(entity);
+            if (!result)
+            {
+                return StatusCode(500, "存取發生錯誤");
+            }
+
+            //更新成功
+            return NoContent();
+        }
+
     }
 }

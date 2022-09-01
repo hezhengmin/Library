@@ -231,5 +231,54 @@ namespace LibraryWebAPI.Services
             return account;
         }
 
+
+        /// <summary>
+        /// 驗證舊密碼
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public async Task<bool> CheckOldPassowrd(Guid id, string password)
+        {
+
+            var account = await Get(id);
+            //無帳號，回傳false
+            if (account == null) return false;
+            //舊密碼
+            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(password);
+
+            if(!account.Password.CompareByteArray(hashBytes)) return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 更新密碼
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdatePassword(Account_ResetPasswordDto entity)
+        {
+            var account = await Get(entity.Id);
+            //無此帳號
+            if (account == null) return false;
+
+            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(entity.NewPassword);
+
+            //更新欄位
+            account.Password = hashBytes;
+
+            try
+            {
+                _context.Entry(account).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

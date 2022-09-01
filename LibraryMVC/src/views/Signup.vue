@@ -12,7 +12,7 @@
 </template>
 <script>
     export default {
-        name: "Signup",
+        name: "SignUp",
         data() {
             return {
                 accountId: '',

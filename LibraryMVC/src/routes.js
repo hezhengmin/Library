@@ -1,5 +1,5 @@
 ﻿import Login from '../src/views/Login.vue'
-import Signup from '../src/views/Signup.vue'
+import SignUp from '../src/views/SignUp.vue'
 import AccountEdit from '../src/views/AccountEdit.vue'
 import Index from '../src/views/Index.vue'
 
@@ -8,12 +8,13 @@ export const routes = [
     {
         //登入頁面
         path: '/Home/Login',
-        component: Login
+        component: Login,
+        name : 'Login'
     },
     {
         //註冊帳號
-        path: '/Home/Signup',
-        component: Signup
+        path: '/Home/SignUp',
+        component: SignUp 
     },
     {
         //帳號更改頁面，信箱、密碼
@@ -26,8 +27,10 @@ export const routes = [
         component: Index
     },
     {
-        //無效網址，都導向根路徑
+        //無效網址，都導向首頁
         path: '*',
         redirect: '/Home/Index',
     }
 ];
+
+

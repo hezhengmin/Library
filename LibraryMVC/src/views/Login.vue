@@ -30,7 +30,7 @@
         },
         methods: {
             login() {
-                console.log(`accountId ${this.accountId} password ${this.password}`);
+                //console.log(`accountId ${this.accountId} password ${this.password}`);
                 this.$axios.post('https://localhost:44323/api/Account/Login',
                     {
                         accountId: this.accountId,
@@ -44,18 +44,17 @@
                             //localStorage 存 jwtToken
                             localStorage.setItem('jwtToken', response.data.jwtToken);
                             this.$store.commit('setJwtToken', response.data.jwtToken);
-
-
+                            //存User基本資訊
                             let accountInfo = JSON.stringify(response.data.account);
-                            console.log(`accountInfo： ${accountInfo} ${typeof (accountInfo)}`);
-
                             localStorage.setItem('account', accountInfo);
-
                             this.$store.commit('setAccountInfo', accountInfo);
+                            //存是否登入
+                            localStorage.setItem('isLogin', response.data.success);
+                            this.$store.commit('setIsLogin', response.data.success);
+
 
                             //登入後回主頁
-                            //this.$router.push("/Home/Index");
-
+                            this.$router.push("/Home/Index");
 
                             //this.$router.push({ name: 'AccountEdit', params: { id: response.data.account.id } })
                         }

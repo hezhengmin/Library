@@ -1,11 +1,12 @@
 ﻿<template>
     <div>
-        <h1>帳號編輯 {{ $route.params.id }}</h1>
+        <h1>帳號名稱：{{accountId}}</h1>
+        <h1>信箱編輯</h1>
         <form @submit.prevent="updateEmail">
             電子郵件：<input type="email" v-model="email" required />
             <br />
             <button type="submit">儲存</button>
-            {{$store.state.jwtToken}}
+            <!--{{$store.state.jwtToken}}-->
         </form>
         <h1>更改密碼</h1>
         <form @submit.prevent="updatePassword">
@@ -24,6 +25,7 @@
         name: "AccountEdit",
         data() {
             return {
+                accountId:'',
                 email: '',
                 oldPassword: '',
                 newPassword: '',
@@ -32,11 +34,10 @@
         },
         methods: {
             updateEmail() {
-                let id = '2309E8E9-1E85-4355-B7F1-9055891BB1B6';
+                let id = this.$route.params.id;
                 let url = `https://localhost:44323/api/Account/` + id;
                 let token = this.$store.state.jwtToken;
 
-                console.log(token);
                 this.$axios.patch(url,
                         [
                             {
@@ -52,7 +53,6 @@
                         }
                     })
                     .then((response) => {
-                        console.log(typeof(response.status));
                         if (response.status === 204) {
                             alert("更新成功");
                         }
@@ -68,8 +68,23 @@
             updatePassword() {
 
             }
-        }
+        },
+        created() {
 
+            this.$axios.get(`https://localhost:44323/api/Account/${this.$route.params.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.$store.state.jwtToken}`
+                    }
+                })
+                .then((response) => {
+                    this.accountId = response.data.accountId; 
+                    this.email = response.data.email; 
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     };
 </script>
 

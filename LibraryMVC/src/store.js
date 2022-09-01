@@ -10,7 +10,9 @@ export default new Vuex.Store({
         //登入成功的token
         jwtToken: '',
         //使用者基本資訊
-        accountInfo: {}
+        accountInfo: {},
+        //登入是否成功
+        isLogin: false,
     },
     //由Mutations去更改State
     mutations: {
@@ -22,8 +24,11 @@ export default new Vuex.Store({
             state.jwtToken = token;
         },
         setAccountInfo(state, account) {
-            console.log(`setAccountInfo`,account);
+            //console.log(`setAccountInfo`,account);
             state.accountInfo = JSON.parse(account);
+        },
+        setIsLogin(state, islogin) {
+            state.isLogin = islogin;
         }
     },
     // Commit去呼叫Mutations
@@ -33,6 +38,9 @@ export default new Vuex.Store({
         },
         fetchAccessAccount({ commit }) {
             commit('setAccountInfo', localStorage.getItem('account'));
+        },
+        fetchAccessIsLogin({ commit }) {
+            commit('setIsLogin', localStorage.getItem('isLogin'));
         }
     }
 })
