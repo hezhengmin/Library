@@ -18,6 +18,7 @@
 </template>
 <script>
     import mixin from "../mixin.js";
+    import { apiAccountLogin } from "../api/api.js";
 
     export default {
         name: "Login",
@@ -31,13 +32,12 @@
         methods: {
             login() {
                 //console.log(`accountId ${this.accountId} password ${this.password}`);
-                this.$axios.post('https://localhost:44323/api/Account/Login',
-                    {
+                apiAccountLogin({
                         accountId: this.accountId,
                         password: this.password
                     })
                     .then((response) => {
-                        console.log(response.data);
+                        //console.log(response.data);
                         if (response.data.success) {
                             alert("登入成功");
 
@@ -52,6 +52,8 @@
                             localStorage.setItem('isLogin', response.data.success);
                             this.$store.commit('setIsLogin', response.data.success);
 
+
+                            this.$axios.defaults.headers.common['Authorization'] = `Bearer ${this.$store.state.jwtToken}`
 
                             //登入後回主頁
                             this.$router.push("/Home/Index");

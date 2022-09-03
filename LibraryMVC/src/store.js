@@ -22,6 +22,8 @@ export default new Vuex.Store({
         //token 
         setJwtToken(state, token) {
             state.jwtToken = token;
+
+          
         },
         setAccountInfo(state, account) {
             //console.log(`setAccountInfo`,account);
@@ -41,6 +43,11 @@ export default new Vuex.Store({
         },
         fetchAccessIsLogin({ commit }) {
             commit('setIsLogin', localStorage.getItem('isLogin'));
+        }
+    },
+    getters: {
+        getJwtToken(state) {
+            return state.jwtToken;
         }
     }
 })

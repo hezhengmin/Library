@@ -162,7 +162,7 @@ namespace LibraryWebAPI.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        [HttpPost("ResetPassword")]
+        [HttpPut("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] Account_ResetPasswordDto entity)
         {
 

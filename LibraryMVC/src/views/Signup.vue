@@ -29,13 +29,12 @@
                         email: this.email
                     })
                     .then((response) => {
-                        console.log(response.data);
+
                         if (response.data.success) {
                             alert("註冊成功");
                         }
                         else {
                             alert(response.data.errors.join('\n'));
-
                         }
                     })
                     .catch((error) => {

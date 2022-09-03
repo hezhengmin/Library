@@ -1,4 +1,6 @@
 ﻿<template>
+
+
     <div>
         <h1>帳號名稱：{{accountId}}</h1>
         <h1>信箱編輯</h1>
@@ -21,6 +23,7 @@
     </div>
 </template>
 <script>
+    import { apiAccountEmailEdit, apiAccountGet } from "../api/api.js";
     export default {
         name: "AccountEdit",
         data() {
@@ -34,24 +37,15 @@
         },
         methods: {
             updateEmail() {
-                let id = this.$route.params.id;
-                let url = `https://localhost:44323/api/Account/` + id;
-                let token = this.$store.state.jwtToken;
 
-                this.$axios.patch(url,
-                        [
-                            {
-                                "op": "replace",
-                                "path": "/email",
-                                "value": this.email
-                            }
-                        ]
-                    ,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
+                this.$axios.patch(`https://localhost:44323/api/Account/${this.$route.params.id}`,
+                    [
+                        {
+                            "op": "replace",
+                            "path": "/email",
+                            "value": this.email
                         }
-                    })
+                    ])
                     .then((response) => {
                         if (response.status === 204) {
                             alert("更新成功");
@@ -71,19 +65,24 @@
         },
         created() {
 
-            this.$axios.get(`https://localhost:44323/api/Account/${this.$route.params.id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.$store.state.jwtToken}`
-                    }
-                })
+
+            this.$axios.get(`https://localhost:44323/api/Account/${this.$route.params.id}`)
                 .then((response) => {
-                    this.accountId = response.data.accountId; 
-                    this.email = response.data.email; 
+                    this.accountId = response.data.accountId;
+                    this.email = response.data.email;
                 })
                 .catch((error) => {
                     console.log(error);
                 })
+
+            //apiAccountGet(this.$route.params.id)
+            //    .then((response) => {
+            //        this.accountId = response.data.accountId; 
+            //        this.email = response.data.email; 
+            //    })
+            //    .catch((error) => {
+            //        console.log(error);
+            //    })
         }
     };
 </script>

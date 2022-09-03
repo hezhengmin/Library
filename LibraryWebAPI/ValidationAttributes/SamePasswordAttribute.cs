@@ -9,6 +9,11 @@ namespace LibraryWebAPI.ValidationAttributes
         {
             var dto = (Account_ResetPasswordDto)value;
 
+            if (dto.OldPassword == dto.NewPassword)
+            {
+                return new ValidationResult("新密碼不能跟舊密碼一樣", new[] { "NewPassword" });
+            }
+
             if (dto.NewPassword != dto.ConfirmPassword)
             {
                 return new ValidationResult("新密碼要等於確認密碼", new[] { "ConfirmPassword" });

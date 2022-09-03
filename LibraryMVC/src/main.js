@@ -1,13 +1,11 @@
 ﻿import Vue from 'vue'
 import axios from 'axios'
 import Router from "vue-router";
-
 import App from "./App.vue";
-
-
 /*Vuex 共享資訊*/
 import store from './store.js'
 import { routes } from './routes.js' //路由規則
+
 
 Vue.prototype.$axios = axios;
 Vue.use(Router);//路由
@@ -20,7 +18,7 @@ const router = new Router({
 
 //導航守衛
 router.beforeEach((to, from, next) => {
-    console.log(to, from);
+    //console.log(to, from);
 
     //不用驗證的頁面
     const publicPages = ['/Home/Login', '/Home/SignUp'];
@@ -29,7 +27,7 @@ router.beforeEach((to, from, next) => {
     //登入是不是成功
     const loggedIn = localStorage.getItem('isLogin');
 
-    console.log(authRequired, typeof (loggedIn), loggedIn);
+    //console.log(authRequired, typeof (loggedIn), loggedIn);
 
 
     if (authRequired && (loggedIn === null || loggedIn==='false')) {

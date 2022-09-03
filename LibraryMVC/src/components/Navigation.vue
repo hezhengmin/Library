@@ -8,12 +8,15 @@
         </li>
         <!--未登入不能編輯-->
         <li v-if="hasAccountInfo">
-            <router-link :to="{ 
-                         name: 'AccountEdit', 
-                         params: { id: primaryKeyId } 
+            <router-link :to="{
+                         name: 'AccountEdit',
+                         params: { id: primaryKeyId }
                          }">
-            帳號編輯
+                帳號編輯
             </router-link>
+        </li>
+        <li v-if="hasAccountInfo">
+            <a href="" @click="signOut">登出</a>
         </li>
     </ul>
 </template>
@@ -31,7 +34,9 @@
             }
         },
         methods: {
-            
+            signOut() {
+                localStorage.clear();
+            }
         }
   }
 </script>
