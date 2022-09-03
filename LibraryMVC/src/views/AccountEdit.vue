@@ -35,6 +35,7 @@
 
         },
         methods: {
+            //更新電子郵件
             updateEmail() {
 
                 this.$axios.patch(`https://localhost:44323/api/Account/${this.$route.params.id}`,

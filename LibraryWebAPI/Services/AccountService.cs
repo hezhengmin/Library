@@ -1,25 +1,29 @@
 ﻿using LibraryWebAPI.Dtos.AccountDto;
 using LibraryWebAPI.Dtos.Responses;
+using LibraryWebAPI.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 using Zheng.Utilities.Compare;
 using Zheng.Utilities.Cryptography;
+using Zheng.Utilities.Randomized;
 
 namespace LibraryWebAPI.Services
 {
     public class AccountService
     {
         private readonly LibraryDbContext _context;
-
-        public AccountService(LibraryDbContext context)
+        private readonly EmailSenderHelper _emailSenderHelper;
+        public AccountService(LibraryDbContext context, EmailSenderHelper emailSenderHelper)
         {
             _context = context;
+            _emailSenderHelper = emailSenderHelper;
         }
 
         /// <summary>
@@ -123,6 +127,12 @@ namespace LibraryWebAPI.Services
             #endregion
         }
 
+
+        public async Task<Account> GetByEmail(string email)
+        {
+            return await _context.Accounts.SingleOrDefaultAsync(x => x.Email == email);
+        
+        }
         public async Task<List<Account_GetDto>> Get()
         {
             return await _context.Accounts
@@ -280,5 +290,70 @@ namespace LibraryWebAPI.Services
 
             return true;
         }
+
+
+        /// <summary>
+        /// 忘記密碼(寄信給新的亂數密碼)
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<ForgetPasswordResponse> ForgetPassword(Account_ForgetPasswordDto entity)
+        {
+            var response = new ForgetPasswordResponse();
+            var account = await GetByEmail(entity.Email);
+
+            //無此帳號
+            if (account == null)
+            {
+                response.Success = false;
+                response.Errors.Add("帳號不存在");
+                return response;
+            }
+
+            string newPassword = RandomExtensions.GetRandom();
+            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(newPassword);
+
+            var subject = "【Library】申請重設登入密碼回覆";
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"親愛的Library會員 {account.AccountId} 你好：\n");
+            sb.AppendLine($"重新設定您的Library密碼：{newPassword}");
+            sb.AppendLine("再以此密碼登入Library。");
+            sb.AppendLine("感謝您對Library的支持與愛護。\n\n");
+            sb.AppendLine("Library客服人員 敬上\n\n");
+            sb.AppendLine("--");
+            sb.AppendLine("※ 此信件為系統發出信件，請勿直接回覆，感謝您的配合。謝謝！※");
+
+            var isSendSucess = _emailSenderHelper.Send(subject, sb.ToString(), account.AccountId, account.Email);
+
+            //寄信有無成功
+            if (!isSendSucess)
+            {
+                response.Success = false;
+                response.Errors.Add("寄信不成功");
+                return response;
+            }
+
+            //更新欄位
+            account.Password = hashBytes;
+            
+            try
+            {
+                _context.Entry(account).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+
+                //新增失敗
+                response.Success = false;
+                response.Errors.Add($"資料庫更新失敗，{ex.ToString()}");
+                return response;
+            }
+
+            response.Success = true;
+            return response;
+        }
+
     }
 }

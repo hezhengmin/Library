@@ -71,6 +71,9 @@ namespace LibraryWebAPI
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<JwtHelper>();
+            //SMTP寄信服務
+            services.AddSingleton<EmailSenderHelper>();
+            
             services.AddScoped<AccountService>();
             services.AddScoped<BookService>();
             //登入的帳號資訊

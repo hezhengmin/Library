@@ -6,6 +6,17 @@
 PS D:\Github\Library> cd LibraryMVC
 PS D:\Github\Library\LibraryMVC> npm install
 ```
+## 執行的命令
+```
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.2.6
+** Copyright (c) 2022 Microsoft Corporation
+**********************************************************************
+
+D:\Github\Library>cd librarymvc
+
+D:\Github\Library\LibraryMVC>npm run watch
+```
 
 ## 安裝套件
 * npm install axios

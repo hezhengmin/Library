@@ -176,5 +176,13 @@ namespace LibraryWebAPI.Controllers
             return NoContent();
         }
 
+        [AllowAnonymous]
+        [HttpPost("ForgetPassword")]
+        public async Task<IActionResult> ForgetPassword([FromBody] Account_ForgetPasswordDto entity)
+        {
+            var response = await _accountService.ForgetPassword(entity);
+
+            return Ok(response);
+        }
     }
 }
