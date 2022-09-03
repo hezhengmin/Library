@@ -1,6 +1,7 @@
 ﻿import Login from '../src/views/Login.vue'
 import SignUp from '../src/views/SignUp.vue'
 import AccountEdit from '../src/views/AccountEdit.vue'
+import ForgetPassword from '../src/views/ForgetPassword.vue'
 import Index from '../src/views/Index.vue'
 
 
@@ -25,6 +26,10 @@ export const routes = [
     {
         path: '/Home/Index',
         component: Index
+    },
+    {
+        path: '/Home/ForgetPassword',
+        component: ForgetPassword
     },
     {
         //無效網址，都導向首頁

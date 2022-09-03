@@ -53,10 +53,10 @@ namespace LibraryMVC.Controllers
         }
 
         /// <summary>
-        /// 帳號編輯(密碼、信箱)
+        /// 忘記密碼(寄信)
         /// </summary>
         /// <returns></returns>
-        public IActionResult Account_Edit()
+        public IActionResult ForgetPassword()
         {
             return View();
         }

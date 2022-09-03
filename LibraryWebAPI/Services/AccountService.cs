@@ -306,7 +306,14 @@ namespace LibraryWebAPI.Services
             if (account == null)
             {
                 response.Success = false;
-                response.Errors.Add("帳號不存在");
+                response.Errors.Add("查無此信箱，帳號不存在");
+                return response;
+            }
+
+            if(account.AccountId != entity.AccountId)
+            {
+                response.Success = false;
+                response.Errors.Add("信箱找不到相符合的帳號");
                 return response;
             }
 

@@ -18,7 +18,7 @@ const router = new Router({
 //導航守衛
 router.beforeEach((to, from, next) => {
     //不用驗證的頁面
-    const publicPages = ['/Home/Login', '/Home/SignUp'];
+    const publicPages = ['/Home/Login', '/Home/SignUp', '/Home/ForgetPassword'];
     //頁面是否要驗證
     const authRequired = !publicPages.includes(to.path);
     //登入是不是成功

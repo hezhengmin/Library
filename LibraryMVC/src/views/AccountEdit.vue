@@ -1,13 +1,13 @@
 ﻿<template>
     <div>
-        <h1>帳號名稱：{{accountId}}</h1>
-        <h1>信箱編輯</h1>
+        <h2>帳號名稱：{{accountId}}</h2>
+        <h2>信箱編輯</h2>
         <form @submit.prevent="updateEmail">
             電子郵件：<input type="email" v-model="email" required />
             <br />
             <button type="submit">儲存</button>
         </form>
-        <h1>更改密碼</h1>
+        <h2>更改密碼</h2>
         <form @submit.prevent="updatePassword">
             舊密碼：<input type="password" v-model="oldPassword" required />
             <br />

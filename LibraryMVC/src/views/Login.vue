@@ -1,5 +1,6 @@
 ﻿<template>
     <div class="login">
+        <h2>帳號登入</h2>
         <form @submit.prevent="login">
             帳號：<input type="text" v-model="accountId" required />
             <br />
@@ -7,6 +8,8 @@
             <br />
             <button type="submit">登入</button>
             <router-link to="/Home/SignUp">註冊帳號</router-link>
+            <router-link to="/Home/ForgetPassword">忘記密碼</router-link>
+
         </form>
     </div>
 </template>
