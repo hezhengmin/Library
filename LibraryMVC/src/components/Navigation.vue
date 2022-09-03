@@ -1,13 +1,11 @@
 ﻿<template>
-    <ul>
+    <ul v-if="hasAccountInfo">
         <li>
             <router-link to="/Home/Index">首頁</router-link>
         </li>
-        <li>
-            <router-link to="/Home/SignUp">註冊帳號</router-link>
-        </li>
+        
         <!--未登入不能編輯-->
-        <li v-if="hasAccountInfo">
+        <li>
             <router-link :to="{
                          name: 'AccountEdit',
                          params: { id: primaryKeyId }

@@ -6,19 +6,12 @@
             密碼：<input type="password" v-model="password" required />
             <br />
             <button type="submit">登入</button>
+            <router-link to="/Home/SignUp">註冊帳號</router-link>
         </form>
-        <button type="button" @click="addAccount">新增帳號</button>
-        <hr />
-        <button type="button" @click="addNum">num++</button>
-        {{num}}
-
-        <button type="button" @click="increment">increment</button>
-        {{$store.state.count}}
     </div>
 </template>
 <script>
     import mixin from "../mixin.js";
-    import { apiAccountLogin } from "../api/api.js";
 
     export default {
         name: "Login",
@@ -31,13 +24,12 @@
         },
         methods: {
             login() {
-                //console.log(`accountId ${this.accountId} password ${this.password}`);
-                apiAccountLogin({
+                this.$axios.post('https://localhost:44323/api/Account/Login', {
                         accountId: this.accountId,
                         password: this.password
                     })
                     .then((response) => {
-                        //console.log(response.data);
+
                         if (response.data.success) {
                             alert("登入成功");
 
@@ -57,22 +49,12 @@
 
                             //登入後回主頁
                             this.$router.push("/Home/Index");
-
-                            //this.$router.push({ name: 'AccountEdit', params: { id: response.data.account.id } })
                         }
                     })
                     .catch((error) => {
                         alert(error.response.data.errors.join('\n'));
                     })
             },
-            //新增帳密
-            addAccount() {
-                
-            },
-            increment() {
-                this.$store.commit('increment')
-                console.log(this.$store.state.count)
-            }
         }
     };
 </script>

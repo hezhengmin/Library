@@ -6,8 +6,6 @@
         <br />
         電子郵件：<input type="email" v-model="email" required />
         <button type="submit">註冊帳號</button>
-        <button type="button" @click="$store.commit('increment')">increment</button>
-        {{$store.state.count}}
     </form>
 </template>
 <script>
@@ -32,6 +30,9 @@
 
                         if (response.data.success) {
                             alert("註冊成功");
+
+                            //回登入頁
+                            this.$router.push("/Home/Login");
                         }
                         else {
                             alert(response.data.errors.join('\n'));
