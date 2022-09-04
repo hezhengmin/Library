@@ -1,11 +1,14 @@
 ﻿<template>
     <form @submit.prevent="signup">
+        <h2>註冊帳號</h2>
         帳號：<input type="text" v-model="accountId" required />
         <br />
         密碼：<input type="password" v-model="password" required />
         <br />
         電子郵件：<input type="email" v-model="email" required />
-        <button type="submit">註冊帳號</button>
+        <br />
+        <button type="submit">確認</button>
+        <router-link to="/Home/Login">回登入頁</router-link>
     </form>
 </template>
 <script>

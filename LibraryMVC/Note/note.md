@@ -36,6 +36,10 @@ vuex 紀錄 token、使用者資訊
 ```
 vue-router 路由
 ```
+* npm install vuejs-paginate --save
+```
+A Vue.js(v2.x+) component to make pagination.
+```
 ## 移除套件
 * npm uninstall vue-loader
 * npm rm \<package name\>

@@ -4,10 +4,14 @@ import Router from "vue-router";
 import App from "./App.vue";
 import store from './store.js' //Vuex 共享資訊
 import { routes } from './routes.js' //路由規則
+import Paginate from 'vuejs-paginate'
 
 
 Vue.prototype.$axios = axios;
 Vue.use(Router);//路由
+Vue.component('paginate', Paginate) //分頁
+
+
 
 const router = new Router({
     routes,
@@ -42,6 +46,7 @@ axios.interceptors.response.use(function (response) {
     if (error.response.status === 401) {
         localStorage.clear();
         router.push({ name: "Login" });
+        store.commit('setIsLogin', false);
     }
     return Promise.reject(error);
 });

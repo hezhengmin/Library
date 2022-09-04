@@ -6,7 +6,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     //儲存狀態
     state: {
-        count: 0,
         //登入成功的token
         jwtToken: '',
         //使用者基本資訊
@@ -16,14 +15,9 @@ export default new Vuex.Store({
     },
     //由Mutations去更改State
     mutations: {
-        increment(state) {
-            state.count++
-        },
         //token 
         setJwtToken(state, token) {
             state.jwtToken = token;
-
-          
         },
         setAccountInfo(state, account) {
             //console.log(`setAccountInfo`,account);
@@ -48,6 +42,9 @@ export default new Vuex.Store({
     getters: {
         getJwtToken(state) {
             return state.jwtToken;
-        }
+        },
+        getIsLogin(state) {
+            return state.isLogin;
+        },
     }
 })

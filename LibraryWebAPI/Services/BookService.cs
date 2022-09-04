@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryWebAPI.Abstract.BookPhoto;
 using LibraryWebAPI.Dtos.BookDto;
+using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
 using Microsoft.EntityFrameworkCore;
@@ -99,7 +100,7 @@ namespace LibraryWebAPI.Services
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public async Task<List<Book_GetDto>> Get(BookSelectParameter filter)
+        public async Task<PagedResponse<List<Book_GetDto>>> Get(BookSelectParameter filter)
         {
             var query = _context.Books
                 .Include(x => x.BookPhotos)
@@ -125,13 +126,16 @@ namespace LibraryWebAPI.Services
                 query = query.Where(x => x.CreatedAt.Date == filter.CreateAt);
             }
 
+            var totalRecords = query.Count();
+
+
             if (filter.PaginationFilter != null)
             {
                 query = query.Skip((filter.PaginationFilter.PageNumber - 1) * filter.PaginationFilter.PageSize)
                                .Take(filter.PaginationFilter.PageSize);
             }
 
-            return await query.Select(x => new Book_GetDto
+            var List = await query.Select(x => new Book_GetDto
             {
                 Id = x.Id,
                 BookPhotos = x.BookPhotos.Select(y => new BookPhoto_Dto_Base
@@ -170,6 +174,13 @@ namespace LibraryWebAPI.Services
                 Restriction = x.Restriction,
                 CeasedDate = x.CeasedDate
             }).ToListAsync();
+
+            return new PagedResponse<List<Book_GetDto>>
+            {
+                Data = List,
+                TotalRecords = totalRecords,
+                TotalPages = (int)Math.Ceiling(totalRecords / (double)filter.PaginationFilter.PageSize)
+            };
         }
         public async Task<Book> Add(Book_PostDto entity)
         {

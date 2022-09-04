@@ -3,6 +3,8 @@ import SignUp from '../src/views/SignUp.vue'
 import AccountEdit from '../src/views/AccountEdit.vue'
 import ForgetPassword from '../src/views/ForgetPassword.vue'
 import Index from '../src/views/Index.vue'
+import BookIndex from '../src/views/Book/BookIndex.vue'
+
 
 
 export const routes = [
@@ -24,10 +26,12 @@ export const routes = [
         name: 'AccountEdit'
     },
     {
+        //首頁
         path: '/Home/Index',
         component: Index
     },
     {
+        //忘記密碼頁面
         path: '/Home/ForgetPassword',
         component: ForgetPassword
     },
@@ -35,7 +39,11 @@ export const routes = [
         //無效網址，都導向首頁
         path: '*',
         redirect: '/Home/Index',
-    }
+    },
+    {
+        path: '/Book/Book_Index',
+        component: BookIndex
+    },
 ];
 
 

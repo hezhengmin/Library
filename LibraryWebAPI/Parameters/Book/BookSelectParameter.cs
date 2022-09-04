@@ -18,6 +18,6 @@ namespace LibraryWebAPI.Parameters.Book
         /// 新增時間
         /// </summary>
         public DateTime? CreateAt { get; set; }
-        public PaginationFilter PaginationFilter { get; set; }
+        public PaginationFilter PaginationFilter { get; set; } = new PaginationFilter();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LibraryWebAPI.Dtos.BookDto;
+using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Parameters.Book;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +30,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="filter"></param>
         /// <returns></returns>
         [HttpPost("List")]
-        public async Task<ActionResult<List<Book_GetDto>>> Get([FromBody] BookSelectParameter filter)
+        public async Task<ActionResult<PagedResponse<List<Book_GetDto>>>> Get([FromBody] BookSelectParameter filter)
         {
             return await _bookService.Get(filter);
         }
