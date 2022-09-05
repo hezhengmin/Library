@@ -1,30 +1,33 @@
 ﻿<template>
-    <ul v-if="hasAccountInfo && hasIsLogin">
-        <li>
-            <router-link to="/Home/Index">首頁</router-link>
-        </li>
-
-        <!--未登入不能編輯-->
-        <li>
-            <router-link :to="{
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="hasAccountInfo && hasIsLogin">
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <router-link to="/Home/Index" class="nav-link">首頁</router-link>
+                </li>
+                <!--未登入不能編輯-->
+                <li class="nav-item">
+                    <router-link :to="{
                          name: 'AccountEdit',
                          params: { id: primaryKeyId }
-                         }">
-                帳號編輯
-            </router-link>
-        </li>
-        <li v-if="hasAccountInfo">
-            <a href="" @click="signOut">登出</a>
-        </li>
+                         }" class="nav-link">
+                        帳號編輯
+                    </router-link>
+                </li>
+                <li v-if="hasAccountInfo" class="nav-item">
+                    <a href="" class="nav-link" @click="signOut">登出</a>
+                </li>
 
-        <li>
-            <router-link to="/Book/Book_Index">書籍</router-link>
-        </li>
-    </ul>
+                <li class="nav-item">
+                    <router-link to="/Book/Book_Index" class="nav-link">書籍</router-link>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </template>
 
 <script>
-  export default {
+    export default {
         name: 'Navigation',
         computed: {
             //帳號的主key
@@ -43,7 +46,7 @@
                 localStorage.clear();
             }
         }
-  }
+    }
 </script>
 
 <style>

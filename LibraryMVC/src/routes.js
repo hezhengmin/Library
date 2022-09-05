@@ -4,6 +4,8 @@ import AccountEdit from '../src/views/AccountEdit.vue'
 import ForgetPassword from '../src/views/ForgetPassword.vue'
 import Index from '../src/views/Index.vue'
 import BookIndex from '../src/views/Book/BookIndex.vue'
+import BookEdit from '../src/views/Book/BookEdit.vue'
+
 
 
 
@@ -43,6 +45,11 @@ export const routes = [
     {
         path: '/Book/Book_Index',
         component: BookIndex
+    },
+    {
+        path: '/Book/Book_Edit/:id',
+        component: BookEdit,
+        name:'BookEdit'
     },
 ];
 

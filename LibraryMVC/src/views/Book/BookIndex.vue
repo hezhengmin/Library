@@ -1,12 +1,16 @@
 ﻿<template>
-    <div>
+    <div class="container-fluid">
         <h2>圖書</h2>
-        <form @submit.prevent="search">
-            書名：<input type="text" v-model="title" />
-            <br />
-            ISBN：<input type="text" v-model="isbn" />
-            <br />
-            <button type="submit">搜尋</button>
+        <form @submit.prevent="search" class="row">
+            <div class="col-auto">
+                書名：<input type="text" v-model="title" class="form-control" />
+            </div>
+            <div class="col-auto">
+                ISBN：<input type="text" v-model="isbn" class="form-control" />
+            </div>
+            <div class="col-12 mt-2">
+                <button type="submit" class="btn btn-primary">搜尋</button>
+            </div>
         </form>
         <paginate v-model="pageNumber"
                   :page-count="totalPages"
@@ -16,8 +20,10 @@
                   :container-class="'pagination'"
                   :page-class="'page-item'">
         </paginate>
+
         總筆數{{totalRecords}}
-        <table border="1">
+
+        <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>#</th>
@@ -35,7 +41,15 @@
                     <td>{{item.isbn}}</td>
                     <td>{{item.publisher}}</td>
                     <td>{{item.publishDate}}</td>
-                    <td></td>
+                    <td>
+
+                        <router-link :to="{
+                                 name: 'BookEdit',
+                                 params: { id: item.id }
+                                 }">
+                            編輯
+                        </router-link>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -79,6 +93,7 @@
                     })
             },
             search() {
+                //搜尋後，從第一頁開始
                 this.pageNumber = 1;
                 this.getBookList();
             }

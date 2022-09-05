@@ -1,4 +1,5 @@
-﻿import Vue from 'vue'
+﻿import './scss/main.scss';//bootstrap
+import Vue from 'vue'
 import axios from 'axios'
 import Router from "vue-router";
 import App from "./App.vue";
@@ -7,11 +8,10 @@ import { routes } from './routes.js' //路由規則
 import Paginate from 'vuejs-paginate'
 
 
+
 Vue.prototype.$axios = axios;
 Vue.use(Router);//路由
 Vue.component('paginate', Paginate) //分頁
-
-
 
 const router = new Router({
     routes,

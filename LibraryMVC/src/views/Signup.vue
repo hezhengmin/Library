@@ -1,15 +1,29 @@
 ﻿<template>
-    <form @submit.prevent="signup">
+    <div class="container signup">
         <h2>註冊帳號</h2>
-        帳號：<input type="text" v-model="accountId" required />
-        <br />
-        密碼：<input type="password" v-model="password" required />
-        <br />
-        電子郵件：<input type="email" v-model="email" required />
-        <br />
-        <button type="submit">確認</button>
-        <router-link to="/Home/Login">回登入頁</router-link>
-    </form>
+        <form @submit.prevent="signup">
+            <div class="mb-2">
+                <div class="d-inline-flex">
+                    <label class="form-label fs-5">帳號</label>
+                    <input type="text" v-model="accountId" class="form-control" required />
+                </div>
+            </div>
+            <div class="mb-2">
+                <div class="d-inline-flex">
+                    <label class="form-label fs-5">密碼</label>
+                    <input type="password" v-model="password" class="form-control" required />
+                </div>
+            </div>
+            <div class="mb-2">
+                <div class="d-inline-flex">
+                    <label class="form-label fs-5">電子郵件</label>
+                    <input type="email" v-model="email" class="form-control" required />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">確認</button>
+            <router-link to="/Home/Login" class="link-danger">回登入頁</router-link>
+        </form>
+    </div>
 </template>
 <script>
     export default {
@@ -49,5 +63,10 @@
     };
 </script>
 
-<style>
+<style lang="scss">
+    .signup {
+        .form-label {
+            min-width: 100px;
+        }
+    }
 </style>

@@ -40,6 +40,36 @@ vue-router 路由
 ```
 A Vue.js(v2.x+) component to make pagination.
 ```
+## 使用 Node.js npm 安裝 bootstrap
+Webpack 和其他 bundlers 將 [Bootstrap](https://bootstrap5.hexschool.com/docs/5.0/getting-started/webpack/)  加入到你的專案
+* npm install bootstrap --save)
+* npm install @popperjs/core
+```
+Bootstrap 需要 Popper
+https://bootstrap5.hexschool.com/docs/5.0/getting-started/webpack/
+```
+
+## 樣式
+* npm install --save-dev css-loader
+```
+https://webpack.js.org/loaders/css-loader/
+```
+* npm install --save-dev style-loader
+```
+https://webpack.js.org/loaders/style-loader/
+```
+* npm install sass-loader sass webpack --save-dev
+```
+https://webpack.js.org/loaders/sass-loader/
+```
+* npm install --save-dev postcss-loader postcss
+```
+https://webpack.js.org/loaders/postcss-loader/
+```
+* npm install --save-dev autoprefixer
+```
+https://webpack.js.org/loaders/postcss-loader/#autoprefixer
+```
 ## 移除套件
 * npm uninstall vue-loader
 * npm rm \<package name\>

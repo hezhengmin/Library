@@ -1,13 +1,21 @@
 ﻿<template>
-    <div>
+    <div class="container forgetPassword">
         <h2>忘記密碼</h2>
         <form @submit.prevent="forgetPassword">
-            帳號：<input type="text" v-model="accountId" required />
-            <br />
-            信箱：<input type="email" v-model="email" required />
-            <br />
-            <button type="submit">確認</button>
-            <router-link to="/Home/Login">回登入頁</router-link>
+            <div class="mb-2">
+                <div class="d-inline-flex">
+                    <label class="form-label fs-5">帳號</label>
+                    <input type="text" v-model="accountId" class="form-control" required />
+                </div>
+            </div>
+            <div class="mb-2">
+                <div class="d-inline-flex">
+                    <label class="form-label fs-5">電子郵件</label>
+                    <input type="email" v-model="email" class="form-control" required />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">確認</button>
+            <router-link to="/Home/Login" class="link-danger">回登入頁</router-link>
         </form>
     </div>
 </template>
@@ -47,5 +55,10 @@
     };
 </script>
 
-<style>
+<style lang="scss">
+    .forgetPassword {
+        .form-label {
+            min-width: 100px;
+        }
+    }
 </style>

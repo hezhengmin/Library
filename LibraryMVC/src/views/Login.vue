@@ -1,15 +1,22 @@
 ﻿<template>
-    <div class="login">
+    <div class="login container">
         <h2>帳號登入</h2>
         <form @submit.prevent="login">
-            帳號：<input type="text" v-model="accountId" required />
-            <br />
-            密碼：<input type="password" v-model="password" required />
-            <br />
-            <button type="submit">登入</button>
-            <router-link to="/Home/SignUp">註冊帳號</router-link>
-            <router-link to="/Home/ForgetPassword">忘記密碼</router-link>
-
+            <div class="mb-2">
+                <div class="d-inline-flex">
+                    <label class="form-label fs-5">帳號</label>
+                    <input type="text" v-model="accountId" class="form-control" required />
+                </div>
+            </div>
+            <div class="mb-2">
+                <div class="d-inline-flex">
+                    <label class="form-label fs-5">密碼</label>
+                    <input type="password" v-model="password" class="form-control" required />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">登入</button>
+            <router-link to="/Home/SignUp" tag="button" class="btn btn-primary">註冊帳號</router-link>
+            <router-link to="/Home/ForgetPassword" class="link-danger">忘記密碼</router-link>
         </form>
     </div>
 </template>
@@ -28,9 +35,9 @@
         methods: {
             login() {
                 this.$axios.post('https://localhost:44323/api/Account/Login', {
-                        accountId: this.accountId,
-                        password: this.password
-                    })
+                    accountId: this.accountId,
+                    password: this.password
+                })
                     .then((response) => {
 
                         if (response.data.success) {
@@ -62,6 +69,10 @@
     };
 </script>
 
-<style>
-   
+<style lang="scss">
+    .login {
+        .form-label {
+            min-width: 100px;
+        }
+    }
 </style>
