@@ -1,242 +1,225 @@
 ﻿<template>
     <div class="container-fluid">
-
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="title" class="form-control" type="text" v-model="book.title" />
-                    <label for="title" class="form-label">書名</label>
+        <form class="row g-3">
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <ValidationProvider v-slot="{ valid, errors }" name="標題" rules="required">
+                        <label for="title" class="form-label">書名</label>
+                        <input id="title" name="title" type="text" v-model="book.title"
+                               :class="[{'is-invalid': valid===false}, 'form-control']" />
+                        <span class="invalid-feedback">{{ errors[0] }}</span>
+                    </ValidationProvider>
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="status" class="form-control" type="text" v-model="book.status" />
+                <div class="col-md-4">
                     <label for="status" class="form-label">狀態</label>
+                    <input id="status" class="form-control" type="text" v-model="book.status" />
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="isbn" class="form-control" type="text" v-model="book.isbn" />
+                <div class="col-md-4">
                     <label for="isbn" class="form-label">ISBN</label>
+                    <input id="isbn" class="form-control" type="text" v-model="book.isbn" />
                 </div>
             </div>
-        </div>
-
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="issn" class="form-control" type="text" v-model="book.issn" />
+            <div class="row g-2">
+                <div class="col-md-4">
                     <label for="issn" class="form-label">ISSN</label>
+                    <input id="issn" class="form-control" type="text" v-model="book.issn" />
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="gpn" class="form-control" type="text" v-model="book.gpn" />
+                <div class="col-md-4">
                     <label for="gpn" class="form-label">GPN</label>
+                    <input id="gpn" class="form-control" type="text" v-model="book.gpn" />
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="publisher" class="form-control" type="text" v-model="book.publisher" />
+                <div class="col-md-4">
                     <label for="publisher" class="form-label">出版單位</label>
+                    <input id="publisher" class="form-control" type="text" v-model="book.publisher" />
                 </div>
             </div>
-        </div>
 
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="rightCondition" class="form-control" type="text" v-model="book.rightCondition" />
+            <div class="row g-2">
+                <div class="col-md-4">
                     <label for="rightCondition" class="form-label">出版情況</label>
+                    <input id="rightCondition" class="form-control" type="text" v-model="book.rightCondition" />
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="creator" class="form-control" type="text" v-model="book.creator" />
+                <div class="col-md-4">
                     <label for="creator" class="form-label">作者資訊</label>
+                    <input id="creator" class="form-control" type="text" v-model="book.creator" />
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="publishDate" class="form-control" type="text" v-model="book.publishDate" />
+                <div class="col-md-4">
                     <label for="publishDate" class="form-label">出版日期</label>
+                    <input id="publishDate" class="form-control" type="text" v-model="book.publishDate" />
                 </div>
             </div>
-        </div>
 
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="edition" class="form-control" type="text" v-model="book.edition" />
+            <div class="row g-2">
+                <div class="col-md-4">
                     <label for="edition" class="form-label">版次</label>
+                    <input id="edition" class="form-control" type="text" v-model="book.edition" />
                 </div>
-            </div>
-            <div class="col-md">
-
-                <div class="form-floating">
-                    <input id="cover" class="form-control" type="text" v-model="book.cover" />
+                <div class="col-md-4">
                     <label for="cover" class="form-label">書封連結</label>
+                    <input id="cover" class="form-control" type="text" v-model="book.cover" />
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="classify" class="form-control" type="text" v-model="book.classify" />
+                <div class="col-md-4">
                     <label for="classify" class="form-label">書籍分類</label>
+                    <input id="classify" class="form-control" type="text" v-model="book.classify" />
                 </div>
             </div>
-        </div>
 
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="gpntype" class="form-control" type="text" v-model="book.gpntype" />
+            <div class="row g-2">
+                <div class="col-md-4">
                     <label for="gpntype" class="form-label">出版品分類</label>
+                    <input id="gpntype" class="form-control" type="text" v-model="book.gpntype" />
                 </div>
-            </div>
-            <div class="col-md">
+                <div class="col-md">
 
-                <div class="form-floating">
-                    <input id="subject" class="form-control" type="text" v-model="book.subject" />
-                    <label for="subject" class="form-label">主題分類</label>
+                    <div class="form-floating">
+                        <input id="subject" class="form-control" type="text" v-model="book.subject" />
+                        <label for="subject" class="form-label">主題分類</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="governance" class="form-control" type="text" v-model="book.governance" />
+                        <label for="governance" class="form-label">施政分類</label>
+                    </div>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="governance" class="form-control" type="text" v-model="book.governance" />
-                    <label for="governance" class="form-label">施政分類</label>
-                </div>
-            </div>
-        </div>
 
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="grade" class="form-control" type="text" v-model="book.grade" />
-                    <label for="grade" class="form-label">級別</label>
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="grade" class="form-control" type="text" v-model="book.grade" />
+                        <label for="grade" class="form-label">級別</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="pages" class="form-control" type="number" v-model="book.pages" />
+                        <label for="pages" class="form-label">頁數</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="size" class="form-control" type="text" v-model="book.size" />
+                        <label for="size" class="form-label">開數</label>
+                    </div>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="pages" class="form-control" type="number" v-model="book.pages" />
-                    <label for="pages" class="form-label">頁數</label>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="size" class="form-control" type="text" v-model="book.size" />
-                    <label for="size" class="form-label">開數</label>
-                </div>
-            </div>
-        </div>
 
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="binding" class="form-control" type="text" v-model="book.binding" />
-                    <label for="binding" class="form-label">裝訂</label>
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="binding" class="form-control" type="text" v-model="book.binding" />
+                        <label for="binding" class="form-label">裝訂</label>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md">
+                <div class="col-md">
 
-                <div class="form-floating">
-                    <input id="language" class="form-control" type="text" v-model="book.language" />
-                    <label for="language" class="form-label">語言</label>
+                    <div class="form-floating">
+                        <input id="language" class="form-control" type="text" v-model="book.language" />
+                        <label for="language" class="form-label">語言</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <textarea id="introduction" class="form-control" type="text" v-model="book.introduction" />
+                        <label for="introduction" class="form-label">書籍介紹</label>
+                    </div>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <textarea id="introduction" class="form-control" type="text" v-model="book.introduction" />
-                    <label for="introduction" class="form-label">書籍介紹</label>
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <textarea id="catalog" class="form-control" type="text" v-model="book.catalog" />
+                        <label for="catalog" class="form-label">目次</label>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <textarea id="catalog" class="form-control" type="text" v-model="book.catalog" />
-                    <label for="catalog" class="form-label">目次</label>
-                </div>
-            </div>
-            <div class="col-md">
+                <div class="col-md">
 
-                <label for="price" class="form-label">價格</label>
-                <div class="input-group">
-                    <div class="input-group-text">$</div>
-                    <input type="number" id="price" class="form-control" v-model="book.price" />
+                    <label for="price" class="form-label">價格</label>
+                    <div class="input-group">
+                        <div class="input-group-text">$</div>
+                        <input type="number" id="price" class="form-control" v-model="book.price" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-md">
+                <div class="col-md">
 
-                <div class="form-floating">
-                    <input id="targetPeople" class="form-control" type="text" v-model="book.targetPeople" />
-                    <label for="targetPeople" class="form-label">適用對象</label>
+                    <div class="form-floating">
+                        <input id="targetPeople" class="form-control" type="text" v-model="book.targetPeople" />
+                        <label for="targetPeople" class="form-label">適用對象</label>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="types" class="form-control" type="text" v-model="book.types" />
-                    <label for="types" class="form-label">資料類型</label>
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="types" class="form-control" type="text" v-model="book.types" />
+                        <label for="types" class="form-label">資料類型</label>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md">
+                <div class="col-md">
 
-                <div class="form-floating">
-                    <input id="attachment" class="form-control" type="text" v-model="book.attachment" />
-                    <label for="attachment" class="form-label">附件</label>
+                    <div class="form-floating">
+                        <input id="attachment" class="form-control" type="text" v-model="book.attachment" />
+                        <label for="attachment" class="form-label">附件</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="url" class="form-control" type="text" v-model="book.url" />
+                        <label for="url" class="form-label">出版品網址-線上版或試閱版</label>
+                    </div>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="url" class="form-control" type="text" v-model="book.url" />
-                    <label for="url" class="form-label">出版品網址-線上版或試閱版</label>
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="duration" class="form-control" type="text" v-model="book.duration" />
+                        <label for="duration" class="form-label">播放時間長度</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="numbers" class="form-control" type="text" v-model="book.numbers" />
+                        <label for="numbers" class="form-label">字號</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="restriction" class="form-control" type="text" v-model="book.restriction" />
+                        <label for="restriction" class="form-label">權利範圍</label>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="duration" class="form-control" type="text" v-model="book.duration" />
-                    <label for="duration" class="form-label">播放時間長度</label>
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="ceasedDate" class="form-control" type="datetime" v-model="book.ceasedDate" />
+                        <label for="ceasedDate" class="form-label">停刊註記</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input id="authority" class="form-control" type="text" v-model="book.authority" />
+                        <label for="authority" class="form-label">授權資訊</label>
+                    </div>
+                </div>
+                <div class="col-md">
                 </div>
             </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="numbers" class="form-control" type="text" v-model="book.numbers" />
-                    <label for="numbers" class="form-label">字號</label>
-                </div>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit" @click="updateBook">確認</button>
             </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="restriction" class="form-control" type="text" v-model="book.restriction" />
-                    <label for="restriction" class="form-label">權利範圍</label>
-                </div>
-            </div>
-        </div>
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="ceasedDate" class="form-control" type="datetime" v-model="book.ceasedDate" />
-                    <label for="ceasedDate" class="form-label">停刊註記</label>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input id="authority" class="form-control" type="text" v-model="book.authority" />
-                    <label for="authority" class="form-label">授權資訊</label>
-                </div>
-            </div>
-            <div class="col-md">
-            </div>
-        </div>
-
-        <button @click="updateBook">確認</button>
+        </form>
     </div>
 </template>
 <script>
+    import { ValidationProvider } from 'vee-validate';
+
     export default {
         name: "BookEdit",
+        components: {
+            ValidationProvider,
+        },
         data() {
             return {
                 book: {

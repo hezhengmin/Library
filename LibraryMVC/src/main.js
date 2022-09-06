@@ -5,13 +5,27 @@ import Router from "vue-router";
 import App from "./App.vue";
 import store from './store.js' //Vuex 共享資訊
 import { routes } from './routes.js' //路由規則
-import Paginate from 'vuejs-paginate'
-
-
+import Paginate from 'vuejs-paginate'//分頁
+import VeeValidate from 'vee-validate';//驗證
+import zhTW from 'vee-validate/dist/locale/zh_TW';
+import VueI18n from 'vue-i18n';
 
 Vue.prototype.$axios = axios;
 Vue.use(Router);//路由
 Vue.component('paginate', Paginate) //分頁
+Vue.use(VueI18n);
+
+const i18n = new VueI18n({
+    locale: 'zhTW',
+});
+
+Vue.use(VeeValidate, {
+    events: 'input|blur',
+    i18n,
+    dictionary: {
+        zhTW,
+    },
+});
 
 const router = new Router({
     routes,
@@ -54,6 +68,7 @@ axios.interceptors.response.use(function (response) {
 new Vue({
     router,
     store: store, 
+    i18n, //中文化
     render: h => h(App)
 }).$mount("#app");
 

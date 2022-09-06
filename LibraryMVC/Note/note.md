@@ -40,6 +40,28 @@ vue-router 路由
 ```
 A Vue.js(v2.x+) component to make pagination.
 ```
+
+* npm install vue-i18n@8
+```
+裝vue2用的
+https://vee-validate.logaretm.com/v2/guide/getting-started.html#installation
+```
+* npm install vue-i18n --save
+```
+Vue.use(VueI18n);
+
+const i18n = new VueI18n({
+  locale: 'zhTW',
+});
+
+Vue.use(VeeValidate, {
+  events: 'input|blur',
+  i18n,
+  dictionary: {
+    zhTW,
+  },
+});
+```
 ## 使用 Node.js npm 安裝 bootstrap
 Webpack 和其他 bundlers 將 [Bootstrap](https://bootstrap5.hexschool.com/docs/5.0/getting-started/webpack/)  加入到你的專案
 * npm install bootstrap --save)

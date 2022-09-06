@@ -38,7 +38,7 @@ namespace LibraryWebAPI.Helpers
                 issuer: _configuration["JWT:Issuer"], //發行者
                 audience: _configuration["JWT:Audience"], //接收者
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(10),
+                expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials
             );
 
