@@ -10,6 +10,7 @@
             </div>
             <div class="col-12 mt-2">
                 <button type="submit" class="btn btn-primary">搜尋</button>
+                <button class="btn btn-primary" @click="addBook">新增</button>
             </div>
         </form>
         <paginate v-model="pageNumber"
@@ -96,6 +97,9 @@
                 //搜尋後，從第一頁開始
                 this.pageNumber = 1;
                 this.getBookList();
+            },
+            addBook() {
+                console.log("addBook");
             }
         },
         created() {
