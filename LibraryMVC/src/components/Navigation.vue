@@ -17,8 +17,7 @@
                 <li v-if="hasAccountInfo" class="nav-item">
                     <a href="" class="nav-link" @click="signOut">登出</a>
                 </li>
-
-                <li class="nav-item">
+                <li class="nav-item float-right">
                     <router-link to="/Book/Book_Index" class="nav-link">書籍</router-link>
                 </li>
             </ul>

@@ -16,12 +16,10 @@ namespace LibraryWebAPI.Controllers
     public class BookController : ControllerBase
     {
         private readonly BookService _bookService;
-        private readonly UploadFileService _uploadFileService;
 
-        public BookController(BookService bookService, UploadFileService uploadFileService)
+        public BookController(BookService bookService)
         {
             _bookService = bookService;
-            _uploadFileService = uploadFileService;
         }
 
         /// <summary>
@@ -63,5 +61,36 @@ namespace LibraryWebAPI.Controllers
 
             return CreatedAtAction(nameof(Get), new { id = book.Id }, result);
         }
+
+        /// <summary>
+        /// 更新書籍
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(Guid id, [FromBody] Book_PutDto entity)
+        {
+            if (id != entity.Id)
+            {
+                return BadRequest();
+            }
+
+            //更新前確認Id，沒有此帳號回傳404
+            if (!_bookService.Check(id))
+            {
+                return NotFound();
+            }
+
+            var result = await _bookService.Update(entity);
+            if (!result)
+            {
+                return StatusCode(500, "存取發生錯誤");
+            }
+
+            //更新成功
+            return NoContent();
+        }
+
     }
 }

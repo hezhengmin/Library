@@ -4,6 +4,7 @@ namespace LibraryWebAPI.Abstract.Book
 {
     public abstract class Book_Dto_Base
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public int Status { get; set; }
         public virtual string Isbn { get; set; }

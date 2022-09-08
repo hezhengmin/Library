@@ -1,7 +1,7 @@
 ﻿<template>
-    <div class="container-fluid">
+    <div class="container">
         <h2>圖書</h2>
-        <form @submit.prevent="search" class="row">
+        <div class="row">
             <div class="col-auto">
                 書名：<input type="text" v-model="title" class="form-control" />
             </div>
@@ -9,29 +9,44 @@
                 ISBN：<input type="text" v-model="isbn" class="form-control" />
             </div>
             <div class="col-12 mt-2">
-                <button type="submit" class="btn btn-primary">搜尋</button>
+                <button class="btn btn-primary" @click="search">搜尋</button>
                 <button class="btn btn-primary" @click="addBook">新增</button>
             </div>
-        </form>
-        <paginate v-model="pageNumber"
-                  :page-count="totalPages"
-                  :click-handler="getBookList"
-                  :prev-text="'上一頁'"
-                  :next-text="'下一頁'"
-                  :container-class="'pagination'"
-                  :page-class="'page-item'">
-        </paginate>
-
-        總筆數{{totalRecords}}
-
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="p-2">
+                第 {{pageNumber}} 頁，總共 {{totalRecords}} 筆
+            </div>
+            <div class="p-2">
+                <paginate v-model="pageNumber"
+                          :page-count="totalPages"
+                          :click-handler="getBookList"
+                          :prev-text="'上一頁'"
+                          :next-text="'下一頁'"
+                          :container-class="'pagination'"
+                          :page-class="'page-item'"
+                          :page-link-class="'page-link'"
+                          :prev-link-class="'page-link'"
+                          :next-link-class="'page-link'">
+                </paginate>
+            </div>
+        </div>
         <table class="table table-bordered table-hover">
+            <colgroup>
+                <col style="width: 3em;">
+                <col style="width: 20em;">
+                <col style="width: 8em;">
+                <col style="width: 14em;">
+                <col style="width: 5em;">
+                <col style="width: 5em;">
+            </colgroup>
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>title</th>
-                    <th>isbn</th>
-                    <th>publisher</th>
-                    <th>publishDate</th>
+                    <th>書名</th>
+                    <th>ISBN</th>
+                    <th>出版單位</th>
+                    <th>出版日期</th>
                     <th></th>
                 </tr>
             </thead>
@@ -43,7 +58,6 @@
                     <td>{{item.publisher}}</td>
                     <td>{{item.publishDate}}</td>
                     <td>
-
                         <router-link :to="{
                                  name: 'BookEdit',
                                  params: { id: item.id }

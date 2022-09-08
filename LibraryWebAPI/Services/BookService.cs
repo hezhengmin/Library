@@ -223,9 +223,66 @@ namespace LibraryWebAPI.Services
 
             return book;
         }
-        public async Task<bool> Exits(string accountId)
+       
+
+        public bool Check(Guid id)
         {
-            return await _context.Accounts.AnyAsync(x => x.AccountId == accountId);
+            return _context.Books.Any(x => x.Id == id);
+        }
+
+        public async Task<bool> Update(Book_PutDto entity)
+        {
+            var book = await Get(entity.Id);
+
+            if (book == null) return false;
+
+            //更新欄位
+            book.Title = entity.Title;
+            book.Status = entity.Status;
+            book.Isbn = entity.Isbn;
+            book.Issn = entity.Issn;
+            book.Gpn = entity.Gpn;
+            book.Publisher = entity.Publisher;
+            book.RightCondition = entity.Restriction;
+            book.Creator = entity.Creator;
+            book.PublishDate = entity.PublishDate;
+            book.Edition = entity.Edition;
+            book.Cover = entity.Cover;
+            book.Classify = entity.Classify;
+            book.Gpntype = entity.Gpntype;
+            book.Subject = entity.Subject;
+            book.Governance = entity.Governance;
+            book.Grade = entity.Grade;
+            book.Pages = entity.Pages;
+            book.Size = entity.Size;
+            book.Binding = entity.Binding;
+            book.Language = entity.Language;
+            book.Introduction = entity.Introduction;
+            book.Catalog = entity.Catalog;
+            book.Price = entity.Price;
+            book.TargetPeople = entity.TargetPeople;
+            book.Types = entity.Types;
+            book.Attachment = entity.Attachment;
+            book.Url = entity.Url;
+            book.Duration = entity.Duration;
+            book.Numbers = entity.Numbers;
+            book.Restriction = entity.Restriction;
+            book.CeasedDate = entity.CeasedDate;
+            book.Authority = entity.Authority;
+            book.UpdatedAt = DateTime.Now;
+            book.UpdatedBy = _userService.CurrentAccountId;
+
+            try
+            {
+                _context.Entry(book).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

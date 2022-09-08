@@ -1,14 +1,10 @@
 ﻿<template>
-    <div class="container-fluid">
-        <form class="row g-3">
+    <div class="container">
+        <form class="row g-3" @submit.prevent="validateBeforeSubmit">
             <div class="row g-2">
                 <div class="col-md-4">
-                    <ValidationProvider v-slot="{ valid, errors }" name="標題" rules="required">
-                        <label for="title" class="form-label">書名</label>
-                        <input id="title" name="title" type="text" v-model="book.title"
-                               :class="[{'is-invalid': valid===false}, 'form-control']" />
-                        <span class="invalid-feedback">{{ errors[0] }}</span>
-                    </ValidationProvider>
+                    <label for="title" class="form-label">書名</label>
+                    <input id="title" class="form-control" type="text" v-model="book.title"/>
                 </div>
                 <div class="col-md-4">
                     <label for="status" class="form-label">狀態</label>
@@ -207,7 +203,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <button class="btn btn-primary" type="submit" @click="updateBook">確認</button>
+                <button class="btn btn-primary" type="submit">確認</button>
             </div>
         </form>
     </div>
@@ -259,8 +255,46 @@
             }
         },
         methods: {
+
+            validateBeforeSubmit() {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        // eslint-disable-next-line
+                        alert('Form Submitted!');
+                        return;
+                    }
+
+                    alert('Correct them errors!');
+                });
+            },
             updateBook() {
 
+                this.$validator.validate().then(valid => {
+                    console.log(valid);
+                    if (!valid) {
+                        // do stuff if not valid.
+                    }
+                    else {
+
+                    }
+                });
+
+
+                //this.$axios.put(`https://localhost:44323/api/Book/${this.$route.params.id}`, {
+                //    ... this.book
+                //})
+                //    .then((response) => {
+                //        if (response.status === 204) {
+                //            alert("更新成功");
+                //        }
+                //        else {
+                //            alert("更新失敗");
+                //        }
+
+                //    })
+                //    .catch((error) => {
+                //        console.log(error);
+                //    })
             }
         },
         created() {
