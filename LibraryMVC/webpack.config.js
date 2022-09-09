@@ -81,10 +81,6 @@ module.exports = {
     optimization: {
         //This plugin uses terser to minify/minimize your JavaScript.
         minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                test: /\.js(\?.*)?$/i,
-            }),
-        ],
+        minimizer: [new TerserPlugin()],
     },
 };

@@ -1,22 +1,26 @@
 ﻿<template>
     <div class="login container">
-        <h2>帳號登入</h2>
-        <form @submit.prevent="login">
+        <form @submit.prevent="login" class="mt-5 p-3 rounded border border-secondary">
+            <h2 class="mx-auto">會員登入</h2>
             <div class="mb-2">
-                <div class="d-inline-flex">
+                <div class="d-flex">
                     <label class="form-label fs-5">帳號</label>
                     <input type="text" v-model="accountId" class="form-control" required />
                 </div>
             </div>
             <div class="mb-2">
-                <div class="d-inline-flex">
+                <div class="d-flex">
                     <label class="form-label fs-5">密碼</label>
                     <input type="password" v-model="password" class="form-control" required />
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">登入</button>
-            <router-link to="/Home/SignUp" tag="button" class="btn btn-primary">註冊帳號</router-link>
-            <router-link to="/Home/ForgetPassword" class="link-danger">忘記密碼</router-link>
+            <div class="mb-2">
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary me-2">登入</button>
+                    <router-link to="/Home/SignUp" tag="button" class="btn btn-primary">註冊帳號</router-link>
+                    <router-link to="/Home/ForgetPassword" class="link-danger ms-auto align-self-center">忘記密碼</router-link>
+                </div>
+            </div>
         </form>
     </div>
 </template>
@@ -62,7 +66,7 @@
                         }
                     })
                     .catch((error) => {
-                        alert(error.response.data.errors.join('\n'));
+                        console.log(error);
                     })
             },
         }
@@ -71,8 +75,23 @@
 
 <style lang="scss">
     .login {
+        display: flex;
+        /* 水平置中 */
+        justify-content: center;
+        /* 垂直置中 */
+        align-content: center;
+        flex-wrap: wrap;
+
         .form-label {
             min-width: 100px;
+        }
+
+        form {
+            width: 400px
+        }
+
+        h2 {
+            width: 140px;
         }
     }
 </style>
