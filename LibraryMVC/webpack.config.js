@@ -1,8 +1,9 @@
 ﻿var path = require("path");
 //JS壓縮成一行
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+//const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 //const fs = require('fs');
 const { VueLoaderPlugin } = require('vue-loader')
+const TerserPlugin = require("terser-webpack-plugin"); //webpack5
 
 
 //var appBasePath = './src/'; // where the source files located
@@ -78,7 +79,12 @@ module.exports = {
         new VueLoaderPlugin(),
     ],
     optimization: {
-        //minify your JavaScript
-        minimizer: [new UglifyJsPlugin()],
+        //This plugin uses terser to minify/minimize your JavaScript.
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                test: /\.js(\?.*)?$/i,
+            }),
+        ],
     },
 };
