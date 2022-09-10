@@ -1,28 +1,38 @@
 ﻿<template>
     <div id="app">
-        <Navigation/>
-        <router-view></router-view>
+        <div class="d-flex">
+            <div class="page-left">
+                <Sidebar />
+            </div>
+            <div class="page-right">
+                <Navigation />
+                <router-view></router-view>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import Navigation from "../src/components/Navigation.vue";
+    import Sidebar from "../src/components/Sidebar.vue";
+
     import { mapActions } from 'vuex';
 
     export default {
         name: "App",
         components: {
-            Navigation
+            Navigation,
+            Sidebar
         },
         methods: {
             ...mapActions([
                 'fetchAccessToken',
                 'fetchAccessAccount',
-                'fetchAccessIsLogin' 
+                'fetchAccessIsLogin'
             ]),
         },
         beforeCreate() {
-           
+
         },
         created() {
             //之前有登入，從localStorage設定token
@@ -38,11 +48,18 @@
             }
         },
         mounted() {
-           
-           
+
+
         }
     };
 </script>
 
-<style>
+<style lang="scss">
+    .page-left {
+        min-height: 100vh;
+    }
+    .page-right {
+        min-width: 0;
+        width: 100%;
+    }
 </style>

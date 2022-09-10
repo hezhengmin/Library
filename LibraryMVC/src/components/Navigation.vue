@@ -1,28 +1,31 @@
 ﻿<template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2" v-if="hasAccountInfo && hasIsLogin">
-        <div class="container-fluid">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <router-link to="/Home/Index" class="nav-link">首頁</router-link>
-                </li>
-                <!--未登入不能編輯-->
-                <li class="nav-item">
-                    <router-link :to="{
+    <div>
+        <!--navbar-expand-sm 折疊-->
+        <nav class="navbar navbar-expand-sm bg-light" v-if="hasAccountInfo && hasIsLogin">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <router-link to="/Home/Index" class="nav-link">首頁</router-link>
+                    </li>
+                    <!--未登入不能編輯-->
+                    <li class="nav-item">
+                        <router-link :to="{
                          name: 'AccountEdit',
                          params: { id: primaryKeyId }
                          }" class="nav-link">
-                        帳號編輯
-                    </router-link>
-                </li>
-                <li v-if="hasAccountInfo" class="nav-item">
-                    <a href="" class="nav-link" @click="signOut">登出</a>
-                </li>
-                <li class="nav-item float-right">
-                    <router-link to="/Book/Book_Index" class="nav-link">書籍</router-link>
-                </li>
-            </ul>
-        </div>
-    </nav>
+                            帳號編輯
+                        </router-link>
+                    </li>
+                    <li v-if="hasAccountInfo" class="nav-item">
+                        <a href="" class="nav-link" @click="signOut">登出</a>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/Book/Book_Index" class="nav-link">書籍</router-link>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </template>
 
 <script>
