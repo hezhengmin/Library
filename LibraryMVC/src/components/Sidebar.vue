@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="sidebar border"  v-if="hasAccountInfo && hasIsLogin">
+    <div class="sidebar border bg-light"  v-if="hasAccountInfo && hasIsLogin">
         <ul class="nav list-unstyled flex-column">
             <!-- 首頁Library -->
             <li class="nav-item navbar-brand">

@@ -1,26 +1,32 @@
 ﻿<template>
     <div class="accountEdit">
-        <h2>帳號名稱：{{accountId}}</h2>
+        <h2>帳號編輯</h2>
+
         <div class="row">
             <div class="col-md-6">
-                <h2>信箱編輯</h2>
-                <form @submit.prevent="updateEmail">
-                    電子郵件：<input type="email" class="form-control" v-model="email" required />
-                    <br />
-                    <button type="submit" class="btn btn-primary">儲存</button>
-                </form>
+                <div class="p-3 border bg-light rounded">
+                    <h2>信箱編輯</h2>
+                    <form @submit.prevent="updateEmail">
+                        電子郵件：<input type="email" class="form-control" v-model="email" required />
+                        <br />
+                        <button type="submit" class="btn btn-primary">儲存</button>
+                    </form>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h2>更改密碼</h2>
-                <form @submit.prevent="updatePassword">
-                    舊密碼：<input type="password" class="form-control" v-model="oldPassword" required />
-                    <br />
-                    新密碼：<input type="password" class="form-control" v-model="newPassword" required />
-                    <br />
-                    確認密碼：<input type="password" class="form-control" v-model="confirmPassword" required />
-                    <br />
-                    <button type="submit" class="btn btn-primary">修改密碼</button>
-                </form>
+
+            <div class="col-md-6 ">
+                <div class="p-3 border bg-light rounded">
+                    <h2>更改密碼</h2>
+                    <form @submit.prevent="updatePassword">
+                        舊密碼：<input type="password" class="form-control" v-model="oldPassword" required />
+                        <br />
+                        新密碼：<input type="password" class="form-control" v-model="newPassword" required />
+                        <br />
+                        確認密碼：<input type="password" class="form-control" v-model="confirmPassword" required />
+                        <br />
+                        <button type="submit" class="btn btn-primary">修改密碼</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

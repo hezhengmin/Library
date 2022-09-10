@@ -1,12 +1,12 @@
 ﻿<template>
-    <div class="navigation border">
+    <div class="navigation border bg-light">
         <ul class="nav justify-content-end">
             <li class="nav-item my-auto">
                 <!-- 登入帳號Id -->
                 <span>{{AccountId}}</span>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link" @click="signOut">登出</a>
+                <a href="" class="nav-link text-danger" @click="signOut">登出</a>
             </li>
         </ul>
     </div>

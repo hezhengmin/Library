@@ -1,18 +1,21 @@
 ﻿<template>
     <div class="bookIndex">
-        <h2>圖書</h2>
-        <div class="row">
-            <div class="col-auto">
-                書名：<input type="text" v-model="title" class="form-control" />
-            </div>
-            <div class="col-auto">
-                ISBN：<input type="text" v-model="isbn" class="form-control" />
-            </div>
-            <div class="col-12 mt-2">
-                <button class="btn btn-primary" @click="search">搜尋</button>
-                <button class="btn btn-primary" @click="addBook">新增</button>
+        <h2>書籍</h2>
+        <div class="filter rounded border px-2 py-3 bg-light">
+            <div class="row">
+                <div class="col-auto">
+                    書名：<input type="text" v-model="title" class="form-control" />
+                </div>
+                <div class="col-auto">
+                    ISBN：<input type="text" v-model="isbn" class="form-control" />
+                </div>
+                <div class="col-12 mt-3">
+                    <button class="btn btn-primary" @click="search">搜尋</button>
+                    <button class="btn btn-primary" @click="addBook">新增</button>
+                </div>
             </div>
         </div>
+        
         <div class="d-flex justify-content-between align-items-center">
             <div class="p-2">
                 第 {{pageNumber}} 頁，總共 {{totalRecords}} 筆
@@ -47,7 +50,7 @@
                     <th>ISBN</th>
                     <th>出版單位</th>
                     <th>出版日期</th>
-                    <th></th>
+                    <th>功能</th>
                 </tr>
             </thead>
             <tbody>

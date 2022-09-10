@@ -1,15 +1,14 @@
 ﻿<template>
     <div class="bookEdit">
-        <div class="d-flex justify-content-between my-2">
-            <div>
+        <div class="d-flex justify-content-between">
+            <div class="py-2">
                 <h2>書籍編輯</h2>
             </div>
-            <div>
+            <div class="py-2">
                 <button type="button" @click="$router.go(-1)" class="btn btn-primary">
                     回上一頁
                 </button>
             </div>
-           
         </div>
         <form class="row g-3" @submit.prevent="validateBeforeSubmit">
             <div class="row g-2">
@@ -111,7 +110,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row g-2">
                 <div class="col-md">
                     <div class="form-floating">
@@ -141,7 +139,6 @@
                     </div>
                 </div>
                 <div class="col-md">
-
                     <label for="price" class="form-label">價格</label>
                     <div class="input-group">
                         <div class="input-group-text">$</div>
