@@ -1,14 +1,26 @@
 ﻿<template>
-    <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
-        <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Shortcuts</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
-        </div>
+    <div class="sidebar border"  v-if="hasAccountInfo && hasIsLogin">
+        <ul class="nav list-unstyled flex-column">
+            <!-- 首頁Library -->
+            <li class="nav-item navbar-brand">
+                <router-link to="/Home/Index" class="nav-link">
+                    Library
+                </router-link>
+            </li>
+            <!--書籍列表-->
+            <li class="nav-item">
+                <router-link to="/Book/Book_Index" class="nav-link">書籍</router-link>
+            </li>
+            <!--未登入不能編輯-->
+            <li class="nav-item">
+                <router-link :to="{
+                         name: 'AccountEdit',
+                         params: { id: primaryKeyId }
+                         }" class="nav-link">
+                    帳號編輯
+                </router-link>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -16,13 +28,24 @@
     export default {
         name: 'Sidebar',
         computed: {
-
+            //帳號的主key
+            primaryKeyId() {
+                return this.$store.state.accountInfo.id;
+            },
+            hasAccountInfo() {
+                return this.$store.state.accountInfo !== null;
+            },
+            hasIsLogin() {
+                return this.$store.state.isLogin;
+            }
         },
-        methods: {
-
-        }
     }
 </script>
 
-<style>
+<style lang="scss" scoped>
+    .sidebar {
+        width: 200px;
+        height: 100%;
+
+    }
 </style>

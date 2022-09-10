@@ -1,6 +1,5 @@
 ﻿<template>
-    <div class="container forgetPassword">
-
+    <div class="forgetPassword">
         <form @submit.prevent="forgetPassword" class="mt-5 p-3 rounded border border-secondary">
             <h2 class="mx-auto">忘記密碼</h2>
             <div class="mb-2">

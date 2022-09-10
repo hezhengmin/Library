@@ -1,10 +1,21 @@
 ﻿<template>
-    <div class="container">
+    <div class="bookEdit">
+        <div class="d-flex justify-content-between my-2">
+            <div>
+                <h2>書籍編輯</h2>
+            </div>
+            <div>
+                <button type="button" @click="$router.go(-1)" class="btn btn-primary">
+                    回上一頁
+                </button>
+            </div>
+           
+        </div>
         <form class="row g-3" @submit.prevent="validateBeforeSubmit">
             <div class="row g-2">
                 <div class="col-md-4">
                     <label for="title" class="form-label">書名</label>
-                    <input id="title" class="form-control" type="text" v-model="book.title"/>
+                    <input id="title" class="form-control" type="text" v-model="book.title" />
                 </div>
                 <div class="col-md-4">
                     <label for="status" class="form-label">狀態</label>
@@ -295,7 +306,9 @@
                 //    .catch((error) => {
                 //        console.log(error);
                 //    })
-            }
+            },
+
+            hasHistory() { return window.history.length > 2 }
         },
         created() {
 

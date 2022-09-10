@@ -1,5 +1,5 @@
 ﻿<template>
-    <div>
+    <div class="index">
         <h2>首頁</h2>
     </div>
 </template>
@@ -10,4 +10,6 @@
 </script>
 
 <style>
+  
 </style>
+

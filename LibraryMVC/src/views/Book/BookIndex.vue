@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="container">
+    <div class="bookIndex">
         <h2>圖書</h2>
         <div class="row">
             <div class="col-auto">
