@@ -115,8 +115,11 @@
                 this.pageNumber = 1;
                 this.getBookList();
             },
+            //新增書籍
             addBook() {
                 console.log("addBook");
+                //空guid代表新增
+                this.$router.push({ name: 'BookEdit', params: { id: '00000000-0000-0000-0000-000000000000' } })
             }
         },
         created() {

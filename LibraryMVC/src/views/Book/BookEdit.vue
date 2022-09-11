@@ -1,20 +1,26 @@
 ﻿<template>
     <div class="bookEdit">
-        <div class="d-flex justify-content-between">
-            <div class="py-2">
-                <h2>書籍編輯</h2>
+       
+        <ValidationObserver ref="observer" v-slot="{ invalid }" tag="form" @submit.prevent="onSubmit">
+            <div class="d-flex justify-content-between">
+                <div class="py-2">
+                    <h2>{{title}}</h2>
+                </div>
+                <div class="py-2">
+                    <button class="btn btn-primary" :disabled="invalid" type="submit">確認</button>
+                    <button type="button" @click="$router.go(-1)" class="btn btn-primary">
+                        回上一頁
+                    </button>
+                </div>
             </div>
-            <div class="py-2">
-                <button type="button" @click="$router.go(-1)" class="btn btn-primary">
-                    回上一頁
-                </button>
-            </div>
-        </div>
-        <form class="row g-3" @submit.prevent="validateBeforeSubmit">
             <div class="row g-2">
                 <div class="col-md-4">
                     <label for="title" class="form-label">書名</label>
-                    <input id="title" class="form-control" type="text" v-model="book.title" />
+                    <ValidationProvider v-slot="{ valid, errors }" name="標題" rules="required">
+                        <input id="title" name="title" type="text" v-model="book.title"
+                               :class="[{'is-invalid': valid===false}, 'form-control']" />
+                        <span class="invalid-feedback">{{ errors[0] }}</span>
+                    </ValidationProvider>
                 </div>
                 <div class="col-md-4">
                     <label for="status" class="form-label">狀態</label>
@@ -170,20 +176,20 @@
                 <div class="col-md">
                 </div>
             </div>
-            <div class="col-12">
-                <button class="btn btn-primary" type="submit">確認</button>
+            <div class="row g-2">
+                <div class="col-12">
+                    <button class="btn btn-primary" :disabled="invalid" type="submit">確認</button>
+                    <button type="button" @click="$router.go(-1)" class="btn btn-primary">
+                        回上一頁
+                    </button>
+                </div>
             </div>
-        </form>
+        </ValidationObserver>
     </div>
 </template>
 <script>
-    import { ValidationProvider } from 'vee-validate';
-
     export default {
         name: "BookEdit",
-        components: {
-            ValidationProvider,
-        },
         data() {
             return {
                 book: {
@@ -222,73 +228,88 @@
                 }
             }
         },
-        methods: {
-
-            validateBeforeSubmit() {
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        // eslint-disable-next-line
-                        alert('Form Submitted!');
-                        return;
-                    }
-
-                    alert('Correct them errors!');
-                });
+        computed: {
+            //是否為編輯
+            isEdit() {
+                return this.$route.params.id !== "00000000-0000-0000-0000-000000000000";
             },
-            updateBook() {
+            title() {
+                return this.isEdit ? "書籍編輯" : "書籍新增";
+            }
+        },
+        methods: {
+            //提交前驗證
+            async onSubmit() {
+                const isValid = await this.$refs.observer.validate();
 
-                this.$validator.validate().then(valid => {
-                    console.log(valid);
-                    if (!valid) {
-                        // do stuff if not valid.
+                if (isValid) {
+                    if (this.isEdit) {
+                        this.updateBook(); //編輯書籍
                     }
                     else {
-
+                        this.addBook(); //新增書籍
                     }
-                });
+                }
+                else {
 
+                }
+            },
+            updateBook() {
+                this.$axios.put(`https://localhost:44323/api/Book/${this.$route.params.id}`, {
+                    ... this.book
+                })
+                    .then((response) => {
+                        if (response.status === 204) {
+                            alert("更新成功");
+                        }
+                        else {
+                            alert("更新失敗");
+                        }
 
-                //this.$axios.put(`https://localhost:44323/api/Book/${this.$route.params.id}`, {
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            },
+            addBook() {
+
+                const formData = new FormData();
+                console.log(this.$refs.observer);
+                
+                //this.$axios.post(`https://localhost:44323/api/Book`, {
                 //    ... this.book
                 //})
                 //    .then((response) => {
-                //        if (response.status === 204) {
-                //            alert("更新成功");
-                //        }
-                //        else {
-                //            alert("更新失敗");
-                //        }
-
+                //        console.log(response);
                 //    })
                 //    .catch((error) => {
                 //        console.log(error);
                 //    })
             },
-
-            hasHistory() { return window.history.length > 2 }
+            init() {
+                this.$axios.get(`https://localhost:44323/api/Book/${this.$route.params.id}`)
+                    .then((response) => {
+                        this.book = { ...response.data };
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
         },
         created() {
 
-            this.$axios.get(`https://localhost:44323/api/Book/${this.$route.params.id}`)
-                .then((response) => {
-                    console.log(response.data);
+            //編輯
+            if (this.isEdit) {
+                this.init();
+            }
+            //新增
+            else {
 
-                    this.book = { ...response.data };
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+            }
         }
     };
 </script>
 
-<style lang="scss">
+<style>
 
-    #introduction {
-        height: 100px;
-    }
-
-    #catalog {
-        height: 100px;
-    }
 </style>

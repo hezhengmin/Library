@@ -15,6 +15,9 @@ Vue.use(Router);//路由
 Vue.component('paginate', Paginate) //分頁
 Vue.use(VueI18n);
 
+Vue.component('ValidationProvider', VeeValidate.ValidationProvider);
+Vue.component('ValidationObserver', VeeValidate.ValidationObserver);
+
 const i18n = new VueI18n({
     locale: 'zhTW',
 });
