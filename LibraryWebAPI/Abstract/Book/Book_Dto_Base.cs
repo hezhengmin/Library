@@ -11,7 +11,7 @@ namespace LibraryWebAPI.Abstract.Book
         public virtual string Issn { get; set; }
         public virtual string Gpn { get; set; }
         public string Publisher { get; set; }
-        public string RightCondition { get; set; }
+        public virtual string RightCondition { get; set; }
         public string Creator { get; set; }
         public string PublishDate { get; set; }
         public string Edition { get; set; }

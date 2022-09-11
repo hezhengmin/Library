@@ -100,6 +100,13 @@ namespace LibraryWebAPI.Dtos.BookDto
             set => _restriction = value ?? "";
         }
 
+        public string _rightCondition { get; set; }
+        public override string RightCondition
+        {
+            get => _rightCondition;
+            set => _rightCondition = value ?? "";
+        }
+
         /// <summary>
         /// 多檔或單一檔案
         /// </summary>
