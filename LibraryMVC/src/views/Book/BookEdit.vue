@@ -174,15 +174,15 @@
                     <input id="authority" name="authority" class="form-control" type="text" v-model="book.authority" />
                 </div>
                 <div class="col-md">
+                    <label for="formFileMultiple" class="form-label">圖片檔案</label>
+                    <input class="form-control" name="files" type="file" id="formFileMultiple" multiple>
                 </div>
             </div>
-            <div class="row g-2">
-                <div class="col-12">
-                    <button class="btn btn-primary" :disabled="invalid" type="submit">確認</button>
-                    <button type="button" @click="$router.go(-1)" class="btn btn-primary">
-                        回上一頁
-                    </button>
-                </div>
+            <div class="d-flex my-2">
+                <button class="btn btn-primary" :disabled="invalid" type="submit">確認</button>
+                <button type="button" @click="$router.go(-1)" class="btn btn-primary">
+                    回上一頁
+                </button>
             </div>
         </ValidationObserver>
     </div>
@@ -288,7 +288,8 @@
                     .then((response) => {
                         console.log(response);
                         alert("新增成功");
-
+                        //回書籍列表
+                        this.$router.push({ name: 'BookIndex' })
                     })
                     .catch((error) => {
                         console.log(error);
@@ -298,7 +299,7 @@
                 this.$axios.get(`https://localhost:44323/api/Book/${this.$route.params.id}`)
                     .then((response) => {
                         this.book = { ...response.data };
-                    
+
                     })
                     .catch((error) => {
                         console.log(error);

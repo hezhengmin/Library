@@ -92,5 +92,23 @@ namespace LibraryWebAPI.Controllers
             return NoContent();
         }
 
+
+        /// <summary>
+        /// 刪除書籍
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            if (!_bookService.Check(id))
+            {
+                return NotFound();
+            }
+
+            await _bookService.Delete(id);
+
+            return NoContent();
+        }
     }
 }

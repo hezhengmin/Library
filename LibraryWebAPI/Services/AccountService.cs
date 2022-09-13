@@ -213,6 +213,11 @@ namespace LibraryWebAPI.Services
             return await _context.Accounts.AnyAsync(x => x.Email == email);
         }
 
+        /// <summary>
+        /// 刪除帳號
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task Delete(Guid id)
         {
             var entity = await Get(id);

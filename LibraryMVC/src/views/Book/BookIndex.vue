@@ -67,6 +67,7 @@
                                  }">
                             編輯
                         </router-link>
+                        <a href="" @click.prevent="deleteBook(item.id)">刪除</a>
                     </td>
                 </tr>
             </tbody>
@@ -105,6 +106,21 @@
                         this.totalPages = response.data.totalPages;
                         //總筆數
                         this.totalRecords = response.data.totalRecords;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            },
+            deleteBook(id) {
+                this.$axios.delete(`https://localhost:44323/api/Book/${id}`)
+                    .then((response) => {
+                        if (response.status === 204) {
+                            alert("刪除成功");
+                            this.getBookList();
+                        }
+                        else {
+                            alert("刪除失敗");
+                        }
                     })
                     .catch((error) => {
                         console.log(error);

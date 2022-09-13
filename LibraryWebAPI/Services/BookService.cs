@@ -128,6 +128,8 @@ namespace LibraryWebAPI.Services
 
             var totalRecords = query.Count();
 
+            //排序在分頁前
+            query = query.OrderByDescending(x => x.CreatedAt);
 
             if (filter.PaginationFilter != null)
             {
@@ -223,7 +225,7 @@ namespace LibraryWebAPI.Services
 
             return book;
         }
-       
+
 
         public bool Check(Guid id)
         {
@@ -283,6 +285,26 @@ namespace LibraryWebAPI.Services
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 刪除書籍(包含BookPhoto)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task Delete(Guid id)
+        {
+            var entity = await _context.Books.Include(x => x.BookPhotos).SingleOrDefaultAsync(x => x.Id == id); ;
+
+            foreach (var photo in entity.BookPhotos)
+            {
+                var fileId = photo.UploadFileId;
+                await _uploadFileService.Delete(fileId);
+            }
+            
+            _context.BookPhotos.RemoveRange(entity.BookPhotos);
+            _context.Books.Remove(entity);
+            _context.SaveChanges();
         }
     }
 }
