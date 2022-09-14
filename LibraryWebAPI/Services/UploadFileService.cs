@@ -238,6 +238,29 @@ namespace LibraryWebAPI.Services
             return true;
         }
 
+
+        /// <summary>
+        /// 取得檔案串流(Stream)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<MemoryStream> GetUploadFileStream(Guid id)
+        {
+            var entity = await Get(id);
+
+            var filePath = $"{RootPath}{entity.Id}{entity.Extension}";
+            var memory = new MemoryStream();
+          
+            await using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+
+            memory.Position = 0;
+
+            return memory;
+        }
+
         /// <summary>
         /// 完整路徑(檔案放置位置)
         /// </summary>

@@ -176,6 +176,9 @@
                 <div class="col-md">
                     <label for="formFileMultiple" class="form-label">圖片檔案</label>
                     <input class="form-control" name="files" type="file" id="formFileMultiple" multiple>
+                    <div class="d-flex" v-for="photo in book.bookPhotos" :key="photo.uploadFileId">
+                        <a href="" @click.prevent="download(photo.uploadFileId)">{{photo.uploadFileId}}</a>
+                    </div>
                 </div>
             </div>
             <div class="d-flex my-2">
@@ -295,9 +298,31 @@
                         console.log(error);
                     })
             },
+            download(id) {
+               
+                const method = 'GET';
+                const url = `https://localhost:44323/api/Download/${id}`;
+
+                this.$axios.request({
+                        url,
+                        method,
+                        responseType: 'blob', //important
+                    })
+                    .then(({ data }) => {
+                        const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', '123.jpg'); //any other extension
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                    });
+            },
             init() {
                 this.$axios.get(`https://localhost:44323/api/Book/${this.$route.params.id}`)
                     .then((response) => {
+
+                        console.log(response.data);
                         this.book = { ...response.data };
 
                     })
