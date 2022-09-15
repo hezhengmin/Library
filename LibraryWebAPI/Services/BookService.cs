@@ -37,21 +37,30 @@ namespace LibraryWebAPI.Services
 
             if (book == null) return null;
 
+
+
             //轉換成Dto
             var bookPhoto_GetDto = new List<BookPhoto_Dto_Base>();
-            foreach (var item in book.BookPhotos)
-            {
-                var bookPhoto = new BookPhoto_Dto_Base()
-                {
-                    UploadFileId = item.UploadFileId,
-                };
-                bookPhoto_GetDto.Add(bookPhoto);
-            }
+
+            //書籍封面圖片
+            var bookPhotoDtoList = (from b in _context.Books
+                                    join bp in _context.BookPhotos on b.Id equals bp.BookId
+                                    join u in _context.UploadFiles on bp.UploadFileId equals u.Id into bpu
+                                    from j in bpu.DefaultIfEmpty()
+                                    where b.Id == id
+                                    let fileCompleteName = $"{j.Name ?? string.Empty}{j.Extension ?? string.Empty}"
+                                    select new BookPhoto_Dto_Base()
+                                    {
+                                        UploadFileId = bp.UploadFileId,
+                                        Name = j.Name ?? string.Empty,
+                                        Extension = j.Extension ?? string.Empty,
+                                        FileCompleteName = fileCompleteName
+                                    }).ToList();
 
             return new Book_GetDto
             {
                 Id = book.Id,
-                BookPhotos = bookPhoto_GetDto,
+                BookPhotos = bookPhotoDtoList,
                 Title = book.Title,
                 Status = book.Status,
                 Isbn = book.Isbn,
@@ -140,10 +149,7 @@ namespace LibraryWebAPI.Services
             var List = await query.Select(x => new Book_GetDto
             {
                 Id = x.Id,
-                BookPhotos = x.BookPhotos.Select(y => new BookPhoto_Dto_Base
-                {
-                    UploadFileId = y.UploadFileId
-                }).ToList(),
+                BookPhotos = null,
                 Title = x.Title,
                 Status = x.Status,
                 Isbn = x.Isbn,
@@ -301,7 +307,7 @@ namespace LibraryWebAPI.Services
                 var fileId = photo.UploadFileId;
                 await _uploadFileService.Delete(fileId);
             }
-            
+
             _context.BookPhotos.RemoveRange(entity.BookPhotos);
             _context.Books.Remove(entity);
             _context.SaveChanges();

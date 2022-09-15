@@ -177,7 +177,7 @@
                     <label for="formFileMultiple" class="form-label">圖片檔案</label>
                     <input class="form-control" name="files" type="file" id="formFileMultiple" multiple>
                     <div class="d-flex" v-for="photo in book.bookPhotos" :key="photo.uploadFileId">
-                        <a href="" @click.prevent="download(photo.uploadFileId)">{{photo.uploadFileId}}</a>
+                        <a href="" @click.prevent="download(photo.uploadFileId,photo.fileCompleteName)">{{photo.fileCompleteName}}</a>
                     </div>
                 </div>
             </div>
@@ -298,7 +298,7 @@
                         console.log(error);
                     })
             },
-            download(id) {
+            download(id,fileName) {
                
                 const method = 'GET';
                 const url = `https://localhost:44323/api/Download/${id}`;
@@ -312,7 +312,7 @@
                         const downloadUrl = window.URL.createObjectURL(new Blob([data]));
                         const link = document.createElement('a');
                         link.href = downloadUrl;
-                        link.setAttribute('download', '123.jpg'); //any other extension
+                        link.setAttribute('download', fileName); //any other extension
                         document.body.appendChild(link);
                         link.click();
                         link.remove();
