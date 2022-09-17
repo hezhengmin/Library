@@ -24,11 +24,22 @@
                 </div>
                 <div class="col-md-4">
                     <label for="status" class="form-label">狀態</label>
-                    <input id="status" name="status" class="form-control" type="text" v-model="book.status" />
+                    <ValidationProvider v-slot="{ valid, errors }" name="狀態" rules="required">
+                        <select id="status" name="status" v-model="book.status" :class="[{'is-invalid': valid===false}, 'form-control']">
+                            <option value="">請選擇</option>
+                            <option value="0">有庫存</option>
+                            <option value="1">無庫存</option>
+                        </select>
+                        <span class="invalid-feedback">{{ errors[0] }}</span>
+                    </ValidationProvider>
                 </div>
                 <div class="col-md-4">
                     <label for="isbn" class="form-label">ISBN</label>
-                    <input id="isbn" name="isbn" class="form-control" type="text" v-model="book.isbn" />
+                    <ValidationProvider v-slot="{ valid, errors }" name="ISBN" rules="required|digits:13">
+                        <input id="isbn" name="isbn" type="text" v-model="book.isbn"
+                               :class="[{'is-invalid': valid===false}, 'form-control']" />
+                        <span class="invalid-feedback">{{ errors[0] }}</span>
+                    </ValidationProvider>
                 </div>
             </div>
             <div class="row g-2">
@@ -264,12 +275,22 @@
                 }
             },
             updateBook() {
-                this.$axios.put(`https://localhost:44323/api/Book/${this.$route.params.id}`, {
-                    ... this.book
-                })
+
+                const formData = new FormData(this.$refs.observer.$el);
+
+                formData.append("id", this.$route.params.id);
+
+                this.$axios.put(`https://localhost:44323/api/Book/${this.$route.params.id}`,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data;',
+                        }
+                    })
                     .then((response) => {
                         if (response.status === 204) {
                             alert("更新成功");
+                            this.$router.push({ name: 'BookIndex' })
                         }
                         else {
                             alert("更新失敗");
@@ -282,11 +303,6 @@
             },
             addBook() {
                 const formData = new FormData(this.$refs.observer.$el);
-
-                // Display the key/value pairs
-                //for (const pair of formData.entries()) {
-                //    console.log(`${pair[0]}, ${pair[1]}`);
-                //}
 
                 this.$axios.post('https://localhost:44323/api/Book',
                     formData, {
@@ -314,7 +330,6 @@
             },
             //刪除上傳的圖片
             deleteUploadFile(id) {
-                console.log(`bookPhoto ${id}`);
                 //BookPhoto的id
                 const isDeleteBookPhotoIndex = this.book.bookPhotos.findIndex(x => x.id === id);
                 this.book.bookPhotos.splice(isDeleteBookPhotoIndex, 1);

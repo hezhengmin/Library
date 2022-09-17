@@ -69,7 +69,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, [FromBody] Book_PutDto entity)
+        public async Task<IActionResult> PutAsync(Guid id, [FromForm] Book_PutDto entity)
         {
             if (id != entity.Id)
             {

@@ -239,6 +239,11 @@ namespace LibraryWebAPI.Services
             return _context.Books.Any(x => x.Id == id);
         }
 
+        /// <summary>
+        /// 更新書籍(包含新增書籍圖片)
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public async Task<bool> Update(Book_PutDto entity)
         {
             var book = await Get(entity.Id);
@@ -280,6 +285,24 @@ namespace LibraryWebAPI.Services
             book.Authority = entity.Authority;
             book.UpdatedAt = DateTime.Now;
             book.UpdatedBy = _userService.CurrentAccountId;
+
+            //如果有附檔
+            if (entity.Files != null)
+            {
+                List<Guid> guidList;
+                var result = _uploadFileService.AddMultiple(entity.Files, out guidList);
+
+                foreach (var id in guidList)
+                {
+                    book.BookPhotos.Add(new BookPhoto()
+                    {
+                        Id = Guid.NewGuid(),
+                        UploadFileId = id,
+                        SystemDate = DateTime.Now,
+                    });
+
+                }
+            }
 
             try
             {
