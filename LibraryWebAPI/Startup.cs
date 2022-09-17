@@ -74,8 +74,10 @@ namespace LibraryWebAPI
             //SMTP寄信服務
             services.AddSingleton<EmailSenderHelper>();
             
-            services.AddScoped<AccountService>();
-            services.AddScoped<BookService>();
+            services.AddScoped<AccountService>(); //帳號
+            services.AddScoped<BookService>(); //書籍
+            services.AddScoped<BookPhotoService>(); //書籍圖片
+            
             //登入的帳號資訊
             services.AddTransient<IUserService, UserService>();
             //檔案上傳

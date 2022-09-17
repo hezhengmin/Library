@@ -25,11 +25,8 @@
     </div>
 </template>
 <script>
-    import mixin from "../mixin.js";
-
     export default {
         name: "Login",
-        mixins: [mixin],
         data() {
             return {
                 accountId: '',

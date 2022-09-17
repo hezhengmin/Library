@@ -51,6 +51,7 @@ namespace LibraryWebAPI.Services
                                     let fileCompleteName = $"{j.Name ?? string.Empty}{j.Extension ?? string.Empty}"
                                     select new BookPhoto_Dto_Base()
                                     {
+                                        Id =bp.Id,
                                         UploadFileId = bp.UploadFileId,
                                         Name = j.Name ?? string.Empty,
                                         Extension = j.Extension ?? string.Empty,
@@ -300,7 +301,7 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task Delete(Guid id)
         {
-            var entity = await _context.Books.Include(x => x.BookPhotos).SingleOrDefaultAsync(x => x.Id == id); ;
+            var entity = await _context.Books.Include(x => x.BookPhotos).SingleOrDefaultAsync(x => x.Id == id); 
 
             foreach (var photo in entity.BookPhotos)
             {

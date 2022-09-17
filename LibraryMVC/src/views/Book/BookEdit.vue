@@ -176,9 +176,11 @@
                 <div class="col-md">
                     <label for="formFileMultiple" class="form-label">圖片檔案</label>
                     <input class="form-control" name="files" type="file" id="formFileMultiple" multiple>
-                    <div class="d-flex" v-for="photo in book.bookPhotos" :key="photo.uploadFileId">
-                        <a href="" @click.prevent="download(photo.uploadFileId,photo.fileCompleteName)">{{photo.fileCompleteName}}</a>
-                    </div>
+                    <upload-file v-for="photo in book.bookPhotos" :key="photo.uploadFileId"
+                                 :id="photo.id"
+                                 :uploadFileId="photo.uploadFileId"
+                                 :file-name="photo.fileCompleteName"
+                                 @delete="deleteUploadFile"></upload-file>
                 </div>
             </div>
             <div class="d-flex my-2">
@@ -191,8 +193,12 @@
     </div>
 </template>
 <script>
+    import UploadFile from "../../../src/components/UploadFile.vue";
     export default {
         name: "BookEdit",
+        components: {
+            UploadFile,
+        },
         data() {
             return {
                 book: {
@@ -278,9 +284,9 @@
                 const formData = new FormData(this.$refs.observer.$el);
 
                 // Display the key/value pairs
-                for (const pair of formData.entries()) {
-                    console.log(`${pair[0]}, ${pair[1]}`);
-                }
+                //for (const pair of formData.entries()) {
+                //    console.log(`${pair[0]}, ${pair[1]}`);
+                //}
 
                 this.$axios.post('https://localhost:44323/api/Book',
                     formData, {
@@ -289,7 +295,6 @@
                     }
                 })
                     .then((response) => {
-                        console.log(response);
                         alert("新增成功");
                         //回書籍列表
                         this.$router.push({ name: 'BookIndex' })
@@ -298,37 +303,21 @@
                         console.log(error);
                     })
             },
-            download(id,fileName) {
-               
-                const method = 'GET';
-                const url = `https://localhost:44323/api/Download/${id}`;
-
-                this.$axios.request({
-                        url,
-                        method,
-                        responseType: 'blob', //important
-                    })
-                    .then(({ data }) => {
-                        const downloadUrl = window.URL.createObjectURL(new Blob([data]));
-                        const link = document.createElement('a');
-                        link.href = downloadUrl;
-                        link.setAttribute('download', fileName); //any other extension
-                        document.body.appendChild(link);
-                        link.click();
-                        link.remove();
-                    });
-            },
             init() {
                 this.$axios.get(`https://localhost:44323/api/Book/${this.$route.params.id}`)
                     .then((response) => {
-
-                        console.log(response.data);
                         this.book = { ...response.data };
-
                     })
                     .catch((error) => {
                         console.log(error);
                     })
+            },
+            //刪除上傳的圖片
+            deleteUploadFile(id) {
+                console.log(`bookPhoto ${id}`);
+                //BookPhoto的id
+                const isDeleteBookPhotoIndex = this.book.bookPhotos.findIndex(x => x.id === id);
+                this.book.bookPhotos.splice(isDeleteBookPhotoIndex, 1);
             }
         },
         created() {

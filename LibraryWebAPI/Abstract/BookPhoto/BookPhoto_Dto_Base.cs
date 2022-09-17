@@ -4,6 +4,7 @@ namespace LibraryWebAPI.Abstract.BookPhoto
 {
     public class BookPhoto_Dto_Base
     {
+        public Guid Id { get; set; }
         public Guid UploadFileId { get; set; }
         /// <summary>
         /// 檔名
