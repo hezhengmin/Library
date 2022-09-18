@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IO;
 using System.Text;
 using Zheng.Infrastructure.Data;
 
@@ -110,7 +112,13 @@ namespace LibraryWebAPI
             app.UseAuthorization();
 
             //靜態檔案，用來讀取路徑
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                //在wwwroot資料夾底下，另外設定路徑
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(env.ContentRootPath, "Uploads")),
+                RequestPath = "/StaticFiles"
+            });
 
             app.UseEndpoints(endpoints =>
             {

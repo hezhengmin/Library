@@ -62,5 +62,23 @@ namespace LibraryWebAPI.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// 下載檔案
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Download/{id}")]
+        public async Task<IActionResult> Download(Guid id)
+        {
+            var entity = await _uploadFileService.Get(id);
+
+            if (entity == null)
+                return NotFound();
+
+            var stream = await _uploadFileService.GetUploadFileStream(id);
+
+            return File(stream, entity.ContentType, $"{entity.Name}{entity.Extension}");
+        }
     }
 }

@@ -13,33 +13,48 @@
                     </button>
                 </div>
             </div>
-            <div class="row g-2">
-                <div class="col-md-4">
-                    <label for="title" class="form-label">書名</label>
-                    <ValidationProvider v-slot="{ valid, errors }" name="標題" rules="required">
-                        <input id="title" name="title" type="text" v-model="book.title"
-                               :class="[{'is-invalid': valid===false}, 'form-control']" />
-                        <span class="invalid-feedback">{{ errors[0] }}</span>
-                    </ValidationProvider>
+            <div class="row g-5">
+                <div class="col-md-6">
+                    <div class="py-2">
+                        <label for="title" class="form-label">書名</label>
+                        <ValidationProvider v-slot="{ valid, errors }" name="標題" rules="required">
+                            <input id="title" name="title" type="text" v-model="book.title"
+                                   :class="[{'is-invalid': valid===false}, 'form-control']" />
+                            <span class="invalid-feedback">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                    </div>
+                    <div class="py-2">
+                        <label for="status" class="form-label">狀態</label>
+                        <ValidationProvider v-slot="{ valid, errors }" name="狀態" rules="required">
+                            <select id="status" name="status" v-model="book.status" :class="[{'is-invalid': valid===false}, 'form-control']">
+                                <option value="">請選擇</option>
+                                <option value="0">有庫存</option>
+                                <option value="1">無庫存</option>
+                            </select>
+                            <span class="invalid-feedback">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                    </div>
+                    <div class="py-2">
+                        <label for="isbn" class="form-label">ISBN</label>
+                        <ValidationProvider v-slot="{ valid, errors }" name="ISBN" rules="required|digits:13">
+                            <input id="isbn" name="isbn" type="text" v-model="book.isbn"
+                                   :class="[{'is-invalid': valid===false}, 'form-control']" />
+                            <span class="invalid-feedback">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="status" class="form-label">狀態</label>
-                    <ValidationProvider v-slot="{ valid, errors }" name="狀態" rules="required">
-                        <select id="status" name="status" v-model="book.status" :class="[{'is-invalid': valid===false}, 'form-control']">
-                            <option value="">請選擇</option>
-                            <option value="0">有庫存</option>
-                            <option value="1">無庫存</option>
-                        </select>
-                        <span class="invalid-feedback">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-                <div class="col-md-4">
-                    <label for="isbn" class="form-label">ISBN</label>
-                    <ValidationProvider v-slot="{ valid, errors }" name="ISBN" rules="required|digits:13">
-                        <input id="isbn" name="isbn" type="text" v-model="book.isbn"
-                               :class="[{'is-invalid': valid===false}, 'form-control']" />
-                        <span class="invalid-feedback">{{ errors[0] }}</span>
-                    </ValidationProvider>
+                <div class="col-md-6">
+                    <div v-for="photo in book.bookPhotos" :key="photo.id">
+                        <img :src="'https://localhost:44323/StaticFiles/' + photo.uploadFileId + photo.extension" class="bookPhoto img-thumbnail  rounded mx-auto d-block" :alt="photo.name">
+                    </div>
+
+                    <label for="formFileMultiple" class="form-label">圖片檔案</label>
+                    <input class="form-control" name="files" type="file" id="formFileMultiple" multiple>
+                    <upload-file v-for="photo in book.bookPhotos" :key="photo.uploadFileId"
+                                 :id="photo.id"
+                                 :uploadFileId="photo.uploadFileId"
+                                 :file-name="photo.fileCompleteName"
+                                 @delete="deleteUploadFile"></upload-file>
                 </div>
             </div>
             <div class="row g-2">
@@ -185,13 +200,7 @@
                     <input id="authority" name="authority" class="form-control" type="text" v-model="book.authority" />
                 </div>
                 <div class="col-md">
-                    <label for="formFileMultiple" class="form-label">圖片檔案</label>
-                    <input class="form-control" name="files" type="file" id="formFileMultiple" multiple>
-                    <upload-file v-for="photo in book.bookPhotos" :key="photo.uploadFileId"
-                                 :id="photo.id"
-                                 :uploadFileId="photo.uploadFileId"
-                                 :file-name="photo.fileCompleteName"
-                                 @delete="deleteUploadFile"></upload-file>
+
                 </div>
             </div>
             <div class="d-flex my-2">
@@ -349,5 +358,8 @@
     };
 </script>
 
-<style>
+<style lang="scss" scoped>
+    .bookPhoto {
+        max-height: 200px;
+    }
 </style>

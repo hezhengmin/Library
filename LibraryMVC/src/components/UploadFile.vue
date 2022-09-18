@@ -31,7 +31,7 @@
             //檔案下載
             downloadFile() {
                 const method = 'GET';
-                const url = `https://localhost:44323/api/Download/${this.uploadFileId}`;
+                const url = `https://localhost:44323/api/UploadFile/Download/${this.uploadFileId}`;
 
                 this.$axios.request({
                     url,
