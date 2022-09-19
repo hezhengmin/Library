@@ -16,6 +16,7 @@
     "fs": "0.0.1-security",
     "vee-validate": "^2.2.15",
     "vue": "^2.7.6",
+    "vue-carousel": "^0.18.0",
     "vue-i18n": "^8.27.2",
     "vue-loader": "^15.9.8",
     "vue-router": "^3.6.4",

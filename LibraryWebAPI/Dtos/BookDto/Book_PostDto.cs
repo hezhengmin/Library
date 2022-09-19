@@ -13,18 +13,10 @@ namespace LibraryWebAPI.Dtos.BookDto
         [Required]
         public override int Status { get; set; }
 
-        [Required(ErrorMessage = "{0}必填")]
-        [MinLength(13, ErrorMessage = "{0}不得低於{1}個字元")]
-        public override string Isbn { get; set; }
-
-        private string _issn { get; set; }
-        public override string Issn
-        {
-            get => _issn;
-            set => _issn = value ?? "";
-        }
-
         private string _gpn { get; set; }
+
+        [Required(ErrorMessage = "{0}必填")]
+        [MinLength(10, ErrorMessage = "{0}不得低於{1}個字元")]
         public override string Gpn
         {
             get => _gpn;

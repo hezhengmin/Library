@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Zheng.Infrastructure.Models;
 
 #nullable disable
@@ -23,7 +25,7 @@ namespace Zheng.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -80,12 +82,10 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("授權資訊");
 
                 entity.Property(e => e.Binding)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasComment("裝訂");
 
                 entity.Property(e => e.Catalog)
-                    .IsRequired()
                     .HasMaxLength(3000)
                     .HasComment("目次");
 
@@ -94,12 +94,10 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("停刊註記");
 
                 entity.Property(e => e.Classify)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("書籍分類");
 
                 entity.Property(e => e.Cover)
-                    .IsRequired()
                     .HasMaxLength(200)
                     .HasComment("書封連結");
 
@@ -120,12 +118,10 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("播放時間長度");
 
                 entity.Property(e => e.Edition)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("版次");
 
                 entity.Property(e => e.Governance)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("施政分類");
 
@@ -133,7 +129,8 @@ namespace Zheng.Infrastructure.Data
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false)
-                    .HasColumnName("GPN");
+                    .HasColumnName("GPN")
+                    .HasComment("GPN(政府出版品統一編號)");
 
                 entity.Property(e => e.Gpntype)
                     .IsRequired()
@@ -142,23 +139,19 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("出版品分類");
 
                 entity.Property(e => e.Grade)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasComment("級別");
 
                 entity.Property(e => e.Introduction)
-                    .IsRequired()
                     .HasMaxLength(2000)
                     .HasComment("abstract(書籍介紹)");
 
                 entity.Property(e => e.Isbn)
-                    .IsRequired()
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("ISBN");
 
                 entity.Property(e => e.Issn)
-                    .IsRequired()
                     .HasMaxLength(8)
                     .IsUnicode(false)
                     .HasColumnName("ISSN");
@@ -169,7 +162,6 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("語言");
 
                 entity.Property(e => e.Numbers)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("字號");
 
@@ -189,7 +181,6 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("出版單位");
 
                 entity.Property(e => e.Restriction)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasComment("權利範圍");
 
@@ -199,19 +190,16 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("出版情況");
 
                 entity.Property(e => e.Size)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("開數");
 
                 entity.Property(e => e.Status).HasComment("狀態");
 
                 entity.Property(e => e.Subject)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("主題分類");
 
                 entity.Property(e => e.TargetPeople)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("適用對象");
 
@@ -221,7 +209,6 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("書名標題");
 
                 entity.Property(e => e.Types)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("資料類型");
 
@@ -232,7 +219,6 @@ namespace Zheng.Infrastructure.Data
                 entity.Property(e => e.UpdatedBy).HasComment("修改者");
 
                 entity.Property(e => e.Url)
-                    .IsRequired()
                     .HasMaxLength(1000)
                     .IsUnicode(false)
                     .HasComment("出版品網址-線上版或試閱版");

@@ -16,6 +16,7 @@
             <div class="row g-5">
                 <div class="col-md-6">
                     <div class="py-2">
+                        <span class="text-danger">*</span>
                         <label for="title" class="form-label">書名</label>
                         <ValidationProvider v-slot="{ valid, errors }" name="標題" rules="required">
                             <input id="title" name="title" type="text" v-model="book.title"
@@ -24,6 +25,7 @@
                         </ValidationProvider>
                     </div>
                     <div class="py-2">
+                        <span class="text-danger">*</span>
                         <label for="status" class="form-label">狀態</label>
                         <ValidationProvider v-slot="{ valid, errors }" name="狀態" rules="required">
                             <select id="status" name="status" v-model="book.status" :class="[{'is-invalid': valid===false}, 'form-control']">
@@ -36,17 +38,31 @@
                     </div>
                     <div class="py-2">
                         <label for="isbn" class="form-label">ISBN</label>
-                        <ValidationProvider v-slot="{ valid, errors }" name="ISBN" rules="required|digits:13">
-                            <input id="isbn" name="isbn" type="text" v-model="book.isbn"
+                        <input id="isbn" name="isbn" type="text" v-model="book.isbn" class="form-control" />
+                    </div>
+                    <div class="py-2">
+                        <label for="issn" class="form-label">ISSN</label>
+                        <input id="issn" name="issn" class="form-control" type="text" v-model="book.issn" />
+                    </div>
+                    <div class="py-2">
+                        <span class="text-danger">*</span>
+                        <label for="gpn" class="form-label">GPN(政府出版品統一編號)</label>
+                        <ValidationProvider v-slot="{ valid, errors }" name="GPN" rules="required|digits:10">
+                            <input id="gpn" name="gpn" type="text" v-model="book.gpn"
                                    :class="[{'is-invalid': valid===false}, 'form-control']" />
                             <span class="invalid-feedback">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
+
                 </div>
                 <div class="col-md-6">
-                    <div v-for="photo in book.bookPhotos" :key="photo.id">
-                        <img :src="'https://localhost:44323/StaticFiles/' + photo.uploadFileId + photo.extension" class="bookPhoto img-thumbnail  rounded mx-auto d-block" :alt="photo.name">
-                    </div>
+
+                    <carousel :perPage="1" :navigationEnabled="true">
+                        <slide v-for="photo in book.bookPhotos" :key="photo.id">
+                            <img :src="'https://localhost:44323/StaticFiles/' + photo.uploadFileId + photo.extension" class="bookPhoto img-thumbnail  rounded mx-auto d-block" :alt="photo.name">
+                            <h2 class="text-center">{{photo.fileCompleteName}}</h2>
+                        </slide>
+                    </carousel>
 
                     <label for="formFileMultiple" class="form-label">圖片檔案</label>
                     <input class="form-control" name="files" type="file" id="formFileMultiple" multiple>
@@ -59,12 +75,8 @@
             </div>
             <div class="row g-2">
                 <div class="col-md-4">
-                    <label for="issn" class="form-label">ISSN</label>
-                    <input id="issn" name="issn" class="form-control" type="text" v-model="book.issn" />
                 </div>
                 <div class="col-md-4">
-                    <label for="gpn" class="form-label">GPN</label>
-                    <input id="gpn" name="gpn" class="form-control" type="text" v-model="book.gpn" />
                 </div>
                 <div class="col-md-4">
                     <label for="publisher" class="form-label">出版單位</label>
@@ -141,8 +153,7 @@
                     <input id="language" name="language" class="form-control" type="text" v-model="book.language" />
                 </div>
                 <div class="col-md">
-                    <label for="introduction" class="form-label">書籍介紹</label>
-                    <textarea id="introduction" name="introduction" class="form-control" type="text" v-model="book.introduction" />
+
                 </div>
             </div>
             <div class="row g-2">
@@ -209,15 +220,26 @@
                     回上一頁
                 </button>
             </div>
+
+            <div class="row g-2">
+                <div class="col">
+                    <label for="introduction" class="form-label">書籍介紹</label>
+                    <textarea id="introduction" name="introduction" class="form-control" type="text" v-model="book.introduction" rows="5" />
+                </div>
+            </div>
         </ValidationObserver>
     </div>
 </template>
 <script>
     import UploadFile from "../../../src/components/UploadFile.vue";
+    import { Carousel, Slide } from 'vue-carousel';
+
     export default {
         name: "BookEdit",
         components: {
             UploadFile,
+            Carousel,
+            Slide
         },
         data() {
             return {

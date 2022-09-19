@@ -9,6 +9,8 @@ import Paginate from 'vuejs-paginate'//分頁
 import VeeValidate from 'vee-validate';//驗證
 import zhTW from 'vee-validate/dist/locale/zh_TW';
 import VueI18n from 'vue-i18n';
+import VueCarousel from 'vue-carousel';
+
 
 Vue.prototype.$axios = axios;
 Vue.use(Router);//路由
@@ -17,6 +19,9 @@ Vue.use(VueI18n);
 
 Vue.component('ValidationProvider', VeeValidate.ValidationProvider);
 Vue.component('ValidationObserver', VeeValidate.ValidationObserver);
+
+Vue.use(VueCarousel);//輪播套件
+
 
 const i18n = new VueI18n({
     locale: 'zhTW',
