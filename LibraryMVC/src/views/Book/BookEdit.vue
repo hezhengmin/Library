@@ -13,121 +13,156 @@
                     </button>
                 </div>
             </div>
-            <div class="row g-5">
+            <div class="row">
                 <div class="col-md-6">
-                    <div class="py-2">
-                        <span class="text-danger">*</span>
-                        <label for="title" class="form-label">書名</label>
-                        <ValidationProvider v-slot="{ valid, errors }" name="標題" rules="required">
-                            <input id="title" name="title" type="text" v-model="book.title"
-                                   :class="[{'is-invalid': valid===false}, 'form-control']" />
-                            <span class="invalid-feedback">{{ errors[0] }}</span>
-                        </ValidationProvider>
+                    <div class="card">
+                        <div class="card-header">
+                            書籍資訊
+                        </div>
+                        <div class="card-body">
+                            <div class="py-2">
+                                <span class="text-danger">*</span>
+                                <label for="title" class="form-label">書名</label>
+                                <ValidationProvider v-slot="{ valid, errors }" name="標題" rules="required">
+                                    <input id="title" name="title" type="text" v-model="book.title"
+                                           :class="[{'is-invalid': valid===false}, 'form-control']" />
+                                    <span class="invalid-feedback">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+                            <div class="py-2">
+                                <span class="text-danger">*</span>
+                                <label for="creator" class="form-label">作者資訊</label>
+                                <input id="creator" name="creator" class="form-control" type="text" v-model="book.creator" />
+                            </div>
+                            <div class="py-2">
+                                <span class="text-danger">*</span>
+                                <label for="status" class="form-label">狀態</label>
+                                <ValidationProvider v-slot="{ valid, errors }" name="狀態" rules="required">
+                                    <select id="status" name="status" v-model="book.status" :class="[{'is-invalid': valid===false}, 'form-control']">
+                                        <option value="">請選擇</option>
+                                        <option value="0">有庫存</option>
+                                        <option value="1">無庫存</option>
+                                    </select>
+                                    <span class="invalid-feedback">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+                            <div class="py-2">
+                                <label for="isbn" class="form-label">ISBN</label>
+                                <input id="isbn" name="isbn" type="text" v-model="book.isbn" class="form-control" />
+                            </div>
+                            <div class="py-2">
+                                <label for="issn" class="form-label">ISSN</label>
+                                <input id="issn" name="issn" class="form-control" type="text" v-model="book.issn" />
+                            </div>
+                            <div class="py-2">
+                                <span class="text-danger">*</span>
+                                <label for="gpn" class="form-label">GPN(政府出版品統一編號)</label>
+                                <ValidationProvider v-slot="{ valid, errors }" name="GPN" rules="required|digits:10">
+                                    <input id="gpn" name="gpn" type="text" v-model="book.gpn"
+                                           :class="[{'is-invalid': valid===false}, 'form-control']" />
+                                    <span class="invalid-feedback">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+                        </div>
                     </div>
-                    <div class="py-2">
-                        <span class="text-danger">*</span>
-                        <label for="status" class="form-label">狀態</label>
-                        <ValidationProvider v-slot="{ valid, errors }" name="狀態" rules="required">
-                            <select id="status" name="status" v-model="book.status" :class="[{'is-invalid': valid===false}, 'form-control']">
-                                <option value="">請選擇</option>
-                                <option value="0">有庫存</option>
-                                <option value="1">無庫存</option>
-                            </select>
-                            <span class="invalid-feedback">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-                    <div class="py-2">
-                        <label for="isbn" class="form-label">ISBN</label>
-                        <input id="isbn" name="isbn" type="text" v-model="book.isbn" class="form-control" />
-                    </div>
-                    <div class="py-2">
-                        <label for="issn" class="form-label">ISSN</label>
-                        <input id="issn" name="issn" class="form-control" type="text" v-model="book.issn" />
-                    </div>
-                    <div class="py-2">
-                        <span class="text-danger">*</span>
-                        <label for="gpn" class="form-label">GPN(政府出版品統一編號)</label>
-                        <ValidationProvider v-slot="{ valid, errors }" name="GPN" rules="required|digits:10">
-                            <input id="gpn" name="gpn" type="text" v-model="book.gpn"
-                                   :class="[{'is-invalid': valid===false}, 'form-control']" />
-                            <span class="invalid-feedback">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-
                 </div>
                 <div class="col-md-6">
-
-                    <carousel :perPage="1" :navigationEnabled="true">
-                        <slide v-for="photo in book.bookPhotos" :key="photo.id">
-                            <img :src="'https://localhost:44323/StaticFiles/' + photo.uploadFileId + photo.extension" class="bookPhoto img-thumbnail  rounded mx-auto d-block" :alt="photo.name">
-                            <h2 class="text-center">{{photo.fileCompleteName}}</h2>
-                        </slide>
-                    </carousel>
-
-                    <label for="formFileMultiple" class="form-label">圖片檔案</label>
-                    <input class="form-control" name="files" type="file" id="formFileMultiple" multiple>
-                    <upload-file v-for="photo in book.bookPhotos" :key="photo.uploadFileId"
-                                 :id="photo.id"
-                                 :uploadFileId="photo.uploadFileId"
-                                 :file-name="photo.fileCompleteName"
-                                 @delete="deleteUploadFile"></upload-file>
+                    <div class="card">
+                        <div class="card-header">
+                            圖片檔案
+                        </div>
+                        <div class="card-body">
+                            <carousel :perPage="1" :navigationEnabled="true">
+                                <slide v-for="photo in book.bookPhotos" :key="photo.id">
+                                    <img :src="'https://localhost:44323/StaticFiles/' + photo.uploadFileId + photo.extension" class="bookPhoto img-thumbnail  rounded mx-auto d-block" :alt="photo.name">
+                                    <h2 class="text-center">{{photo.fileCompleteName}}</h2>
+                                </slide>
+                            </carousel>
+                            <input class="form-control" name="files" type="file" multiple>
+                            <upload-file v-for="photo in book.bookPhotos" :key="photo.uploadFileId"
+                                         :id="photo.id"
+                                         :uploadFileId="photo.uploadFileId"
+                                         :file-name="photo.fileCompleteName"
+                                         @delete="deleteUploadFile"></upload-file>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row g-2">
-                <div class="col-md-4">
+            <div class="card mt-4">
+                <div class="card-header">
+                    出版資訊
                 </div>
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-4">
-                    <label for="publisher" class="form-label">出版單位</label>
-                    <input id="publisher" name="publisher" class="form-control" type="text" v-model="book.publisher" />
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="text-danger">*</span>
+                            <label for="publisher" class="form-label">出版單位</label>
+                            <input id="publisher" name="publisher" class="form-control" type="text" v-model="book.publisher" />
+                        </div>
+                        <div class="col-md-6">
+                            <span class="text-danger">*</span>
+                            <label for="publisher" class="form-label">出版單位</label>
+                            <input id="publisher" name="publisher" class="form-control" type="text" v-model="book.publisher" />
+                        </div>
+                    </div>
+                    <div class="d-block py-2"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="text-danger">*</span>
+                            <label for="rightCondition" class="form-label">出版情況</label>
+                            <input id="rightCondition" name="rightCondition" class="form-control" type="text" v-model="book.rightCondition" />
+                        </div>
+                        <div class="col-md-6">
+                            <span class="text-danger">*</span>
+                            <label for="publishDate" class="form-label">出版日期</label>
+                            <input id="publishDate" name="publishDate" class="form-control" type="text" v-model="book.publishDate" />
+                        </div>
+                    </div>
+                    <div class="d-block py-2"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="edition" class="form-label">版次</label>
+                            <input id="edition" name="edition" class="form-control" type="text" v-model="book.edition" />
+                        </div>
+                        <div class="col-md-6">
+                            <span class="text-danger">*</span>
+                            <label for="gpntype" class="form-label">出版品分類</label>
+                            <input id="gpntype" name="gpntype" class="form-control" type="text" v-model="book.gpntype" />
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="row g-2">
-                <div class="col-md-4">
-                    <label for="rightCondition" class="form-label">出版情況</label>
-                    <input id="rightCondition" name="rightCondition" class="form-control" type="text" v-model="book.rightCondition" />
+            <div class="card mt-4">
+                <div class="card-header">
+                    分類資訊
                 </div>
-                <div class="col-md-4">
-                    <label for="creator" class="form-label">作者資訊</label>
-                    <input id="creator" name="creator" class="form-control" type="text" v-model="book.creator" />
-                </div>
-                <div class="col-md-4">
-                    <label for="publishDate" class="form-label">出版日期</label>
-                    <input id="publishDate" name="publishDate" class="form-control" type="text" v-model="book.publishDate" />
-                </div>
-            </div>
-
-            <div class="row g-2">
-                <div class="col-md-4">
-                    <label for="edition" class="form-label">版次</label>
-                    <input id="edition" name="edition" class="form-control" type="text" v-model="book.edition" />
-                </div>
-                <div class="col-md-4">
-                    <label for="cover" class="form-label">書封連結</label>
-                    <input id="cover" name="cover" class="form-control" type="text" v-model="book.cover" />
-                </div>
-                <div class="col-md-4">
-                    <label for="classify" class="form-label">書籍分類</label>
-                    <input id="classify" name="classify" class="form-control" type="text" v-model="book.classify" />
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="cover" class="form-label">書封連結</label>
+                            <input id="cover" name="cover" class="form-control" type="text" v-model="book.cover" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="classify" class="form-label">書籍分類</label>
+                            <input id="classify" name="classify" class="form-control" type="text" v-model="book.classify" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="subject" class="form-label">主題分類</label>
+                            <input id="subject" name="subject" class="form-control" type="text" v-model="book.subject" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="governance" class="form-label">施政分類</label>
+                            <input id="governance" name="governance" class="form-control" type="text" v-model="book.governance" />
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="row g-2">
-                <div class="col-md-4">
-                    <label for="gpntype" class="form-label">出版品分類</label>
-                    <input id="gpntype" name="gpntype" class="form-control" type="text" v-model="book.gpntype" />
-                </div>
-                <div class="col-md-4">
-                    <label for="subject" class="form-label">主題分類</label>
-                    <input id="subject" name="subject" class="form-control" type="text" v-model="book.subject" />
-                </div>
-                <div class="col-md-4">
-                    <label for="governance" class="form-label">施政分類</label>
-                    <input id="governance" name="governance" class="form-control" type="text" v-model="book.governance" />
-                </div>
-            </div>
+
+
 
             <div class="row g-2">
                 <div class="col-md">
@@ -135,6 +170,7 @@
                     <input id="grade" name="grade" class="form-control" type="text" v-model="book.grade" />
                 </div>
                 <div class="col-md">
+                    <span class="text-danger">*</span>
                     <label for="pages" class="form-label">頁數</label>
                     <input id="pages" name="pages" class="form-control" type="number" v-model="book.pages" />
                 </div>
@@ -149,6 +185,7 @@
                     <input id="binding" name="binding" class="form-control" type="text" v-model="book.binding" />
                 </div>
                 <div class="col-md">
+                    <span class="text-danger">*</span>
                     <label for="language" class="form-label">語言</label>
                     <input id="language" name="language" class="form-control" type="text" v-model="book.language" />
                 </div>
@@ -158,10 +195,9 @@
             </div>
             <div class="row g-2">
                 <div class="col-md">
-                    <label for="catalog" class="form-label">目次</label>
-                    <textarea id="catalog" name="catalog" class="form-control" type="text" v-model="book.catalog" />
                 </div>
                 <div class="col-md">
+                    <span class="text-danger">*</span>
                     <label for="price" class="form-label">價格</label>
                     <div class="input-group">
                         <div class="input-group-text">$</div>
@@ -189,6 +225,7 @@
             </div>
             <div class="row g-2">
                 <div class="col-md">
+                    <span class="text-danger">*</span>
                     <label for="duration" class="form-label">播放時間長度</label>
                     <input id="duration" name="duration" class="form-control" type="text" v-model="book.duration" />
                 </div>
@@ -207,6 +244,7 @@
                     <input id="ceasedDate" name="ceasedDate" class="form-control" type="datetime" v-model="book.ceasedDate" />
                 </div>
                 <div class="col-md">
+                    <span class="text-danger">*</span>
                     <label for="authority" class="form-label">授權資訊</label>
                     <input id="authority" name="authority" class="form-control" type="text" v-model="book.authority" />
                 </div>
@@ -214,6 +252,25 @@
 
                 </div>
             </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    目次、作者簡介
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <label for="catalog" class="form-label">目次</label>
+                            <textarea id="catalog" name="catalog" class="form-control" type="text" v-model="book.catalog" rows="5" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="introduction" class="form-label">書籍介紹</label>
+                            <textarea id="introduction" name="introduction" class="form-control" type="text" v-model="book.introduction" rows="5" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="d-flex my-2">
                 <button class="btn btn-primary" :disabled="invalid" type="submit">確認</button>
                 <button type="button" @click="$router.go(-1)" class="btn btn-primary">
@@ -221,12 +278,7 @@
                 </button>
             </div>
 
-            <div class="row g-2">
-                <div class="col">
-                    <label for="introduction" class="form-label">書籍介紹</label>
-                    <textarea id="introduction" name="introduction" class="form-control" type="text" v-model="book.introduction" rows="5" />
-                </div>
-            </div>
+
         </ValidationObserver>
     </div>
 </template>
