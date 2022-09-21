@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="uploadfile">
         <a href="" @click.prevent="downloadFile()">{{fileName}}</a>
-        <a href="" @click.prevent="deleteFile()">刪除</a>
+        <a href="" class="text-decoration-none text-danger"  @click.prevent="deleteFile()">刪除</a>
     </div>
 </template>
 <script>
@@ -73,5 +73,6 @@
     };
 </script>
 
-<style>
+<style >
+
 </style>

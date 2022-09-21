@@ -68,7 +68,7 @@ namespace LibraryWebAPI.Services
                 Issn = book.Issn,
                 Gpn = book.Gpn,
                 Publisher = book.Publisher,
-                RightCondition = book.Restriction,
+                RightCondition = book.RightCondition,
                 Creator = book.Creator,
                 PublishDate = book.PublishDate,
                 Edition = book.Edition,
@@ -257,7 +257,7 @@ namespace LibraryWebAPI.Services
             book.Issn = entity.Issn;
             book.Gpn = entity.Gpn;
             book.Publisher = entity.Publisher;
-            book.RightCondition = entity.Restriction;
+            book.RightCondition = entity.RightCondition;
             book.Creator = entity.Creator;
             book.PublishDate = entity.PublishDate;
             book.Edition = entity.Edition;

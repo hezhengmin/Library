@@ -145,14 +145,10 @@ namespace LibraryWebAPI.Dtos.BookDto
             set => _catalog = value ?? "";
         }
 
-        private int? _price { get; set; }
+        private int _price { get; set; }
         public override int Price
         {
-            get
-            {
-                if (_price.HasValue) return _price.Value;
-                else return 0;
-            }
+            get => _price;
             set => _price = value;
         }
 
