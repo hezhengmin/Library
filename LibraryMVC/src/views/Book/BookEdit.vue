@@ -76,12 +76,18 @@
                             圖片檔案
                         </div>
                         <div class="card-body">
-                            <carousel :perPage="1" :navigationEnabled="true">
-                                <slide v-for="photo in book.bookPhotos" :key="photo.id">
-                                    <img :src="'https://localhost:44323/StaticFiles/' + photo.uploadFileId + photo.extension" class="bookPhoto img-thumbnail  rounded mx-auto d-block" :alt="photo.name">
-                                    <h2 class="text-center">{{photo.fileCompleteName}}</h2>
-                                </slide>
-                            </carousel>
+                            <!-- 圖片輪播 -->
+                            <template>
+                                <swiper class="swiper" :options="swiperOption">
+                                    <swiper-slide v-for="photo in book.bookPhotos" :key="photo.id">
+                                        <img :src="'https://localhost:44323/StaticFiles/' + photo.uploadFileId + photo.extension" class="bookPhoto img-thumbnail  rounded mx-auto d-block" :alt="photo.name">
+                                        <h3 class="text-center">{{photo.fileCompleteName}}</h3>
+                                    </swiper-slide>
+                                    <div class="swiper-pagination" slot="pagination"></div>
+                                    <div class="swiper-button-prev" slot="button-prev"></div>
+                                    <div class="swiper-button-next" slot="button-next"></div>
+                                </swiper>
+                            </template>
                             <div class="input-group">
                                 <input class="form-control" name="files" type="file" multiple>
                                 <button class="btn btn-primary" type="button">上傳</button>
@@ -314,18 +320,31 @@
     </div>
 </template>
 <script>
+
     import UploadFile from "../../../src/components/UploadFile.vue";
-    import { Carousel, Slide } from 'vue-carousel';
+    import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+    import 'swiper/css/swiper.css'
 
     export default {
         name: "BookEdit",
         components: {
             UploadFile,
-            Carousel,
-            Slide
+            Swiper,
+            SwiperSlide
         },
         data() {
             return {
+                swiperOption: {
+                    spaceBetween: 30,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    }
+                },
                 book: {
                     title: "",
                     status: "",
@@ -468,5 +487,9 @@
 <style lang="scss" scoped>
     .bookPhoto {
         max-height: 200px;
+    }
+
+    .swiper {
+        height: 280px;
     }
 </style>

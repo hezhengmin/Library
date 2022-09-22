@@ -62,6 +62,12 @@ Vue.use(VeeValidate, {
   },
 });
 ```
+* npm install vue-awesome-swiper@4.1.1
+```
+圖片輪播
+https://github.com/surmon-china/vue-awesome-swiper
+```
+* npm install swiper@5.2.0
 ## 使用 Node.js npm 安裝 bootstrap
 Webpack 和其他 bundlers 將 [Bootstrap](https://bootstrap5.hexschool.com/docs/5.0/getting-started/webpack/)  加入到你的專案
 * npm install bootstrap --save)

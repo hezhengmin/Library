@@ -45,7 +45,7 @@ module.exports = {
                 loader: 'vue-loader'
             },
             {
-                test: /\.(scss)$/,
+                test: /\.(sass|css|scss)$/,
                 use: [{
                     // inject CSS to page
                     loader: 'style-loader'
