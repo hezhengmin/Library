@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryWebAPI.Abstract.BookPhoto;
 using LibraryWebAPI.Dtos.BookDto;
+using LibraryWebAPI.Dtos.BookPhotoDto;
 using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
@@ -40,7 +41,7 @@ namespace LibraryWebAPI.Services
 
 
             //轉換成Dto
-            var bookPhoto_GetDto = new List<BookPhoto_Dto_Base>();
+            var bookPhoto_GetDto = new List<BookPhoto_GetDto>();
 
             //書籍封面圖片
             var bookPhotoDtoList = (from b in _context.Books
@@ -49,7 +50,7 @@ namespace LibraryWebAPI.Services
                                     from j in bpu.DefaultIfEmpty()
                                     where b.Id == id
                                     let fileCompleteName = $"{j.Name ?? string.Empty}{j.Extension ?? string.Empty}"
-                                    select new BookPhoto_Dto_Base()
+                                    select new BookPhoto_GetDto()
                                     {
                                         Id =bp.Id,
                                         UploadFileId = bp.UploadFileId,
@@ -232,7 +233,6 @@ namespace LibraryWebAPI.Services
 
             return book;
         }
-
 
         public bool Check(Guid id)
         {

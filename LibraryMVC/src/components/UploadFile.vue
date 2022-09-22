@@ -51,6 +51,9 @@
             //刪除檔案
             deleteFile() {
 
+                let yes = confirm('你確定刪除檔案嗎？');
+                if (!yes) return;
+
                 this.$axios.delete(`https://localhost:44323/api/BookPhoto/${this.id}`)
                     .then((response) => {
                         if (response.status === 204) {

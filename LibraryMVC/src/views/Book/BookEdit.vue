@@ -88,10 +88,16 @@
                                     <div class="swiper-button-next" slot="button-next"></div>
                                 </swiper>
                             </template>
-                            <div class="input-group">
-                                <input class="form-control" name="files" type="file" multiple>
-                                <button class="btn btn-primary" type="button">上傳</button>
-                            </div>
+                            <!--檔案上傳-->
+                            <ValidationProvider v-slot="{ valid, errors }" name="檔案" rules="'image'">
+                                <div class="input-group">
+                                    <input id="photo" :class="[{'is-invalid': valid===false}, 'form-control']"
+                                           name="files" type="file" multiple>
+                                    <button class="btn btn-primary" type="button" @click="uploadImage">上傳</button>
+                                </div>
+                                <span class="invalid-feedback">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                            <!--檔案列表-->
                             <upload-file v-for="photo in book.bookPhotos" :key="photo.uploadFileId"
                                          :id="photo.id"
                                          :uploadFileId="photo.uploadFileId"
@@ -468,6 +474,31 @@
                 //BookPhoto的id
                 const isDeleteBookPhotoIndex = this.book.bookPhotos.findIndex(x => x.id === id);
                 this.book.bookPhotos.splice(isDeleteBookPhotoIndex, 1);
+            },
+            //上傳的圖片
+            uploadImage() {
+
+                const formData = new FormData();
+                //BookId
+                formData.append("bookId", this.$route.params.id);
+                //圖片
+                let photo = document.getElementById('photo');
+                for (let i = 0; i < photo.files.length; i++) {
+                    formData.append('files', photo.files[i])
+                }
+
+                this.$axios.post(`https://localhost:44323/api/BookPhoto/${this.$route.params.id}`,
+                    formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data;',
+                    }
+                })
+                    .then((response) => {
+                        alert("新增圖片成功");
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             }
         },
         created() {

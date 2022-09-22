@@ -14,9 +14,6 @@ namespace LibraryWebAPI.Abstract.BookPhoto
         /// 附檔名
         /// </summary>
         public string Extension { get; set; }
-        /// <summary>
-        /// 完整檔名
-        /// </summary>
-        public string FileCompleteName { get; set; }
+       
     }
 }

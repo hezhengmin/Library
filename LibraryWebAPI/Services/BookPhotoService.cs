@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryWebAPI.Abstract.BookPhoto;
 using LibraryWebAPI.Dtos.BookDto;
+using LibraryWebAPI.Dtos.BookPhotoDto;
 using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
@@ -46,6 +47,71 @@ namespace LibraryWebAPI.Services
                 _context.BookPhotos.Remove(entity);
                 _context.SaveChanges();
             }
+        }
+
+
+        public async Task<bool> Add(BookPhoto_PostDto entity)
+        {
+            var bookPhotoList = new List<BookPhoto>();
+            //如果有附檔
+            if (entity.Files != null)
+            {
+                List<Guid> guidList;
+                var result = _uploadFileService.AddMultiple(entity.Files, out guidList);
+
+                foreach (var id in guidList)
+                {
+
+                    BookPhoto bookPhoto = new BookPhoto()
+                    {
+                        Id = Guid.NewGuid(),
+                        BookId = entity.BookId,
+                        UploadFileId = id,
+                        SystemDate = DateTime.Now
+                    };
+
+                    bookPhotoList.Add(bookPhoto);
+                }
+            }
+
+
+            try
+            {
+                await _context.BookPhotos.AddRangeAsync(bookPhotoList);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                //新增失敗
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public async Task<List<BookPhoto_GetDto>> GetBookPhotoDto(Guid bookId)
+        {
+            //轉換成Dto
+            var bookPhoto_GetDto = new List<BookPhoto_GetDto>();
+
+            //書籍封面圖片
+            var bookPhotoDtoList = await (from b in _context.Books
+                                          join bp in _context.BookPhotos on b.Id equals bp.BookId
+                                          join u in _context.UploadFiles on bp.UploadFileId equals u.Id into bpu
+                                          from j in bpu.DefaultIfEmpty()
+                                          where b.Id == bookId
+                                          let fileCompleteName = $"{j.Name ?? string.Empty}{j.Extension ?? string.Empty}"
+                                          select new BookPhoto_GetDto()
+                                          {
+                                              Id = bp.Id,
+                                              UploadFileId = bp.UploadFileId,
+                                              Name = j.Name ?? string.Empty,
+                                              Extension = j.Extension ?? string.Empty,
+                                              FileCompleteName = fileCompleteName
+                                          }).ToListAsync();
+
+            return bookPhoto_GetDto;
         }
     }
 }
