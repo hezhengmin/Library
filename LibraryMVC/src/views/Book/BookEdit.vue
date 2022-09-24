@@ -89,13 +89,13 @@
                                 </swiper>
                             </template>
                             <!--檔案上傳-->
-                            <ValidationProvider v-slot="{ valid, errors }" name="檔案" rules="'image'">
+                            <ValidationProvider v-slot="{ valid, errors, validate}" name="檔案" rules="image">
                                 <div class="input-group">
                                     <input id="photo" :class="[{'is-invalid': valid===false}, 'form-control']"
-                                           name="files" type="file" multiple>
+                                           name="files" type="file" multiple @change="validate">
                                     <button class="btn btn-primary" type="button" @click="uploadImage">上傳</button>
+                                    <span class="invalid-feedback">{{ errors[0] }}</span>
                                 </div>
-                                <span class="invalid-feedback">{{ errors[0] }}</span>
                             </ValidationProvider>
                             <!--檔案列表-->
                             <upload-file v-for="photo in book.bookPhotos" :key="photo.uploadFileId"
@@ -499,6 +499,7 @@
                             console.log(response);
                             alert("新增圖片成功");
                             this.loadBookPhoto();
+                            document.getElementById('photo').value = "";
                         }
                     })
                     .catch((error) => {
