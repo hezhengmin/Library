@@ -1,9 +1,11 @@
-﻿using LibraryWebAPI.Dtos.BookPhotoDto;
+﻿using LibraryWebAPI.Dtos.BookDto;
+using LibraryWebAPI.Dtos.BookPhotoDto;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LibraryWebAPI.Controllers
@@ -58,6 +60,20 @@ namespace LibraryWebAPI.Controllers
             }
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// 取得書籍圖片(多張或一張)
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
+        [HttpGet("{bookId}")]
+        public async Task<ActionResult<List<BookPhoto_GetDto>>> Get(Guid bookId)
+        {
+             var result = await _bookPhotoService.GetBookPhotoDto(bookId);
+            if (result == null) return NotFound();
+            
+            return Ok(result);
         }
     }
 }

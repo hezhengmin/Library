@@ -93,10 +93,10 @@ namespace LibraryWebAPI.Services
         public async Task<List<BookPhoto_GetDto>> GetBookPhotoDto(Guid bookId)
         {
             //轉換成Dto
-            var bookPhoto_GetDto = new List<BookPhoto_GetDto>();
+            var bookPhotoDtoList = new List<BookPhoto_GetDto>();
 
             //書籍封面圖片
-            var bookPhotoDtoList = await (from b in _context.Books
+            bookPhotoDtoList = await (from b in _context.Books
                                           join bp in _context.BookPhotos on b.Id equals bp.BookId
                                           join u in _context.UploadFiles on bp.UploadFileId equals u.Id into bpu
                                           from j in bpu.DefaultIfEmpty()
@@ -111,7 +111,7 @@ namespace LibraryWebAPI.Services
                                               FileCompleteName = fileCompleteName
                                           }).ToListAsync();
 
-            return bookPhoto_GetDto;
+            return bookPhotoDtoList;
         }
     }
 }

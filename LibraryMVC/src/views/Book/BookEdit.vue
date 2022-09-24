@@ -494,7 +494,22 @@
                     }
                 })
                     .then((response) => {
-                        alert("新增圖片成功");
+
+                        if (response.status === 204) {
+                            console.log(response);
+                            alert("新增圖片成功");
+                            this.loadBookPhoto();
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            },
+            //重載書籍圖片
+            loadBookPhoto() {
+                this.$axios.get(`https://localhost:44323/api/BookPhoto/${this.$route.params.id}`)
+                    .then((response) => {
+                        this.book.bookPhotos = response.data;
                     })
                     .catch((error) => {
                         console.log(error);
