@@ -51,6 +51,7 @@
                                 </ValidationProvider>
                             </div>
                             <div class="py-2">
+                                <span class="text-danger">*</span>
                                 <label for="numberOfCopies" class="form-label">庫存數量</label>
                                 <ValidationProvider v-slot="{ valid, errors }" name="庫存數量" rules="required">
                                     <input id="numberOfCopies"

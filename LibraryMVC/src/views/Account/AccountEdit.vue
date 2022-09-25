@@ -36,7 +36,7 @@
         name: "AccountEdit",
         data() {
             return {
-                accountId: '',
+                UserId: '',
                 email: '',
                 oldPassword: '',
                 newPassword: '',
@@ -96,7 +96,7 @@
 
             this.$axios.get(`https://localhost:44323/api/Account/${this.$route.params.id}`)
                 .then((response) => {
-                    this.accountId = response.data.accountId;
+                    this.UserId = response.data.UserId;
                     this.email = response.data.email;
                 })
                 .catch((error) => {

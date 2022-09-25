@@ -7,7 +7,7 @@ namespace LibraryWebAPI.Abstract.Account
         /// <summary>
         /// 帳號
         /// </summary>
-        public virtual string AccountId { get; set; }
+        public virtual string UserId { get; set; }
         /// <summary>
         /// 密碼
         /// </summary>

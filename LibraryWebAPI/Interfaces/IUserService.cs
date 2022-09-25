@@ -7,6 +7,6 @@ namespace LibraryWebAPI.Interfaces
         /// <summary>
         /// 目前登入的帳號id
         /// </summary>
-        Guid CurrentAccountId { get; }
+        Guid CurrentUserId { get; }
     }
 }

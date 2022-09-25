@@ -41,12 +41,6 @@ namespace Zheng.Infrastructure.Data
                     .ValueGeneratedNever()
                     .HasComment("系統編號");
 
-                entity.Property(e => e.AccountId)
-                    .IsRequired()
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasComment("帳號");
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(100)
@@ -62,6 +56,12 @@ namespace Zheng.Infrastructure.Data
                 entity.Property(e => e.SystemDate)
                     .HasColumnType("datetime")
                     .HasComment("系統日期");
+
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasComment("帳號");
             });
 
             modelBuilder.Entity<Book>(entity =>

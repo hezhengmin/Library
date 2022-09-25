@@ -73,9 +73,9 @@ namespace LibraryWebAPI.Services
                     Extension = Path.GetExtension(path),
                     Length = stream.Length,
                     CreatedAt = DateTime.Now,
-                    CreatedBy = _userService.CurrentAccountId,
+                    CreatedBy = _userService.CurrentUserId,
                     UpdatedAt = DateTime.Now,
-                    UpdatedBy = _userService.CurrentAccountId,
+                    UpdatedBy = _userService.CurrentUserId,
                 };
 
                 _context.UploadFiles.Add(uploadFile);
@@ -130,9 +130,9 @@ namespace LibraryWebAPI.Services
                             Extension = Path.GetExtension(file.FileName),
                             Length = file.Length,
                             CreatedAt = DateTime.Now,
-                            CreatedBy = _userService.CurrentAccountId,
+                            CreatedBy = _userService.CurrentUserId,
                             UpdatedAt = DateTime.Now,
-                            UpdatedBy = _userService.CurrentAccountId,
+                            UpdatedBy = _userService.CurrentUserId,
                         };
 
                         uploadFiles.Add(uploadFile);
@@ -185,9 +185,9 @@ namespace LibraryWebAPI.Services
                             Extension = Path.GetExtension(file.FileName),
                             Length = file.Length,
                             CreatedAt = DateTime.Now,
-                            CreatedBy = _userService.CurrentAccountId,
+                            CreatedBy = _userService.CurrentUserId,
                             UpdatedAt = DateTime.Now,
-                            UpdatedBy = _userService.CurrentAccountId,
+                            UpdatedBy = _userService.CurrentUserId,
                         };
 
                         uploadFiles.Add(uploadFile);
@@ -214,9 +214,9 @@ namespace LibraryWebAPI.Services
             return await _context.UploadFiles.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exits(string accountId)
+        public async Task<bool> Exits(string UserId)
         {
-            return await _context.Accounts.AnyAsync(x => x.AccountId == accountId);
+            return await _context.Accounts.AnyAsync(x => x.UserId == UserId);
         }
 
         public async Task<bool> Delete(Guid id)

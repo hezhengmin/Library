@@ -3,7 +3,7 @@
         <ul class="nav justify-content-end">
             <li class="nav-item my-auto">
                 <!-- 登入帳號Id -->
-                <span>{{AccountId}}</span>
+                <span>{{UserId}}</span>
             </li>
             <li class="nav-item">
                 <a href="" class="nav-link text-danger" @click="signOut">登出</a>
@@ -16,8 +16,8 @@
     export default {
         name: 'Navigation',
         computed: {
-            AccountId() {
-                return this.$store.getters.getAccountId;
+            UserId() {
+                return this.$store.getters.getUserId;
             }
         },
         methods: {

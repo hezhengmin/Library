@@ -20,7 +20,7 @@ namespace LibraryWebAPI.Services
         /// <summary>
         /// 目前登入的帳號id
         /// </summary>
-        public Guid CurrentAccountId
+        public Guid CurrentUserId
         {
             get
             {

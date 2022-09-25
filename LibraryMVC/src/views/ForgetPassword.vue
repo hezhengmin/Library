@@ -5,7 +5,7 @@
             <div class="mb-2">
                 <div class="d-flex">
                     <label class="form-label fs-5">帳號</label>
-                    <input type="text" v-model="accountId" class="form-control" required />
+                    <input type="text" v-model="UserId" class="form-control" required />
                 </div>
             </div>
             <div class="mb-2">
@@ -28,14 +28,14 @@
         name: "ForgetPassword",
         data() {
             return {
-                accountId: '',
+                UserId: '',
                 email: '',
             };
         },
         methods: {
             forgetPassword() {
                 this.$axios.post('https://localhost:44323/api/Account/ForgetPassword', {
-                    accountId: this.accountId,
+                    UserId: this.UserId,
                     email: this.email
                 })
                     .then((response) => {

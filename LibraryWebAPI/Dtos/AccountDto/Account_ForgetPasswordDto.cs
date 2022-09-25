@@ -8,7 +8,7 @@ namespace LibraryWebAPI.Dtos.AccountDto
     public class Account_ForgetPasswordDto
     {
         [Required(ErrorMessage = "帳號必填")]
-        public string AccountId { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Email必填")]
         public string Email { get; set; }

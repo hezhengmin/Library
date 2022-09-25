@@ -37,8 +37,8 @@ namespace LibraryWebAPI.Services
             var response = new RegistrationResponse();
 
             //帳號已存在，不能重複
-            var exitsAccountId = await Exits(accountAddEntity.AccountId);
-            if (exitsAccountId)
+            var exitsUserId = await Exits(accountAddEntity.UserId);
+            if (exitsUserId)
             {
                 response.Success = false;
                 response.Errors.Add("帳號已存在，不能重複");
@@ -60,7 +60,7 @@ namespace LibraryWebAPI.Services
             var account = new Account()
             {
                 Id = Guid.NewGuid(),
-                AccountId = accountAddEntity.AccountId,
+                UserId = accountAddEntity.UserId,
                 Password = hashBytes,
                 Email = accountAddEntity.Email,
                 SystemDate = DateTime.Now
@@ -82,7 +82,7 @@ namespace LibraryWebAPI.Services
             response.RegAccount = new Account_GetDto()
             {
                 Id = account.Id,
-                AccountId = account.AccountId,
+                UserId = account.UserId,
                 Email = account.Email
             };
             response.Success = true;
@@ -95,7 +95,7 @@ namespace LibraryWebAPI.Services
             return await _context.Accounts.FindAsync(id);
             #region SQL 查詢語法
             /*
-            exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[Password], [a][SystemDate]
+            exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[UserId], [a].[Password], [a][SystemDate]
             FROM [Account] AS [a]
             WHERE [a].[Id] = @__p_0',N'@__p_0 uniqueidentifier',@__p_0='6B568F00-ECD6-4C69-94C9-C812DC574B98'
             */
@@ -105,25 +105,25 @@ namespace LibraryWebAPI.Services
         public async Task<Account_GetDto> GetDto(Guid id)
         {
             return await _context.Accounts
-                .Select(x => new Account_GetDto { Id = x.Id, AccountId = x.AccountId, Email = x.Email })
+                .Select(x => new Account_GetDto { Id = x.Id, UserId = x.UserId, Email = x.Email })
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Account> Get(string accountId)
+        public async Task<Account> Get(string UserId)
         {
-            return await _context.Accounts.SingleOrDefaultAsync(x => x.AccountId == accountId);
+            return await _context.Accounts.SingleOrDefaultAsync(x => x.UserId == UserId);
             #region SQL 查詢語法 FirstOrDefaultAsync
             /*
-            exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[Password], [a].[SystemDate]
+            exec sp_executesql N'SELECT TOP(1) [a].[Id], [a].[UserId], [a].[Password], [a].[SystemDate]
             FROM[Account] AS[a]
-            WHERE[a].[AccountId] = @__accountId_0',N'@__accountId_0 varchar(20)',@__accountId_0='admin'
+            WHERE[a].[UserId] = @__UserId_0',N'@__UserId_0 varchar(20)',@__UserId_0='admin'
             */
             #endregion
             #region SQL 查詢語法 SingleOrDefaultAsync，兩個帳號會發生錯誤
             /*
-            exec sp_executesql N'SELECT TOP(2) [a].[Id], [a].[AccountId], [a].[Password], [a].[SystemDate]
+            exec sp_executesql N'SELECT TOP(2) [a].[Id], [a].[UserId], [a].[Password], [a].[SystemDate]
             FROM [Account] AS [a]
-            WHERE [a].[AccountId] = @__accountId_0',N'@__accountId_0 varchar(20)',@__accountId_0='admin'*/
+            WHERE [a].[UserId] = @__UserId_0',N'@__UserId_0 varchar(20)',@__UserId_0='admin'*/
             #endregion
         }
 
@@ -139,7 +139,7 @@ namespace LibraryWebAPI.Services
                 .Select(x => new Account_GetDto
                 {
                     Id = x.Id,
-                    AccountId = x.AccountId,
+                    UserId = x.UserId,
                     Email = x.Email
                 }
             ).ToListAsync();
@@ -172,17 +172,17 @@ namespace LibraryWebAPI.Services
             if (account == null) return false;
 
             //更改帳號id
-            if (account.AccountId != entity.AccountId)
+            if (account.UserId != entity.UserId)
             {
                 //帳號已存在，不能重複
-                var result = await Exits(entity.AccountId);
+                var result = await Exits(entity.UserId);
                 if (result) return false;
             }
 
             byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(entity.Password);
 
             //更新欄位
-            account.AccountId = entity.AccountId;
+            account.UserId = entity.UserId;
             account.Password = hashBytes;
 
             try
@@ -203,9 +203,9 @@ namespace LibraryWebAPI.Services
             return _context.Accounts.Any(x => x.Id == id);
         }
 
-        public async Task<bool> Exits(string accountId)
+        public async Task<bool> Exits(string UserId)
         {
-            return await _context.Accounts.AnyAsync(x => x.AccountId == accountId);
+            return await _context.Accounts.AnyAsync(x => x.UserId == UserId);
         }
 
         public async Task<bool> ExitsEmail(string email)
@@ -232,7 +232,7 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task<Account> Login(Account_LoginDto entity)
         {
-            var account = await Get(entity.AccountId);
+            var account = await Get(entity.UserId);
 
             //沒有該帳號，直接回傳false
             if (account == null) return null;
@@ -315,7 +315,7 @@ namespace LibraryWebAPI.Services
                 return response;
             }
 
-            if(account.AccountId != entity.AccountId)
+            if(account.UserId != entity.UserId)
             {
                 response.Success = false;
                 response.Errors.Add("信箱找不到相符合的帳號");
@@ -328,7 +328,7 @@ namespace LibraryWebAPI.Services
             var subject = "【Library】申請重設登入密碼回覆";
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine($"親愛的Library會員 {account.AccountId} 你好：\n");
+            sb.AppendLine($"親愛的Library會員 {account.UserId} 你好：\n");
             sb.AppendLine($"重新設定您的Library密碼：{newPassword}");
             sb.AppendLine("再以此密碼登入Library。");
             sb.AppendLine("感謝您對Library的支持與愛護。\n\n");
@@ -336,7 +336,7 @@ namespace LibraryWebAPI.Services
             sb.AppendLine("--");
             sb.AppendLine("※ 此信件為系統發出信件，請勿直接回覆，感謝您的配合。謝謝！※");
 
-            var isSendSucess = _emailSenderHelper.Send(subject, sb.ToString(), account.AccountId, account.Email);
+            var isSendSucess = _emailSenderHelper.Send(subject, sb.ToString(), account.UserId, account.Email);
 
             //寄信有無成功
             if (!isSendSucess)

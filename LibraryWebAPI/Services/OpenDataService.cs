@@ -100,9 +100,9 @@ namespace LibraryWebAPI.Services
                         CeasedDate = string.IsNullOrEmpty(book.CeasedDate) ? null : DateTime.Parse(book.CeasedDate),
                         Authority = book.Authority,
                         CreatedAt = DateTime.Now,
-                        CreatedBy = _userService.CurrentAccountId,
+                        CreatedBy = _userService.CurrentUserId,
                         UpdatedAt = DateTime.Now,
-                        UpdatedBy = _userService.CurrentAccountId,
+                        UpdatedBy = _userService.CurrentUserId,
                     };
 
                     await _context.Books.AddAsync(entity);

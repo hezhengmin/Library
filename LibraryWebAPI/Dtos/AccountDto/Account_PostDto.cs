@@ -10,7 +10,7 @@ namespace LibraryWebAPI.Dtos.AccountDto
     {
         [Required(ErrorMessage = "帳號必填")]
         [MaxLength(20)]
-        public override string AccountId { get; set; }
+        public override string UserId { get; set; }
         [Required(ErrorMessage = "密碼必填")]
         public override string Password { get; set; }
 

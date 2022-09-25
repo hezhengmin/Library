@@ -24,7 +24,7 @@ namespace LibraryWebAPI.Helpers
             var claims = new List<Claim>
                 {
                     new Claim("id",account.Id.ToString()),//主key
-                    new Claim("account",account.AccountId.ToString()),//帳號
+                    new Claim("account",account.UserId.ToString()),//帳號
                     new Claim(JwtRegisteredClaimNames.Email, account.Email)
                 };
 

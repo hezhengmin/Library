@@ -199,9 +199,9 @@ namespace LibraryWebAPI.Services
 
             book.Id = Guid.NewGuid();
             book.CreatedAt = DateTime.Now;
-            book.CreatedBy = _userService.CurrentAccountId;
+            book.CreatedBy = _userService.CurrentUserId;
             book.UpdatedAt = DateTime.Now;
-            book.UpdatedBy = _userService.CurrentAccountId;
+            book.UpdatedBy = _userService.CurrentUserId;
 
             //如果有附檔
             if (entity.Files != null)
@@ -286,7 +286,7 @@ namespace LibraryWebAPI.Services
             book.CeasedDate = entity.CeasedDate;
             book.Authority = entity.Authority;
             book.UpdatedAt = DateTime.Now;
-            book.UpdatedBy = _userService.CurrentAccountId;
+            book.UpdatedBy = _userService.CurrentUserId;
 
             //如果有附檔
             if (entity.Files != null)

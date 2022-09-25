@@ -47,8 +47,8 @@ export default new Vuex.Store({
             return state.isLogin;
         },
         //帳號Id
-        getAccountId(state) {
-            return state.accountInfo?.accountId;
+        getUserId(state) {
+            return state.accountInfo?.UserId;
         }
     }
 })
