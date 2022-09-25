@@ -3,9 +3,13 @@ using LibraryWebAPI.Dtos.LoanDto;
 using LibraryWebAPI.Interfaces;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using LibraryWebAPI.Dtos.Responses;
+using System.Collections.Generic;
+using LibraryWebAPI.Parameters.Loan;
 
 namespace LibraryWebAPI.Services
 {
@@ -29,14 +33,84 @@ namespace LibraryWebAPI.Services
 
             if (loan == null) return null;
 
+            var result = (from l in _context.Loans
+                          join a in _context.Accounts on l.AccountId equals a.Id
+                          join b in _context.Books on l.BookId equals b.Id
+                          where l.Id == id
+                          select new Loan_GetDto
+                          {
+                              Id = l.Id,
+                              Accountd = l.AccountId,
+                              BookId = l.BookId,
+                              IssueDate = l.IssueDate,
+                              DueDate = l.DueDate,
+                              ReturnDate = l.ReturnDate,
+                              BookTitle = b.Title,
+                              UserId = a.UserId
+                          }).SingleOrDefault();
 
-            //var loan_GetDto = from b in _context.Loans
-            //                        select new Loan_GetDto() {
-            //                        Id = }
+            return result;
+        }
 
-                                
+        public async Task<PagedResponse<List<Loan_GetDto>>> Get(LoanSelectParameter filter)
+        {
+            var query = (from l in _context.Loans
+                         join a in _context.Accounts on l.AccountId equals a.Id
+                         join b in _context.Books on l.BookId equals b.Id
+                         orderby l.CreatedAt descending
+                         select new Loan_GetDto
+                         {
+                             Id = l.Id,
+                             Accountd = l.AccountId,
+                             BookId = l.BookId,
+                             IssueDate = l.IssueDate,
+                             DueDate = l.DueDate,
+                             ReturnDate = l.ReturnDate,
+                             BookTitle = b.Title,
+                             UserId = a.UserId
+                         })
+                         .AsQueryable();
 
-            return null;
+
+            if (!string.IsNullOrWhiteSpace(filter.BookTitle))
+            {
+                query = query.Where(x => x.BookTitle.Contains(filter.BookTitle));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.UserId))
+            {
+                query = query.Where(x => x.UserId.Contains(filter.UserId));
+            }
+
+            if (filter.IssueDate != null)
+            {
+                query = query.Where(x => x.IssueDate.Date >= filter.IssueDate);
+            }
+
+            if (filter.DueDate != null)
+            {
+                query = query.Where(x => x.IssueDate.Date <= filter.DueDate);
+            }
+
+            if (filter.ReturnDate != null)
+            {
+                query = query.Where(x => x.IssueDate.Date == filter.ReturnDate);
+            }
+
+            var totalRecords = query.Count();
+
+            if (filter.PaginationFilter != null)
+            {
+                query = query.Skip((filter.PaginationFilter.PageNumber - 1) * filter.PaginationFilter.PageSize)
+                               .Take(filter.PaginationFilter.PageSize);
+            }
+
+            return new PagedResponse<List<Loan_GetDto>>
+            {
+                Data = await query.ToListAsync(),
+                TotalRecords = totalRecords,
+                TotalPages = (int)Math.Ceiling(totalRecords / (double)filter.PaginationFilter.PageSize)
+            };
         }
 
 

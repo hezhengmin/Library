@@ -1,4 +1,6 @@
 ﻿using LibraryWebAPI.Dtos.LoanDto;
+using LibraryWebAPI.Dtos.Responses;
+using LibraryWebAPI.Parameters.Loan;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +22,13 @@ namespace LibraryWebAPI.Controllers
             _loanService = LoanService;
         }
 
+        [HttpPost("List")]
+        public async Task<ActionResult<PagedResponse<List<Loan_GetDto>>>> Get([FromBody] LoanSelectParameter filter)
+        {
+            return await _loanService.Get(filter);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Loan_GetDto>> Get([FromRoute] Guid id)
         {
@@ -28,8 +37,9 @@ namespace LibraryWebAPI.Controllers
             return result;
         }
 
+
         [HttpPost]
-        public async Task<ActionResult<Loan_GetDto>> Post([FromForm] Loan_PostDto entity)
+        public async Task<ActionResult<Loan_GetDto>> Post([FromBody] Loan_PostDto entity)
         {
             var loan = await _loanService.Add(entity);
             if (loan == null) return BadRequest("新增失敗");

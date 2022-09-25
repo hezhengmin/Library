@@ -9,7 +9,11 @@
             </li>
             <!--書籍列表-->
             <li class="nav-item">
-                <router-link to="/Book/Book_Index" class="nav-link">書籍</router-link>
+                <router-link to="/Book/Book_Index" class="nav-link">書籍列表</router-link>
+            </li>
+            <!--書籍借閱-->
+            <li class="nav-item">
+                <router-link to="/Loan/Loan_Index" class="nav-link">書籍借閱</router-link>
             </li>
             <!--未登入不能編輯-->
             <li class="nav-item">

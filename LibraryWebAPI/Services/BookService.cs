@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LibraryWebAPI.Abstract.BookPhoto;
 using LibraryWebAPI.Dtos.BookDto;
 using LibraryWebAPI.Dtos.BookPhotoDto;
 using LibraryWebAPI.Dtos.Responses;

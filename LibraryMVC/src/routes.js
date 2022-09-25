@@ -6,6 +6,8 @@ import Index from '../src/views/Index.vue'
 import BookIndex from '../src/views/Book/BookIndex.vue'
 import BookEdit from '../src/views/Book/BookEdit.vue'
 import Layout from '../src/views/Layout.vue'
+import LoanIndex from '../src/views/Loan/LoanIndex.vue'
+
 
 export const routes = [
     {
@@ -48,6 +50,12 @@ export const routes = [
                 path: '/Book/Book_Edit/:id',
                 name: 'BookEdit',
                 component: BookEdit
+            },
+            {
+                //借閱列表
+                path: '/Loan/Loan_Index',
+                name: "LoanIndex",
+                component: LoanIndex
             },
         ]
     },

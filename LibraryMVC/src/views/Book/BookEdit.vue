@@ -412,7 +412,6 @@
         watch: {
             "book.status": function (newValue, oldValue) {
                 console.log(newValue, oldValue);
-                this.$refs.observer.validate({ silent: true });
             }
         },
         methods: {
