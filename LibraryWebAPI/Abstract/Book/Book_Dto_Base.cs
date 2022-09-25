@@ -7,6 +7,7 @@ namespace LibraryWebAPI.Abstract.Book
         public Guid Id { get; set; }
         public virtual string Title { get; set; }
         public virtual int Status { get; set; }
+        public virtual int NumberOfCopies { get; set; }
         public virtual string Isbn { get; set; }
         public virtual string Issn { get; set; }
         public virtual string Gpn { get; set; }

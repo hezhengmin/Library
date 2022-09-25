@@ -43,10 +43,21 @@
                                 <label for="status" class="form-label">狀態</label>
                                 <ValidationProvider v-slot="{ valid, errors }" name="狀態" rules="required">
                                     <select id="status" name="status" v-model="book.status" :class="[{'is-invalid': valid===false}, 'form-control']">
-                                        <option value="">請選擇</option>
+                                        <option value="-1">請選擇</option>
                                         <option value="0">有庫存</option>
                                         <option value="1">無庫存</option>
                                     </select>
+                                    <span class="invalid-feedback">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+                            <div class="py-2">
+                                <label for="numberOfCopies" class="form-label">庫存數量</label>
+                                <ValidationProvider v-slot="{ valid, errors }" name="庫存數量" rules="required">
+                                    <input id="numberOfCopies"
+                                           name="numberOfCopies"
+                                           type="number"
+                                           v-model="book.numberOfCopies"
+                                           :class="[{'is-invalid': valid===false}, 'form-control']" />
                                     <span class="invalid-feedback">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
@@ -354,6 +365,7 @@
                 book: {
                     title: "",
                     status: "",
+                    numberOfCopies: 0,
                     isbn: "",
                     issn: "",
                     gpn: "",
@@ -394,6 +406,12 @@
             },
             title() {
                 return this.isEdit ? "書籍編輯" : "書籍新增";
+            }
+        },
+        watch: {
+            "book.status": function (newValue, oldValue) {
+                console.log(newValue, oldValue);
+                this.$refs.observer.validate({ silent: true });
             }
         },
         methods: {

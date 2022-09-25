@@ -13,6 +13,9 @@ namespace LibraryWebAPI.Dtos.BookDto
         [Required]
         public override int Status { get; set; }
 
+        [Required]
+        public override int NumberOfCopies { get; set; }
+
         private string _gpn { get; set; }
 
         [Required(ErrorMessage = "{0}必填")]

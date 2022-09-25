@@ -21,6 +21,7 @@ namespace Zheng.Infrastructure.Data
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<BookPhoto> BookPhotos { get; set; }
+        public virtual DbSet<Loan> Loans { get; set; }
         public virtual DbSet<UploadFile> UploadFiles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -161,6 +162,8 @@ namespace Zheng.Infrastructure.Data
                     .HasMaxLength(10)
                     .HasComment("語言");
 
+                entity.Property(e => e.NumberOfCopies).HasComment("庫存數量");
+
                 entity.Property(e => e.Numbers)
                     .HasMaxLength(50)
                     .HasComment("字號");
@@ -193,7 +196,7 @@ namespace Zheng.Infrastructure.Data
                     .HasMaxLength(50)
                     .HasComment("開數");
 
-                entity.Property(e => e.Status).HasComment("狀態");
+                entity.Property(e => e.Status).HasComment("狀態(0有庫存1無庫存)");
 
                 entity.Property(e => e.Subject)
                     .HasMaxLength(50)
@@ -245,6 +248,51 @@ namespace Zheng.Infrastructure.Data
                     .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BookPhoto_Book");
+            });
+
+            modelBuilder.Entity<Loan>(entity =>
+            {
+                entity.ToTable("Loan");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasComment("系統編號");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasComment("新增時間");
+
+                entity.Property(e => e.CreatedBy).HasComment("新增者");
+
+                entity.Property(e => e.DueDate)
+                    .HasColumnType("datetime")
+                    .HasComment("借出結束日期");
+
+                entity.Property(e => e.IssueDate)
+                    .HasColumnType("datetime")
+                    .HasComment("借出開始日期");
+
+                entity.Property(e => e.ReturnDate)
+                    .HasColumnType("datetime")
+                    .HasComment("書籍歸還日期");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasComment("修改時間");
+
+                entity.Property(e => e.UpdatedBy).HasComment("修改者");
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.Loans)
+                    .HasForeignKey(d => d.AccountId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Loan_Account");
+
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.Loans)
+                    .HasForeignKey(d => d.BookId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Loan_Book");
             });
 
             modelBuilder.Entity<UploadFile>(entity =>

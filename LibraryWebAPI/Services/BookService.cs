@@ -65,6 +65,7 @@ namespace LibraryWebAPI.Services
                 BookPhotos = bookPhotoDtoList,
                 Title = book.Title,
                 Status = book.Status,
+                NumberOfCopies = book.NumberOfCopies,
                 Isbn = book.Isbn,
                 Issn = book.Issn,
                 Gpn = book.Gpn,
@@ -253,6 +254,7 @@ namespace LibraryWebAPI.Services
             //更新欄位
             book.Title = entity.Title;
             book.Status = entity.Status;
+            book.NumberOfCopies = entity.NumberOfCopies;
             book.Isbn = entity.Isbn;
             book.Issn = entity.Issn;
             book.Gpn = entity.Gpn;

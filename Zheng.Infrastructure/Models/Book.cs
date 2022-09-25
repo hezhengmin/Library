@@ -10,11 +10,13 @@ namespace Zheng.Infrastructure.Models
         public Book()
         {
             BookPhotos = new HashSet<BookPhoto>();
+            Loans = new HashSet<Loan>();
         }
 
         public Guid Id { get; set; }
         public string Title { get; set; }
         public int Status { get; set; }
+        public int NumberOfCopies { get; set; }
         public string Isbn { get; set; }
         public string Issn { get; set; }
         public string Gpn { get; set; }
@@ -51,5 +53,6 @@ namespace Zheng.Infrastructure.Models
         public Guid UpdatedBy { get; set; }
 
         public virtual ICollection<BookPhoto> BookPhotos { get; set; }
+        public virtual ICollection<Loan> Loans { get; set; }
     }
 }
