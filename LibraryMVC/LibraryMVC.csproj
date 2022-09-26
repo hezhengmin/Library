@@ -5,23 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Loan\Loan_Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\bundle\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Loan\Loan_Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Loan\Loan_Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Loan\Loan_Edit.cshtml" />
   </ItemGroup>
 
 </Project>
