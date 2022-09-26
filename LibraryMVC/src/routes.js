@@ -7,6 +7,7 @@ import BookIndex from '../src/views/Book/BookIndex.vue'
 import BookEdit from '../src/views/Book/BookEdit.vue'
 import Layout from '../src/views/Layout.vue'
 import LoanIndex from '../src/views/Loan/LoanIndex.vue'
+import LoanEdit from '../src/views/Loan/LoanEdit.vue'
 
 
 export const routes = [
@@ -56,6 +57,11 @@ export const routes = [
                 path: '/Loan/Loan_Index',
                 name: "LoanIndex",
                 component: LoanIndex
+            },
+            {
+                path: '/Loan/Loan_Edit/:id',
+                name: 'LoanEdit',
+                component: LoanEdit
             },
         ]
     },

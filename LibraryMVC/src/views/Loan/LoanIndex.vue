@@ -63,7 +63,14 @@
                     <td>{{item.issueDate}}</td>
                     <td>{{item.dueDate}}</td>
                     <td>{{item.returnDate}}</td>
-                    <td></td>
+                    <td>
+                        <router-link :to="{
+                                 name: 'LoanEdit',
+                                 params: { id: item.id }
+                                 }">
+                            編輯
+                        </router-link>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -8,5 +8,10 @@ namespace LibraryMVC.Controllers
         {
             return View();
         }
+
+        public IActionResult Loan_Edit()
+        {
+            return View();
+        }
     }
 }
