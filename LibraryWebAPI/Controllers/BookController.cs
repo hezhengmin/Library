@@ -110,5 +110,16 @@ namespace LibraryWebAPI.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// 下拉式選單書籍列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("SelectList")]
+        public async Task<IActionResult> GetSelectList()
+        {
+            var result = await _bookService.GetSelectList();
+            return Ok(result);
+        }
     }
 }

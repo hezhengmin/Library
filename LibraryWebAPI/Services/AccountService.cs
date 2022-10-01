@@ -367,5 +367,22 @@ namespace LibraryWebAPI.Services
             return response;
         }
 
+        /// <summary>
+        /// 帳號清單
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Account_SelectListDto>> GetSelectList()
+        {
+            var list = await _context.Accounts
+                .Select(x => new Account_SelectListDto()
+                {
+                    Id = x.Id.ToString().ToLower(),
+                    Text = x.UserId
+                }).ToListAsync();
+
+            list.Insert(0, new Account_SelectListDto() { Id = Guid.Empty.ToString(), Text = "請選擇" });
+
+            return list;
+        }
     }
 }

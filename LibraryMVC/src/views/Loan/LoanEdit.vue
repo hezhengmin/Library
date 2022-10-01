@@ -1,6 +1,5 @@
 ﻿<template>
-    <div class="LoanEdit">
-
+    <div class="loanEdit">
         <ValidationObserver ref="observer" v-slot="{ invalid }" tag="form">
             <div class="d-flex justify-content-between">
                 <div class="py-2">
@@ -14,18 +13,70 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            書籍資訊
+                            借閱資訊
                         </div>
                         <div class="card-body">
-                            
+                            <div class="pb-2">
+                                <span class="text-danger">*</span>
+                                <label for="accountId" class="form-label">借閱帳號</label>
+                                <span class="text-danger">{{loan.userId}}</span>
+                                <Select2 v-model="loan.accountId"
+                                         :settings="{ width: '300px' }"
+                                         :options="accountSelectList"
+                                         @change="accountChangeEvent($event)"
+                                         @select="accountSelectEvent($event)" />
+                            </div>
+
+                            <div class="pb-2">
+                                <span class="text-danger">*</span>
+                                <label for="bookTitle" class="form-label">書名</label>
+                                <span class="text-danger">{{loan.bookTitle}}</span>
+                                <Select2 v-model="loan.bookId"
+                                         :settings="{ width: '300px' }"
+                                         :options="bookSelectList"
+                                         @change="bookChangeEvent($event)"
+                                         @select="bookSelectEvent($event)" />
+                            </div>
+                            <div class="pb-2">
+                                <span class="text-danger">*</span>
+                                <label for="issueDate" class="form-label">借閱開始日期</label>
+                                <ValidationProvider v-slot="{ valid, errors }" 
+                                                    name="借閱開始日期" rules="required">
+                                    <date-picker ref="issueDate"
+                                                 v-model="loan.issueDate"
+                                                 value-type="format"
+                                                 format="YYYY-MM-DD"></date-picker>
+                                    <span class="text-danger">{{ errors[0] }}</span>
+                                </ValidationProvider>
+
+                            </div>
+                            <div class="pb-2">
+                                <span class="text-danger">*</span>
+                                <label for="dueDate" class="form-label">借閱結束日期</label>
+                                <ValidationProvider v-slot="{ valid, errors }" 
+                                                    name="借閱結束日期" rules="required">
+                                    <date-picker ref="dueDate"
+                                                 v-model="loan.dueDate"
+                                                 value-type="format"
+                                                 format="YYYY-MM-DD"></date-picker>
+                                    <span class="text-danger">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+                            <div class="pb-2">
+                                <label for="returnDate" class="form-label">借閱歸還日期</label>
+                                <date-picker id="returnDate"
+                                             v-model="loan.returnDate"
+                                             value-type="format"
+                                             format="YYYY-MM-DD"></date-picker>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        
+
             <div class="d-flex my-2">
                 <button class="btn btn-primary me-2" :disabled="invalid" type="button" @click="onSubmit">確認</button>
                 <button type="button" @click="$router.go(-1)" class="btn btn-primary">
@@ -36,15 +87,25 @@
     </div>
 </template>
 <script>
-
     export default {
         name: "LoanEdit",
-      
         data() {
             return {
                 loan: {
-
-                }
+                    accountId: "00000000-0000-0000-0000-000000000000",
+                    bookId: "00000000-0000-0000-0000-000000000000",
+                    bookTitle: "",
+                    id: "",
+                    startEndDate: [],
+                    issueDate: "",
+                    dueDate: "",
+                    returnDate: null,
+                    userId: "",
+                },
+                bookSelectList: [
+                ],
+                accountSelectList: [
+                ],
             }
         },
         computed: {
@@ -57,37 +118,131 @@
             }
         },
         watch: {
-          
+
         },
         methods: {
-            onSubmit() {
-                
+            bookChangeEvent(val) {
+                console.log(val);
             },
-            init() {
-                this.$axios.get(`https://localhost:44323/api/Loan/${this.$route.params.id}`)
+            bookSelectEvent({ id, text }) {
+                console.log({ id, text })
+
+                this.loan.bookTitle = text;
+            },
+            accountChangeEvent(val) {
+                console.log(val);
+            },
+            accountSelectEvent({ id, text }) {
+                console.log({ id, text })
+                this.loan.userId = text;
+            },
+            //提交前驗證
+            async onSubmit() {
+                const isValid = await this.$refs.observer.validate();
+                if (isValid) {
+                    if (this.isEdit) {
+                        this.updateLoan();
+                    }
+                    else { //新增
+                        this.addLoan();
+                    }
+                }
+            },
+            //帳號列表清單
+            initAccountSelectList() {
+                return new Promise((resolve, reject) => {
+                    this.$axios.get("https://localhost:44323/api/Account/SelectList")
+                        .then((response) => {
+                            this.accountSelectList = response.data;
+                            console.log("initAccountSelectList載入完成");
+                            resolve("initAccountSelectList載入完成");
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            reject();
+                        })
+                });
+            },
+            //書籍列表清單
+            initBookSelectList() {
+                return new Promise((resolve, reject) => {
+                    this.$axios.get("https://localhost:44323/api/Book/SelectList")
+                        .then((response) => {
+                            this.bookSelectList = response.data;
+                            console.log("initBookSelectList載入完成");
+                            resolve("initBookSelectList載入完成");
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            reject();
+                        })
+                });
+            },
+            initLoan() {
+                return new Promise((resolve, reject) => {
+                    this.$axios.get(`https://localhost:44323/api/Loan/${this.$route.params.id}`)
+                        .then((response) => {
+                            this.loan = response.data;
+                            console.log("initLoan載入完成");
+                            resolve("initLoan載入完成");
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            reject();
+                        })
+                });
+
+            },
+            addLoan() {
+                this.$axios.post("https://localhost:44323/api/Loan", {
+                    AccountId: this.loan.accountId,
+                    BookId: this.loan.bookId,
+                    IssueDate: this.loan.issueDate,
+                    DueDate: this.loan.dueDate,
+                    ReturnDate: this.loan.returnDate
+                })
                     .then((response) => {
-                        console.log(response.data);
-                        this.loan = response.data;
+                        alert("新增成功");
+                        //回書籍列表
+                        this.$router.push({ name: 'LoanIndex' })
                     })
                     .catch((error) => {
                         console.log(error);
                     })
+
             },
+            //更新
+            updateLoan() {
+
+            }
         },
         created() {
-
             //編輯
             if (this.isEdit) {
-                this.init();
+
+                this.initBookSelectList()
+                    .then(success => {
+                        this.initAccountSelectList();
+                    })
+                    .then(x => {
+                        this.initLoan();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+
             }
             //新增
             else {
-
+                this.initBookSelectList()
+                    .then(success => {
+                        this.initAccountSelectList();
+                    })
             }
         }
     };
 </script>
 
 <style lang="scss" scoped>
-    
+   
 </style>

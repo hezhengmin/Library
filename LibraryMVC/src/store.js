@@ -48,7 +48,7 @@ export default new Vuex.Store({
         },
         //帳號Id
         getUserId(state) {
-            return state.accountInfo?.UserId;
+            return state.accountInfo?.userId;
         }
     }
 })

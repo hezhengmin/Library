@@ -40,7 +40,7 @@ namespace LibraryWebAPI.Services
                           select new Loan_GetDto
                           {
                               Id = l.Id,
-                              Accountd = l.AccountId,
+                              AccountId = l.AccountId,
                               BookId = l.BookId,
                               IssueDate = l.IssueDate,
                               DueDate = l.DueDate,
@@ -61,7 +61,7 @@ namespace LibraryWebAPI.Services
                          select new Loan_GetDto
                          {
                              Id = l.Id,
-                             Accountd = l.AccountId,
+                             AccountId = l.AccountId,
                              BookId = l.BookId,
                              IssueDate = l.IssueDate,
                              DueDate = l.DueDate,

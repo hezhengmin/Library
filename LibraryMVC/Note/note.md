@@ -68,6 +68,16 @@ Vue.use(VeeValidate, {
 https://github.com/surmon-china/vue-awesome-swiper
 ```
 * npm install swiper@5.2.0
+
+* npm install v-select2-component --save
+```
+下拉式選單
+https://github.com/godbasin/vue-select2
+```
+* npm install vue2-datepicker --save
+```
+https://github.com/mengxiong10/vue2-datepicker
+```
 ## 使用 Node.js npm 安裝 bootstrap
 Webpack 和其他 bundlers 將 [Bootstrap](https://bootstrap5.hexschool.com/docs/5.0/getting-started/webpack/)  加入到你的專案
 * npm install bootstrap --save)

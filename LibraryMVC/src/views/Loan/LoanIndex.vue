@@ -121,8 +121,9 @@
                 this.pageNumber = 1;
                 this.getLoanList();
             },
-            //新增書籍
             addLoan() {
+                //空guid代表新增
+                this.$router.push({ name: 'LoanEdit', params: { id: '00000000-0000-0000-0000-000000000000' } })
             }
         },
         created() {

@@ -9,6 +9,11 @@ import Paginate from 'vuejs-paginate'//分頁
 import VeeValidate from 'vee-validate';//驗證
 import zhTW from 'vee-validate/dist/locale/zh_TW';
 import VueI18n from 'vue-i18n';
+import Select2 from 'v-select2-component';//下拉選單
+import DatePicker from 'vue2-datepicker';//日期選擇器
+import 'vue2-datepicker/index.css';
+
+
 
 Vue.prototype.$axios = axios;
 Vue.use(Router);//路由
@@ -18,6 +23,8 @@ Vue.use(VueI18n);
 Vue.component('ValidationProvider', VeeValidate.ValidationProvider);
 Vue.component('ValidationObserver', VeeValidate.ValidationObserver);
 
+Vue.component('Select2', Select2);
+Vue.component('DatePicker', DatePicker);
 
 
 const i18n = new VueI18n({

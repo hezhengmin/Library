@@ -184,5 +184,16 @@ namespace LibraryWebAPI.Controllers
 
             return Ok(response);
         }
+
+        /// <summary>
+        /// 帳號清單
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("SelectList")]
+        public async Task<IActionResult> GetSelectList()
+        {
+            var result = await _accountService.GetSelectList();
+            return Ok(result);
+        }
     }
 }

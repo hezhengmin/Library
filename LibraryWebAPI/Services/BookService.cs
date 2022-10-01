@@ -51,7 +51,7 @@ namespace LibraryWebAPI.Services
                                     let fileCompleteName = $"{j.Name ?? string.Empty}{j.Extension ?? string.Empty}"
                                     select new BookPhoto_GetDto()
                                     {
-                                        Id =bp.Id,
+                                        Id = bp.Id,
                                         UploadFileId = bp.UploadFileId,
                                         Name = j.Name ?? string.Empty,
                                         Extension = j.Extension ?? string.Empty,
@@ -325,7 +325,7 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task Delete(Guid id)
         {
-            var entity = await _context.Books.Include(x => x.BookPhotos).SingleOrDefaultAsync(x => x.Id == id); 
+            var entity = await _context.Books.Include(x => x.BookPhotos).SingleOrDefaultAsync(x => x.Id == id);
 
             foreach (var photo in entity.BookPhotos)
             {
@@ -336,6 +336,24 @@ namespace LibraryWebAPI.Services
             _context.BookPhotos.RemoveRange(entity.BookPhotos);
             _context.Books.Remove(entity);
             _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// 書籍_下拉式選單
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Book_SelectListDto>> GetSelectList()
+        {
+            var list = await _context.Books
+                .Select(x => new Book_SelectListDto()
+                {
+                    Id = x.Id.ToString().ToLower(),
+                    Text = x.Title
+                }).ToListAsync();
+
+            list.Insert(0, new Book_SelectListDto() { Id = Guid.Empty.ToString() , Text = "請選擇" });
+
+            return list;
         }
     }
 }
