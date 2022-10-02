@@ -1,4 +1,4 @@
-﻿using LibraryWebAPI.Dtos.LoanDto;
+﻿using LibraryWebAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,7 +36,16 @@ namespace LibraryWebAPI.Abstract.Loan
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            BookService _bookService = (BookService)validationContext.GetService(typeof(BookService));
+
             var dto = (Loan_EditDto_Base)validationContext.ObjectInstance;
+
+            var remainBookCount = _bookService.GetRemainBookCount(dto.BookId).Result;
+
+            if (remainBookCount < 1)
+            {
+                yield return new ValidationResult("該借閱書籍剩餘數量不足", new[] { "BookId" });
+            }
 
             if (DateTime.Compare(dto.IssueDate, dto.DueDate) > 0)
             {

@@ -434,10 +434,7 @@
             updateBook() {
 
                 const formData = new FormData(this.$refs.observer.$el);
-
                 formData.append("id", this.$route.params.id);
-
-
 
                 this.$axios.put(`https://localhost:44323/api/Book/${this.$route.params.id}`,
                     formData,
@@ -454,10 +451,11 @@
                         else {
                             alert("更新失敗");
                         }
-
                     })
                     .catch((error) => {
-                        console.log(error);
+                        //console.log(error);
+                        alert("error");
+                        //alert(error.response.data.errors.join('\n'));
                     })
             },
             addBook() {

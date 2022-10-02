@@ -23,22 +23,31 @@
                                 <span class="text-danger">*</span>
                                 <label for="accountId" class="form-label">借閱帳號</label>
                                 <span class="text-primary">{{loan.userId}}</span>
-                                <Select2 v-model="loan.accountId"
-                                         :settings="{ width: '300px' }"
-                                         :options="accountSelectList"
-                                         @change="accountChangeEvent($event)"
-                                         @select="accountSelectEvent($event)" />
+
+                                <ValidationProvider v-slot="{ valid, errors }"
+                                                    name="借閱帳號" rules="excluded:00000000-0000-0000-0000-000000000000">
+                                    <Select2 v-model="loan.accountId"
+                                             :settings="{ width: '300px' }"
+                                             :options="accountSelectList"
+                                             @change="accountChangeEvent($event)"
+                                             @select="accountSelectEvent($event)" />
+                                    <span class="text-danger">{{ errors[0] }}</span>
+                                </ValidationProvider>
                             </div>
 
                             <div class="pb-2">
                                 <span class="text-danger">*</span>
-                                <label for="bookTitle" class="form-label">書名</label>
+                                <label for="bookTitle" class="form-label">借閱書名</label>
                                 <span class="text-primary">{{loan.bookTitle}}</span>
-                                <Select2 v-model="loan.bookId"
-                                         :settings="{ width: '300px' }"
-                                         :options="bookSelectList"
-                                         @change="bookChangeEvent($event)"
-                                         @select="bookSelectEvent($event)" />
+                                <ValidationProvider v-slot="{ valid, errors }"
+                                                    name="借閱書名" rules="excluded:00000000-0000-0000-0000-000000000000">
+                                    <Select2 v-model="loan.bookId"
+                                             :settings="{ width: '300px' }"
+                                             :options="bookSelectList"
+                                             @change="bookChangeEvent($event)"
+                                             @select="bookSelectEvent($event)" />
+                                    <span class="text-danger">{{ errors[0] }}</span>
+                                </ValidationProvider>
                             </div>
                             <div class="pb-2">
                                 <span class="text-danger">*</span>
@@ -149,7 +158,7 @@
                     }
                 }
                 else {
-                    console.log(isValid);
+                    console.log(`isValid ${isValid}`);
                 }
             },
             //帳號列表清單

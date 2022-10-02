@@ -355,5 +355,35 @@ namespace LibraryWebAPI.Services
 
             return list;
         }
+
+        /// <summary>
+        /// 剩下書籍數量
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<int> GetRemainBookCount(Guid id)
+        {
+            int bookStockCount = 0, countLoan = 0;
+
+            bookStockCount = await _context.Books.CountAsync(x => x.Id == id);
+
+            countLoan = await _context.Loans.CountAsync(x => x.BookId == id);
+
+            return bookStockCount - countLoan;
+        }
+
+        /// <summary>
+        /// 最少庫存數量
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
+        public async Task<int> GetLeastNumberOfCopiesCount(Guid bookId)
+        {
+            int countLoan = 0;
+
+            countLoan = await _context.Loans.CountAsync(x => x.BookId == bookId);
+
+            return countLoan;
+        }
     }
 }
