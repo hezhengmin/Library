@@ -78,6 +78,11 @@ https://github.com/godbasin/vue-select2
 ```
 https://github.com/mengxiong10/vue2-datepicker
 ```
+* npm install moment --save 
+```
+格式化日期的 JavaScript 函式庫
+https://momentjs.com/
+```
 ## 使用 Node.js npm 安裝 bootstrap
 Webpack 和其他 bundlers 將 [Bootstrap](https://bootstrap5.hexschool.com/docs/5.0/getting-started/webpack/)  加入到你的專案
 * npm install bootstrap --save)

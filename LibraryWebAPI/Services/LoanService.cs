@@ -113,7 +113,11 @@ namespace LibraryWebAPI.Services
             };
         }
 
-
+        /// <summary>
+        /// 新增借閱
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public async Task<Loan> Add(Loan_PostDto entity)
         {
             var Loan = _mapper.Map<Loan>(entity);
@@ -136,6 +140,58 @@ namespace LibraryWebAPI.Services
             }
 
             return Loan;
+        }
+
+        public async Task<Loan> Get(Guid id)
+        {
+            return await _context.Loans.SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public bool Check(Guid id)
+        {
+            return _context.Loans.Any(x => x.Id == id);
+        }
+
+        /// <summary>
+        /// 更新借閱
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<bool> Update(Loan_PutDto entity)
+        {
+            var loan = await Get(entity.Id);
+
+            if (loan == null) return false;
+
+            //更新欄位
+            loan.AccountId = entity.AccountId;
+            loan.BookId = entity.BookId;
+            loan.IssueDate = entity.IssueDate;
+            loan.DueDate = entity.DueDate;
+            loan.ReturnDate = entity.ReturnDate;
+            loan.UpdatedAt = DateTime.Now;
+            loan.UpdatedBy = _userService.CurrentUserId;
+
+            try
+            {
+                _context.Entry(loan).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public async Task Delete(Guid id)
+        {
+            var entity = await Get(id);
+  
+            _context.Loans.Remove(entity);
+            _context.SaveChanges();
         }
     }
 }

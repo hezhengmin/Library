@@ -22,7 +22,7 @@
                             <div class="pb-2">
                                 <span class="text-danger">*</span>
                                 <label for="accountId" class="form-label">借閱帳號</label>
-                                <span class="text-danger">{{loan.userId}}</span>
+                                <span class="text-primary">{{loan.userId}}</span>
                                 <Select2 v-model="loan.accountId"
                                          :settings="{ width: '300px' }"
                                          :options="accountSelectList"
@@ -33,7 +33,7 @@
                             <div class="pb-2">
                                 <span class="text-danger">*</span>
                                 <label for="bookTitle" class="form-label">書名</label>
-                                <span class="text-danger">{{loan.bookTitle}}</span>
+                                <span class="text-primary">{{loan.bookTitle}}</span>
                                 <Select2 v-model="loan.bookId"
                                          :settings="{ width: '300px' }"
                                          :options="bookSelectList"
@@ -139,6 +139,7 @@
             //提交前驗證
             async onSubmit() {
                 const isValid = await this.$refs.observer.validate();
+
                 if (isValid) {
                     if (this.isEdit) {
                         this.updateLoan();
@@ -146,6 +147,9 @@
                     else { //新增
                         this.addLoan();
                     }
+                }
+                else {
+                    console.log(isValid);
                 }
             },
             //帳號列表清單
@@ -194,13 +198,15 @@
 
             },
             addLoan() {
-                this.$axios.post("https://localhost:44323/api/Loan", {
+
+                let entity = {
                     AccountId: this.loan.accountId,
                     BookId: this.loan.bookId,
                     IssueDate: this.loan.issueDate,
                     DueDate: this.loan.dueDate,
                     ReturnDate: this.loan.returnDate
-                })
+                };
+                this.$axios.post("https://localhost:44323/api/Loan", entity)
                     .then((response) => {
                         alert("新增成功");
                         //回書籍列表
@@ -213,7 +219,23 @@
             },
             //更新
             updateLoan() {
-
+                let entity = {
+                    Id: this.$route.params.id,
+                    AccountId: this.loan.accountId,
+                    BookId: this.loan.bookId,
+                    IssueDate: this.loan.issueDate,
+                    DueDate: this.loan.dueDate,
+                    ReturnDate: this.loan.returnDate
+                };
+                this.$axios.put(`https://localhost:44323/api/Loan/${this.$route.params.id}`, entity)
+                    .then((response) => {
+                        alert("更新成功");
+                        //回書籍列表
+                        this.$router.push({ name: 'LoanIndex' })
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             }
         },
         created() {

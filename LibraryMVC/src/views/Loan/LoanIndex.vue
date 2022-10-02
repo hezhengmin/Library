@@ -39,9 +39,9 @@
                 <col style="width: 3em;">
                 <col style="width: 20em;">
                 <col style="width: 8em;">
-                <col style="width: 14em;">
-                <col style="width: 5em;">
-                <col style="width: 5em;">
+                <col style="width: 7em;">
+                <col style="width: 7em;">
+                <col style="width: 7em;">
                 <col style="width: 5em;">
             </colgroup>
             <thead>
@@ -60,9 +60,9 @@
                     <td>{{index + 1}}</td>
                     <td>{{item.bookTitle}}</td>
                     <td>{{item.userId}}</td>
-                    <td>{{item.issueDate}}</td>
-                    <td>{{item.dueDate}}</td>
-                    <td>{{item.returnDate}}</td>
+                    <td>{{item.issueDate | momentTW}} </td>
+                    <td>{{item.dueDate | momentTW }}</td>
+                    <td>{{item.returnDate | momentTW }}</td>
                     <td>
                         <router-link :to="{
                                  name: 'LoanEdit',
@@ -70,6 +70,7 @@
                                  }">
                             編輯
                         </router-link>
+                        <a href="" @click.prevent="deleteLoan(item.id)">刪除</a>
                     </td>
                 </tr>
             </tbody>
@@ -78,6 +79,7 @@
 </template>
 <script>
     import mixin from "../../mixin.js";
+    import moment from 'moment'; //日期時間格式化
 
     export default {
         name: "LoanIndex",
@@ -114,7 +116,19 @@
                     })
             },
             deleteLoan(id) {
-               
+                this.$axios.delete(`https://localhost:44323/api/Loan/${id}`)
+                    .then((response) => {
+                        if (response.status === 204) {
+                            alert("刪除成功");
+                            this.getLoanList();
+                        }
+                        else {
+                            alert("刪除失敗");
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             },
             search() {
                 //搜尋後，從第一頁開始
@@ -127,9 +141,15 @@
             }
         },
         created() {
+            //書籍借閱列表
             this.getLoanList();
+        },
+        filters: {
+            momentTW: function (value) {
+                if (!value) return '';
+                return moment(value).format('YYYY-MM-DD')
+            }
         }
-
     };
 </script>
 
