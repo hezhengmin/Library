@@ -453,9 +453,13 @@
                         }
                     })
                     .catch((error) => {
-                        //console.log(error);
-                        alert("error");
-                        //alert(error.response.data.errors.join('\n'));
+                        console.log(error);
+
+                        let obj = error.response.data.errors;
+                        Object.entries(obj).forEach(([key, value]) => {
+                            console.log(key, value);
+                            alert(value.join(''));//Ex:庫存數量不能低於14
+                        });
                     })
             },
             addBook() {

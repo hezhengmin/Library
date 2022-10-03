@@ -223,6 +223,12 @@
                     })
                     .catch((error) => {
                         console.log(error);
+
+                        let obj = error.response.data.errors;
+                        Object.entries(obj).forEach(([key, value]) => {
+                            console.log(key, value);
+                            alert(value.join(''));
+                        });
                     })
 
             },
