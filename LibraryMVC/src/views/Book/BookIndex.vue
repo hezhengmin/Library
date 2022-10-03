@@ -12,6 +12,7 @@
                 <div class="col-12 mt-3">
                     <button class="btn btn-primary" @click="search">搜尋</button>
                     <button class="btn btn-primary" @click="addBook">新增</button>
+                    <button class="btn btn-primary" href="/Book/WebSample1" >匯出</button>
                 </div>
             </div>
         </div>
@@ -135,6 +136,9 @@
             addBook() {
                 //空guid代表新增
                 this.$router.push({ name: 'BookEdit', params: { id: '00000000-0000-0000-0000-000000000000' } })
+            },
+            exportExcel() {
+
             }
         },
         created() {
