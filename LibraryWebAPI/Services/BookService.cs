@@ -5,6 +5,7 @@ using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,6 @@ namespace LibraryWebAPI.Services
         private readonly IUserService _userService;
         private readonly UploadFileService _uploadFileService;
         private readonly IMapper _mapper;
-
         public BookService(LibraryDbContext context, IUserService userService, UploadFileService uploadFileService, IMapper mapper)
         {
             _context = context;
@@ -384,6 +384,98 @@ namespace LibraryWebAPI.Services
             countLoan = await _context.Loans.CountAsync(x => x.BookId == bookId);
 
             return countLoan;
+        }
+
+
+        /// <summary>
+        /// 書籍列表_匯出Excel
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public async Task<byte[]> ExportExcel(BookSelectParameter filter)
+        {
+            var query = _context.Books
+                .Include(x => x.BookPhotos)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filter.Title))
+            {
+                query = query.Where(x => x.Title.Contains(filter.Title));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.Isbn))
+            {
+                query = query.Where(x => x.Isbn.Contains(filter.Isbn));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.Edition))
+            {
+                query = query.Where(x => x.Edition.Contains(filter.Edition));
+            }
+
+            if (filter.CreateAt != null)
+            {
+                query = query.Where(x => x.CreatedAt.Date == filter.CreateAt);
+            }
+
+            //var totalRecords = query.Count();
+
+            ////排序在分頁前
+            //query = query.OrderByDescending(x => x.CreatedAt);
+
+            //if (filter.PaginationFilter != null)
+            //{
+            //    query = query.Skip((filter.PaginationFilter.PageNumber - 1) * filter.PaginationFilter.PageSize)
+            //                   .Take(filter.PaginationFilter.PageSize);
+            //}
+
+            var List = await query.Select(x => new Book_GetDto
+            {
+                Id = x.Id,
+                BookPhotos = null,
+                Title = x.Title,
+                Status = x.Status,
+                Isbn = x.Isbn,
+                Issn = x.Issn,
+                Gpn = x.Gpn,
+                Publisher = x.Publisher,
+                RightCondition = x.Restriction,
+                Creator = x.Creator,
+                PublishDate = x.PublishDate,
+                Edition = x.Edition,
+                Cover = x.Cover,
+                Classify = x.Classify,
+                Gpntype = x.Gpntype,
+                Subject = x.Subject,
+                Governance = x.Governance,
+                Grade = x.Grade,
+                Pages = x.Pages,
+                Size = x.Size,
+                Binding = x.Binding,
+                Language = x.Language,
+                Introduction = x.Introduction,
+                Catalog = x.Catalog,
+                Price = x.Price,
+                TargetPeople = x.TargetPeople,
+                Types = x.Types,
+                Attachment = x.Attachment,
+                Url = x.Url,
+                Duration = x.Duration,
+                Numbers = x.Numbers,
+                Restriction = x.Restriction,
+                CeasedDate = x.CeasedDate
+            }).ToListAsync();
+
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("書籍");
+                sheet.Cells["A1:C1"].Merge = true;
+                sheet.Cells["A1"].Style.Font.Size = 18f;
+                sheet.Cells["A1"].Style.Font.Bold = true;
+                sheet.Cells["A1"].Value = "匯出範例(EPPlus)";
+                var excelData = package.GetAsByteArray();
+                return excelData;
+            }
         }
     }
 }

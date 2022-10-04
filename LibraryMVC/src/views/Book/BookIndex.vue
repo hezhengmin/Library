@@ -12,7 +12,7 @@
                 <div class="col-12 mt-3">
                     <button class="btn btn-primary" @click="search">搜尋</button>
                     <button class="btn btn-primary" @click="addBook">新增</button>
-                    <button class="btn btn-primary" href="/Book/WebSample1" >匯出</button>
+                    <button class="btn btn-primary" @click="exportExcel" >匯出</button>
                 </div>
             </div>
         </div>
@@ -137,9 +137,38 @@
                 //空guid代表新增
                 this.$router.push({ name: 'BookEdit', params: { id: '00000000-0000-0000-0000-000000000000' } })
             },
+            //檔案下載
             exportExcel() {
+                const method = 'POST';
+                const url = `https://localhost:44323/api/Book/Export`;
+                let filter = {
+                    title: this.title,
+                    isbn: this.isbn,
+                    PaginationFilter: {
+                        PageNumber: this.pageNumber,
+                        PageSize: this.pageSize
+                    }
+                };
 
-            }
+                this.$axios.request({
+                    url,
+                    method,
+                    data: filter,
+                    responseType: 'blob', //important
+                })
+                    .then(({ data }) => {
+                        const downloadUrl = window.URL.createObjectURL(new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', "test"); //any other extension
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                    })
+                 .catch(err => {
+                     reject(err);
+                 })
+            },
         },
         created() {
             this.getBookList();
