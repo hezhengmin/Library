@@ -44,8 +44,8 @@
                                 <ValidationProvider v-slot="{ valid, errors }" name="狀態" rules="required">
                                     <select id="status" name="status" v-model="book.status" :class="[{'is-invalid': valid===false}, 'form-control']">
                                         <option value="-1">請選擇</option>
-                                        <option value="0">有庫存</option>
-                                        <option value="1">無庫存</option>
+                                        <option value="0">無庫存</option>
+                                        <option value="1">有庫存</option>
                                     </select>
                                     <span class="invalid-feedback">{{ errors[0] }}</span>
                                 </ValidationProvider>

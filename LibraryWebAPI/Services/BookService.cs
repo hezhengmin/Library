@@ -4,14 +4,19 @@ using LibraryWebAPI.Dtos.BookPhotoDto;
 using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Zheng.Infrastructure.Data;
 using Zheng.Infrastructure.Models;
+using Zheng.Utilities.Annotations;
+using Zheng.Utilities.Helpers;
 
 namespace LibraryWebAPI.Services
 {
@@ -21,14 +26,16 @@ namespace LibraryWebAPI.Services
         private readonly IUserService _userService;
         private readonly UploadFileService _uploadFileService;
         private readonly IMapper _mapper;
-        public BookService(LibraryDbContext context, IUserService userService, UploadFileService uploadFileService, IMapper mapper)
+        private readonly IWebHostEnvironment _env;
+
+        public BookService(LibraryDbContext context, IUserService userService, UploadFileService uploadFileService, IMapper mapper, IWebHostEnvironment env)
         {
             _context = context;
             _userService = userService;
             _uploadFileService = uploadFileService;
             _mapper = mapper;
+            _env = env;
         }
-
         public async Task<Book_GetDto> GetDto(Guid id)
         {
             var book = await _context.Books
@@ -233,7 +240,6 @@ namespace LibraryWebAPI.Services
 
             return book;
         }
-
         public bool Check(Guid id)
         {
             return _context.Books.Any(x => x.Id == id);
@@ -351,7 +357,7 @@ namespace LibraryWebAPI.Services
                     Text = x.Title
                 }).ToListAsync();
 
-            list.Insert(0, new Book_SelectListDto() { Id = Guid.Empty.ToString() , Text = "請選擇" });
+            list.Insert(0, new Book_SelectListDto() { Id = Guid.Empty.ToString(), Text = "請選擇" });
 
             return list;
         }
@@ -386,7 +392,6 @@ namespace LibraryWebAPI.Services
             return countLoan;
         }
 
-
         /// <summary>
         /// 書籍列表_匯出Excel
         /// </summary>
@@ -420,8 +425,8 @@ namespace LibraryWebAPI.Services
 
             //var totalRecords = query.Count();
 
-            ////排序在分頁前
-            //query = query.OrderByDescending(x => x.CreatedAt);
+            //排序在分頁前
+            query = query.OrderByDescending(x => x.CreatedAt);
 
             //if (filter.PaginationFilter != null)
             //{
@@ -429,7 +434,7 @@ namespace LibraryWebAPI.Services
             //                   .Take(filter.PaginationFilter.PageSize);
             //}
 
-            var List = await query.Select(x => new Book_GetDto
+            var list = await query.Select(x => new Book_GetDto
             {
                 Id = x.Id,
                 BookPhotos = null,
@@ -466,16 +471,62 @@ namespace LibraryWebAPI.Services
                 CeasedDate = x.CeasedDate
             }).ToListAsync();
 
-            using (var package = new ExcelPackage())
+            var filePath = $"{_env.ContentRootPath}\\Template\\Excel\\書籍列表匯出範本.xlsx";
+
+            using (var source = System.IO.File.OpenRead(filePath))
             {
-                var sheet = package.Workbook.Worksheets.Add("書籍");
-                sheet.Cells["A1:C1"].Merge = true;
-                sheet.Cells["A1"].Style.Font.Size = 18f;
-                sheet.Cells["A1"].Style.Font.Bold = true;
-                sheet.Cells["A1"].Value = "匯出範例(EPPlus)";
-                var excelData = package.GetAsByteArray();
-                return excelData;
+                using (var package = new ExcelPackage(source))
+                {
+                    var sheet = package.Workbook.Worksheets["書籍"];
+
+                    int rol = 2, col = 1;
+                    foreach (var item in list)
+                    {
+                        col = 1;
+                        sheet.Cells[rol, col++].Value = item.Title;
+
+                        var _status = (Book.StatusType)item.Status;
+                        
+                        sheet.Cells[rol, col++].Value = EnumHelper<Book.StatusType>.GetDisplayValue(_status);
+                        sheet.Cells[rol, col++].Value = item.NumberOfCopies;
+                        sheet.Cells[rol, col++].Value = item.Isbn;
+                        sheet.Cells[rol, col++].Value = item.Issn;
+                        sheet.Cells[rol, col++].Value = item.Gpn;
+                        sheet.Cells[rol, col++].Value = item.Publisher;
+                        sheet.Cells[rol, col++].Value = item.RightCondition;
+                        sheet.Cells[rol, col++].Value = item.Creator;
+                        sheet.Cells[rol, col++].Value = item.PublishDate;
+                        sheet.Cells[rol, col++].Value = item.Edition;
+                        sheet.Cells[rol, col++].Value = item.Cover;
+                        sheet.Cells[rol, col++].Value = item.Classify;
+                        sheet.Cells[rol, col++].Value = item.Gpntype;
+                        sheet.Cells[rol, col++].Value = item.Subject;
+                        sheet.Cells[rol, col++].Value = item.Governance;
+                        sheet.Cells[rol, col++].Value = item.Grade;
+                        sheet.Cells[rol, col++].Value = item.Pages;
+                        sheet.Cells[rol, col++].Value = item.Size;
+                        sheet.Cells[rol, col++].Value = item.Binding;
+                        sheet.Cells[rol, col++].Value = item.Language;
+                        sheet.Cells[rol, col++].Value = item.Introduction;
+                        sheet.Cells[rol, col++].Value = item.Catalog;
+                        sheet.Cells[rol, col++].Value = item.Price;
+                        sheet.Cells[rol, col++].Value = item.TargetPeople;
+                        sheet.Cells[rol, col++].Value = item.Types;
+                        sheet.Cells[rol, col++].Value = item.Attachment;
+                        sheet.Cells[rol, col++].Value = item.Url;
+                        sheet.Cells[rol, col++].Value = item.Duration;
+                        sheet.Cells[rol, col++].Value = item.Numbers;
+                        sheet.Cells[rol, col++].Value = item.Restriction;
+                        sheet.Cells[rol, col++].Value = item.CeasedDate;
+                        sheet.Cells[rol, col++].Value = item.Authority;
+                        rol++;
+                    }
+
+                    var excelData = package.GetAsByteArray();
+                    return excelData;
+                }
             }
         }
+
     }
 }

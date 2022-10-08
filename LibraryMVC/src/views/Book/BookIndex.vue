@@ -12,11 +12,11 @@
                 <div class="col-12 mt-3">
                     <button class="btn btn-primary" @click="search">搜尋</button>
                     <button class="btn btn-primary" @click="addBook">新增</button>
-                    <button class="btn btn-primary" @click="exportExcel" >匯出</button>
+                    <button class="btn btn-primary" @click="exportExcel">匯出</button>
                 </div>
             </div>
         </div>
-        
+
         <div class="d-flex justify-content-between align-items-center">
             <div class="p-2">
                 第 {{pageNumber}} 頁，總共 {{totalRecords}} 筆
@@ -160,14 +160,15 @@
                         const downloadUrl = window.URL.createObjectURL(new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
                         const link = document.createElement('a');
                         link.href = downloadUrl;
-                        link.setAttribute('download', "test"); //any other extension
+                        link.setAttribute('download', "書籍列表匯出"); //any other extension
                         document.body.appendChild(link);
                         link.click();
                         link.remove();
                     })
-                 .catch(err => {
-                     reject(err);
-                 })
+                    .catch(err => {
+                        console.log(err);
+                        reject(err);
+                    })
             },
         },
         created() {

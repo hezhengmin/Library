@@ -130,7 +130,7 @@ namespace LibraryWebAPI.Controllers
         public async Task<IActionResult> Export([FromBody] BookSelectParameter filter)
         {
             var excelData = await _bookService.ExportExcel(filter);
-            return File(excelData, ContentType, "test.xlsx");
+            return File(excelData, ContentType, "書籍列表匯出.xlsx");
         }
     }
 }
