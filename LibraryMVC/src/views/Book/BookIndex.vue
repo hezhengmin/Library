@@ -160,7 +160,7 @@
                         const downloadUrl = window.URL.createObjectURL(new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
                         const link = document.createElement('a');
                         link.href = downloadUrl;
-                        link.setAttribute('download', "書籍列表匯出"); //any other extension
+                        link.setAttribute('download', "匯出書籍列表"); //any other extension
                         document.body.appendChild(link);
                         link.click();
                         link.remove();

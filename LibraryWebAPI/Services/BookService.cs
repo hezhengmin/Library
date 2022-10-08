@@ -7,6 +7,7 @@ using LibraryWebAPI.Parameters.Book;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -161,6 +162,7 @@ namespace LibraryWebAPI.Services
                 BookPhotos = null,
                 Title = x.Title,
                 Status = x.Status,
+                NumberOfCopies = x.NumberOfCopies,
                 Isbn = x.Isbn,
                 Issn = x.Issn,
                 Gpn = x.Gpn,
@@ -189,7 +191,8 @@ namespace LibraryWebAPI.Services
                 Duration = x.Duration,
                 Numbers = x.Numbers,
                 Restriction = x.Restriction,
-                CeasedDate = x.CeasedDate
+                CeasedDate = x.CeasedDate,
+                Authority = x.Authority
             }).ToListAsync();
 
             return new PagedResponse<List<Book_GetDto>>
@@ -440,6 +443,7 @@ namespace LibraryWebAPI.Services
                 BookPhotos = null,
                 Title = x.Title,
                 Status = x.Status,
+                NumberOfCopies = x.NumberOfCopies,
                 Isbn = x.Isbn,
                 Issn = x.Issn,
                 Gpn = x.Gpn,
@@ -468,7 +472,8 @@ namespace LibraryWebAPI.Services
                 Duration = x.Duration,
                 Numbers = x.Numbers,
                 Restriction = x.Restriction,
-                CeasedDate = x.CeasedDate
+                CeasedDate = x.CeasedDate,
+                Authority = x.Authority
             }).ToListAsync();
 
             var filePath = $"{_env.ContentRootPath}\\Template\\Excel\\書籍列表匯出範本.xlsx";
@@ -477,51 +482,74 @@ namespace LibraryWebAPI.Services
             {
                 using (var package = new ExcelPackage(source))
                 {
+                    //頁籤
                     var sheet = package.Workbook.Worksheets["書籍"];
 
-                    int rol = 2, col = 1;
+                    #region 儲存格讀寫
+                    int row = 2, col = 1;
                     foreach (var item in list)
                     {
                         col = 1;
-                        sheet.Cells[rol, col++].Value = item.Title;
+
+                        /*
+                        EPPlus儲存格是從[1,1]開始
+                        寫入資料，[行，列]
+                        */
+                        sheet.Cells[row, col++].Value = item.Title;
 
                         var _status = (Book.StatusType)item.Status;
-                        
-                        sheet.Cells[rol, col++].Value = EnumHelper<Book.StatusType>.GetDisplayValue(_status);
-                        sheet.Cells[rol, col++].Value = item.NumberOfCopies;
-                        sheet.Cells[rol, col++].Value = item.Isbn;
-                        sheet.Cells[rol, col++].Value = item.Issn;
-                        sheet.Cells[rol, col++].Value = item.Gpn;
-                        sheet.Cells[rol, col++].Value = item.Publisher;
-                        sheet.Cells[rol, col++].Value = item.RightCondition;
-                        sheet.Cells[rol, col++].Value = item.Creator;
-                        sheet.Cells[rol, col++].Value = item.PublishDate;
-                        sheet.Cells[rol, col++].Value = item.Edition;
-                        sheet.Cells[rol, col++].Value = item.Cover;
-                        sheet.Cells[rol, col++].Value = item.Classify;
-                        sheet.Cells[rol, col++].Value = item.Gpntype;
-                        sheet.Cells[rol, col++].Value = item.Subject;
-                        sheet.Cells[rol, col++].Value = item.Governance;
-                        sheet.Cells[rol, col++].Value = item.Grade;
-                        sheet.Cells[rol, col++].Value = item.Pages;
-                        sheet.Cells[rol, col++].Value = item.Size;
-                        sheet.Cells[rol, col++].Value = item.Binding;
-                        sheet.Cells[rol, col++].Value = item.Language;
-                        sheet.Cells[rol, col++].Value = item.Introduction;
-                        sheet.Cells[rol, col++].Value = item.Catalog;
-                        sheet.Cells[rol, col++].Value = item.Price;
-                        sheet.Cells[rol, col++].Value = item.TargetPeople;
-                        sheet.Cells[rol, col++].Value = item.Types;
-                        sheet.Cells[rol, col++].Value = item.Attachment;
-                        sheet.Cells[rol, col++].Value = item.Url;
-                        sheet.Cells[rol, col++].Value = item.Duration;
-                        sheet.Cells[rol, col++].Value = item.Numbers;
-                        sheet.Cells[rol, col++].Value = item.Restriction;
-                        sheet.Cells[rol, col++].Value = item.CeasedDate;
-                        sheet.Cells[rol, col++].Value = item.Authority;
-                        rol++;
-                    }
 
+                        sheet.Cells[row, col++].Value = EnumHelper<Book.StatusType>.GetDisplayValue(_status);
+                        sheet.Cells[row, col++].Value = item.NumberOfCopies;
+                        sheet.Cells[row, col++].Value = item.Isbn;
+                        sheet.Cells[row, col++].Value = item.Issn;
+                        sheet.Cells[row, col++].Value = item.Gpn;
+                        sheet.Cells[row, col++].Value = item.Publisher;
+                        sheet.Cells[row, col++].Value = item.RightCondition;
+                        sheet.Cells[row, col++].Value = item.Creator;
+                        sheet.Cells[row, col++].Value = item.PublishDate;
+                        sheet.Cells[row, col++].Value = item.Edition;
+                        sheet.Cells[row, col++].Value = item.Cover;
+                        sheet.Cells[row, col++].Value = item.Classify;
+                        sheet.Cells[row, col++].Value = item.Gpntype;
+                        sheet.Cells[row, col++].Value = item.Subject;
+                        sheet.Cells[row, col++].Value = item.Governance;
+                        sheet.Cells[row, col++].Value = item.Grade;
+                        sheet.Cells[row, col++].Value = item.Pages;
+                        sheet.Cells[row, col++].Value = item.Size;
+                        sheet.Cells[row, col++].Value = item.Binding;
+                        sheet.Cells[row, col++].Value = item.Language;
+                        sheet.Cells[row, col++].Value = item.Introduction;
+                        sheet.Cells[row, col++].Value = item.Catalog;
+                        sheet.Cells[row, col++].Value = item.Price;
+                        sheet.Cells[row, col++].Value = item.TargetPeople;
+                        sheet.Cells[row, col++].Value = item.Types;
+                        sheet.Cells[row, col++].Value = item.Attachment;
+                        sheet.Cells[row, col++].Value = item.Url;
+                        sheet.Cells[row, col++].Value = item.Duration;
+                        sheet.Cells[row, col++].Value = item.Numbers;
+                        sheet.Cells[row, col++].Value = item.Restriction;
+                        sheet.Cells[row, col++].Value = item.CeasedDate;
+                        sheet.Cells[row, col++].Value = item.Authority;
+                        row++;
+                    }
+                    #endregion
+
+
+                    #region 樣式
+                    using (var range = sheet.Cells[2, 1, row - 1, 33])
+                    {
+                        //表格加入框線
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        //字型
+                        range.Style.Font.Name = "微軟正黑體";
+                        //文字大小
+                        range.Style.Font.Size = 12;
+                    }
+                    #endregion
                     var excelData = package.GetAsByteArray();
                     return excelData;
                 }
