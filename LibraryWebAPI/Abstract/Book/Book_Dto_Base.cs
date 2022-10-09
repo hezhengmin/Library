@@ -36,7 +36,7 @@ namespace LibraryWebAPI.Abstract.Book
         public virtual string Creator { get; set; }
 
         [Display(Name = "出版日期")]
-        public virtual string PublishDate { get; set; }
+        public virtual DateTime PublishDate { get; set; }
 
         [Display(Name = "版次")]
         public virtual string Edition { get; set; }

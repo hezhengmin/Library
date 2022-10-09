@@ -60,7 +60,7 @@
                     <td>{{item.title}}</td>
                     <td>{{item.isbn}}</td>
                     <td>{{item.publisher}}</td>
-                    <td>{{item.publishDate}}</td>
+                    <td>{{item.publishDate | momentByYYYYMM}}</td>
                     <td>
                         <router-link :to="{
                                  name: 'BookEdit',

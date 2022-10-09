@@ -426,16 +426,8 @@ namespace LibraryWebAPI.Services
                 query = query.Where(x => x.CreatedAt.Date == filter.CreateAt);
             }
 
-            //var totalRecords = query.Count();
-
             //排序在分頁前
             query = query.OrderByDescending(x => x.CreatedAt);
-
-            //if (filter.PaginationFilter != null)
-            //{
-            //    query = query.Skip((filter.PaginationFilter.PageNumber - 1) * filter.PaginationFilter.PageSize)
-            //                   .Take(filter.PaginationFilter.PageSize);
-            //}
 
             var list = await query.Select(x => new Book_GetDto
             {

@@ -79,7 +79,6 @@
 </template>
 <script>
     import mixin from "../../mixin.js";
-    import moment from 'moment'; //日期時間格式化
 
     export default {
         name: "LoanIndex",
@@ -143,12 +142,6 @@
         created() {
             //書籍借閱列表
             this.getLoanList();
-        },
-        filters: {
-            momentTW: function (value) {
-                if (!value) return '';
-                return moment(value).format('YYYY-MM-DD')
-            }
         }
     };
 </script>

@@ -23,7 +23,7 @@ namespace Zheng.Infrastructure.Models
         public string Publisher { get; set; }
         public string RightCondition { get; set; }
         public string Creator { get; set; }
-        public string PublishDate { get; set; }
+        public DateTime PublishDate { get; set; }
         public string Edition { get; set; }
         public string Cover { get; set; }
         public string Classify { get; set; }

@@ -1,4 +1,6 @@
-﻿export default {
+﻿import moment from 'moment'; //日期時間格式化
+
+export default {
     data() {
         return {
             totalPages: 0,
@@ -9,5 +11,17 @@
     },
     methods: {
         
+    },
+    filters: {
+        //年月日
+        momentTW: function (value) {
+            if (!value) return '';
+            return moment(value).format('YYYY-MM-DD')
+        },
+        //只顯示年月
+        momentByYYYYMM: function (value) {
+            if (!value) return '';
+            return moment(value).format('YYYY-MM')
+        },
     }
 };

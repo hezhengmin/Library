@@ -75,7 +75,7 @@ namespace LibraryWebAPI.Services
                         Publisher = book.publisher,
                         RightCondition = book.RightCondition,
                         Creator = book.creator,
-                        PublishDate = book.PublishDate,
+                        PublishDate = DateTime.Parse(book.PublishDate),
                         Edition = book.edition,
                         Cover = book.cover,
                         Classify = book.classify,

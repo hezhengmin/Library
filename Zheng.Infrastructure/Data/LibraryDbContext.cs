@@ -173,9 +173,7 @@ namespace Zheng.Infrastructure.Data
                 entity.Property(e => e.Price).HasComment("價格");
 
                 entity.Property(e => e.PublishDate)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
+                    .HasColumnType("datetime")
                     .HasComment("出版日期");
 
                 entity.Property(e => e.Publisher)

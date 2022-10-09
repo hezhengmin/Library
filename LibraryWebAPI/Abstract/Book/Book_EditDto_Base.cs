@@ -54,12 +54,9 @@ namespace LibraryWebAPI.Abstract.Book
             set => _creator = value ?? "";
         }
 
-        private string _publishDate { get; set; }
-        public  string PublishDate
-        {
-            get => _publishDate;
-            set => _publishDate = value ?? "";
-        }
+        [Required]
+        public  DateTime PublishDate { get; set; }
+
         private string _edition { get; set; }
         public  string Edition
         {
