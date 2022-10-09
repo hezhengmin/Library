@@ -41,7 +41,7 @@
                 <col style="width: 20em;">
                 <col style="width: 8em;">
                 <col style="width: 14em;">
-                <col style="width: 5em;">
+                <col style="width: 7em;">
                 <col style="width: 5em;">
             </colgroup>
             <thead>
@@ -60,7 +60,7 @@
                     <td>{{item.title}}</td>
                     <td>{{item.isbn}}</td>
                     <td>{{item.publisher}}</td>
-                    <td>{{item.publishDate | momentByYYYYMM}}</td>
+                    <td>{{item.publishDate | momentTW}}</td>
                     <td>
                         <router-link :to="{
                                  name: 'BookEdit',

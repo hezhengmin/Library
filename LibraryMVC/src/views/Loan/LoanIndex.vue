@@ -12,6 +12,7 @@
                 <div class="col-12 mt-3">
                     <button class="btn btn-primary" @click="search">搜尋</button>
                     <button class="btn btn-primary" @click="addLoan">新增</button>
+                    <button class="btn btn-primary" @click="exportExcel">匯出</button>
                 </div>
             </div>
         </div>
@@ -137,7 +138,36 @@
             addLoan() {
                 //空guid代表新增
                 this.$router.push({ name: 'LoanEdit', params: { id: '00000000-0000-0000-0000-000000000000' } })
-            }
+            },
+            //檔案下載
+            exportExcel() {
+                const method = 'POST';
+                const url = `https://localhost:44323/api/Loan/Export`;
+                let filter = {
+                    BookTitle: this.BookTitle,
+                    UserId: this.UserId
+                };
+
+                this.$axios.request({
+                    url,
+                    method,
+                    data: filter,
+                    responseType: 'blob', //important
+                })
+                    .then(({ data }) => {
+                        const downloadUrl = window.URL.createObjectURL(new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', "匯出書籍借閱紀錄"); //any other extension
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        reject(err);
+                    })
+            },
         },
         created() {
             //書籍借閱列表

@@ -374,7 +374,8 @@ namespace LibraryWebAPI.Services
         {
             int bookStockCount = 0, countLoan = 0;
 
-            bookStockCount = await _context.Books.CountAsync(x => x.Id == id);
+            var book = await Get(id);
+            bookStockCount = book.NumberOfCopies;
 
             countLoan = await _context.Loans.CountAsync(x => x.BookId == id);
 

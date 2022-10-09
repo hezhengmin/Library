@@ -138,14 +138,14 @@
                             <span class="text-danger">*</span>
                             <label for="publishDate" class="form-label">出版日期</label>
                             <ValidationProvider v-slot="{ valid, errors }" name="出版日期" rules="required">
-                                
-                                <date-picker v-model="book.publishDate" 
-                                             value-type="format"
-                                             format="YYYY-MM-DD"
-                                             :class="[{'is-invalid': valid===false}, 'form-control']" ></date-picker>
-
-                                <!--<input id="publishDate" name="publishDate" type="text" v-model="book.publishDate"
-                                       :class="[{'is-invalid': valid===false}, 'form-control']" />-->
+                                <div class="d-block">
+                                    <date-picker v-model="book.publishDate"
+                                                 value-type="format"
+                                                 format="YYYY-MM-DD">
+                                    </date-picker>
+                                </div>
+                                <input v-show="false" id="publishDate" name="publishDate" type="text" v-model="book.publishDate"
+                                       :class="[{'is-invalid': valid===false}, 'form-control']" />
                                 <span class="invalid-feedback">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>

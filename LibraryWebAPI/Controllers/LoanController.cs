@@ -110,5 +110,14 @@ namespace LibraryWebAPI.Controllers
 
             return NoContent();
         }
+
+        private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+        [HttpPost("Export")]
+        public async Task<IActionResult> Export([FromBody] LoanSelectParameter filter)
+        {
+            var excelData = await _loanService.ExportExcel(filter);
+            return File(excelData, ContentType, "書籍列表匯出.xlsx");
+        }
     }
 }

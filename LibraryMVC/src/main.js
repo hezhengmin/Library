@@ -68,6 +68,7 @@ axios.interceptors.response.use(function (response) {
     //未授權，回登入頁面
     if (error.response.status === 401) {
         localStorage.clear();
+        console.log("401", error);
         router.push({ name: "Login" });
         store.commit('setIsLogin', false);
     }
