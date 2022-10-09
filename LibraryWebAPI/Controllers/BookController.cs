@@ -4,10 +4,11 @@ using LibraryWebAPI.Parameters.Book;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LibraryWebAPI.Filters;
+
 
 namespace LibraryWebAPI.Controllers
 {
@@ -127,6 +128,7 @@ namespace LibraryWebAPI.Controllers
         private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         [HttpPost("Export")]
+        [RoleAuthorizationFilter]
         public async Task<IActionResult> Export([FromBody] BookSelectParameter filter)
         {
             var excelData = await _bookService.ExportExcel(filter);

@@ -104,17 +104,17 @@ namespace LibraryWebAPI.Services
 
             var totalRecords = query.Count();
 
-            if (filter.PaginationFilter != null)
+            if (filter.PaginationResult != null)
             {
-                query = query.Skip((filter.PaginationFilter.PageNumber - 1) * filter.PaginationFilter.PageSize)
-                               .Take(filter.PaginationFilter.PageSize);
+                query = query.Skip((filter.PaginationResult.PageNumber - 1) * filter.PaginationResult.PageSize)
+                               .Take(filter.PaginationResult.PageSize);
             }
 
             return new PagedResponse<List<Loan_GetDto>>
             {
                 Data = await query.ToListAsync(),
                 TotalRecords = totalRecords,
-                TotalPages = (int)Math.Ceiling(totalRecords / (double)filter.PaginationFilter.PageSize)
+                TotalPages = (int)Math.Ceiling(totalRecords / (double)filter.PaginationResult.PageSize)
             };
         }
 

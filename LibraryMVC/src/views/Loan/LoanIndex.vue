@@ -96,7 +96,7 @@
                 let filter = {
                     BookTitle: this.BookTitle,
                     UserId: this.UserId,
-                    PaginationFilter: {
+                    PaginationResult: {
                         PageNumber: this.pageNumber,
                         PageSize: this.pageSize
                     }

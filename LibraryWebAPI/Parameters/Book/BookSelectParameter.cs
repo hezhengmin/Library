@@ -1,4 +1,4 @@
-﻿using LibraryWebAPI.Filters;
+﻿using LibraryWebAPI.Pagination;
 using System;
 
 namespace LibraryWebAPI.Parameters.Book
@@ -18,6 +18,6 @@ namespace LibraryWebAPI.Parameters.Book
         /// 新增時間
         /// </summary>
         public DateTime? CreateAt { get; set; }
-        public PaginationFilter PaginationFilter { get; set; } = new PaginationFilter();
+        public PaginationResult PaginationResult { get; set; } = new PaginationResult();
     }
 }

@@ -150,10 +150,10 @@ namespace LibraryWebAPI.Services
             //排序在分頁前
             query = query.OrderByDescending(x => x.CreatedAt);
 
-            if (filter.PaginationFilter != null)
+            if (filter.PaginationResult != null)
             {
-                query = query.Skip((filter.PaginationFilter.PageNumber - 1) * filter.PaginationFilter.PageSize)
-                               .Take(filter.PaginationFilter.PageSize);
+                query = query.Skip((filter.PaginationResult.PageNumber - 1) * filter.PaginationResult.PageSize)
+                               .Take(filter.PaginationResult.PageSize);
             }
 
             var List = await query.Select(x => new Book_GetDto
@@ -199,7 +199,7 @@ namespace LibraryWebAPI.Services
             {
                 Data = List,
                 TotalRecords = totalRecords,
-                TotalPages = (int)Math.Ceiling(totalRecords / (double)filter.PaginationFilter.PageSize)
+                TotalPages = (int)Math.Ceiling(totalRecords / (double)filter.PaginationResult.PageSize)
             };
         }
         public async Task<Book> Add(Book_PostDto entity)

@@ -93,7 +93,7 @@
                 let filter = {
                     title: this.title,
                     isbn: this.isbn,
-                    PaginationFilter: {
+                    PaginationResult: {
                         PageNumber: this.pageNumber,
                         PageSize: this.pageSize
                     }
@@ -144,7 +144,7 @@
                 let filter = {
                     title: this.title,
                     isbn: this.isbn,
-                    PaginationFilter: {
+                    PaginationResult: {
                         PageNumber: this.pageNumber,
                         PageSize: this.pageSize
                     }

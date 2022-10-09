@@ -1,6 +1,6 @@
-﻿namespace LibraryWebAPI.Filters
+﻿namespace LibraryWebAPI.Pagination
 {
-    public class PaginationFilter
+    public class PaginationResult
     {
         private int _pageNumber { get; set; }
         /// <summary>
@@ -33,13 +33,13 @@
             }
         }
 
-        public PaginationFilter()
+        public PaginationResult()
         {
             this.PageNumber = 1;
             this.PageSize = 10;
         }
 
-        public PaginationFilter(int pageNumber, int pageSize)
+        public PaginationResult(int pageNumber, int pageSize)
         {
             this.PageNumber = pageNumber;
             this.PageSize = pageSize;

@@ -1,4 +1,4 @@
-﻿using LibraryWebAPI.Filters;
+﻿using LibraryWebAPI.Pagination;
 using System;
 
 namespace LibraryWebAPI.Parameters.Loan
@@ -26,6 +26,6 @@ namespace LibraryWebAPI.Parameters.Loan
         /// </summary>
         public DateTime? ReturnDate { get; set; }
 
-        public PaginationFilter PaginationFilter { get; set; } = new PaginationFilter();
+        public PaginationResult PaginationResult { get; set; } = new PaginationResult();
     }
 }
