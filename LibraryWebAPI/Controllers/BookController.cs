@@ -128,7 +128,6 @@ namespace LibraryWebAPI.Controllers
         private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         [HttpPost("Export")]
-        [RoleAuthorizationFilter]
         public async Task<IActionResult> Export([FromBody] BookSelectParameter filter)
         {
             var excelData = await _bookService.ExportExcel(filter);

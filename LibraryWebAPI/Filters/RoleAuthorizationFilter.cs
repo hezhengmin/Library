@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using LibraryWebAPI.Dtos.Responses;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Security.Claims;
@@ -16,8 +18,18 @@ namespace LibraryWebAPI.Filters
                 var identity = context.HttpContext.User.Identity as ClaimsIdentity;
 
                 //角色權限
-                var role = identity.FindFirst("Role").Value;
+                var role = identity.FindFirst(ClaimTypes.Role)?.Value;
+                var id = identity.FindFirst("id")?.Value;
+                var account = identity.FindFirst("account")?.Value;
+                var email = identity.FindFirst(ClaimTypes.Email)?.Value;
 
+                if(role == "admin")
+                {
+                    context.Result = new JsonResult(new CommonResponse()
+                    {
+                       
+                    });
+                }
             }
             else
             {
