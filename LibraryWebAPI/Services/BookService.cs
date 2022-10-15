@@ -5,12 +5,15 @@ using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -500,7 +503,7 @@ namespace LibraryWebAPI.Services
                         sheet.Cells[row, col++].Value = item.Publisher;
                         sheet.Cells[row, col++].Value = item.RightCondition;
                         sheet.Cells[row, col++].Value = item.Creator;
-                        sheet.Cells[row, col++].Value = item.PublishDate;
+                        sheet.Cells[row, col++].Value = item.PublishDate.ToShortDateString();
                         sheet.Cells[row, col++].Value = item.Edition;
                         sheet.Cells[row, col++].Value = item.Cover;
                         sheet.Cells[row, col++].Value = item.Classify;
@@ -549,5 +552,135 @@ namespace LibraryWebAPI.Services
             }
         }
 
+
+        /// <summary>
+        /// 匯入Excel
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public async Task<CommonResponse> ImportExcel(IFormFile file)
+        {
+            if (file == null || file.Length <= 0)
+            {
+                return new CommonResponse()
+                {
+                    Errors = new List<string>() { "檔案上傳有誤" },
+                    Success = false,
+                    Data = null
+                };
+            }
+
+            List<Book_PostDto> list = new List<Book_PostDto>();
+
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    var rowCount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        var entity = new Book_PostDto();
+                        int col = 1;
+                        entity.Title = worksheet.Cells[row, col++].Value.ToString().Trim();
+                        
+                        int _status = -1;
+                        switch (worksheet.Cells[row, col++].Value?.ToString().Trim())
+                        {
+                            case "無庫存":
+                                _status = 0;
+                                break;
+                            case "有庫存":
+                                _status = 1;
+                                break;
+                            default:
+                                _status = -1;
+                                break;
+                        }
+                        entity.Status = _status;
+
+                        int _numberOfCopies = 0;
+                        int.TryParse(worksheet.Cells[row, col++].Value.ToString().Trim(), out _numberOfCopies);
+                        entity.NumberOfCopies = _numberOfCopies;
+
+                        entity.Isbn = worksheet.Cells[row, col++].Value.ToString().Trim();
+                        entity.Issn = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Gpn = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Publisher = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.RightCondition = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Creator = worksheet.Cells[row, col++].Value.ToString().Trim();
+
+                        //出版日期
+                        DateTime _publishDate;
+                        string dateString = worksheet.Cells[row, col++].Value.ToString().Trim();
+
+                        if (DateTime.TryParse(dateString, out _publishDate))
+                        {
+                            //TryParse轉換成功
+                        }
+                        //DateTime.TryParseExact(dateString, "yyyy/MM/dd", null, 
+                        //    DateTimeStyles.None, out _publishDate);
+                        entity.PublishDate = _publishDate;
+
+                        entity.Edition = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Cover = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Classify = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Gpntype = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Subject = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Governance = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Grade = worksheet.Cells[row, col++].Value?.ToString().Trim();
+
+                        int _pages = 0;
+                        int.TryParse(worksheet.Cells[row, col++].Value.ToString().Trim(), out _pages);
+                        entity.Pages = _pages;
+                        
+                        entity.Size = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Binding = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Language = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Introduction = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Catalog = worksheet.Cells[row, col++].Value?.ToString().Trim();
+
+
+                        int _price = 0;
+                        int.TryParse(worksheet.Cells[row, col++].Value.ToString().Trim(), out _price);
+                        entity.Price = _price;
+                       
+                        entity.TargetPeople = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Types = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Attachment = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Url = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Duration = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Numbers = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        entity.Restriction = worksheet.Cells[row, col++].Value?.ToString().Trim();
+                        
+                        var ceasedDate = worksheet.Cells[row, col++].Value?.ToString().Trim();
+
+                        if (string.IsNullOrEmpty(ceasedDate))
+                        {
+                            entity.CeasedDate = null;
+                        }
+                        else
+                        {
+                            DateTime _ceasedDate;
+                            DateTime.TryParse(ceasedDate, out _ceasedDate);
+                            entity.CeasedDate = _ceasedDate;
+                        }
+                        
+                        entity.Authority = worksheet.Cells[row, col++].Value.ToString().Trim();
+
+                        list.Add(entity);
+                    }
+                }
+            }
+
+            return new CommonResponse()
+            {
+                Success = true,
+                Data = list
+            };
+        }
     }
 }

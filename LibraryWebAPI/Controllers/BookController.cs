@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LibraryWebAPI.Filters;
-
+using Microsoft.AspNetCore.Http;
 
 namespace LibraryWebAPI.Controllers
 {
@@ -127,11 +126,19 @@ namespace LibraryWebAPI.Controllers
 
         private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-        [HttpPost("Export")]
-        public async Task<IActionResult> Export([FromBody] BookSelectParameter filter)
+        [HttpPost("ExportExcel")]
+        public async Task<IActionResult> ExportExcel([FromBody] BookSelectParameter filter)
         {
             var excelData = await _bookService.ExportExcel(filter);
             return File(excelData, ContentType, "書籍列表匯出.xlsx");
+        }
+
+        [HttpPost("ImportExcel")]
+        public async Task<IActionResult> ImportExcel(IFormFile file)
+        {
+            var list = await _bookService.ImportExcel(file);
+
+            return Ok(list);
         }
     }
 }

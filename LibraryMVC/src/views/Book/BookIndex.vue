@@ -140,7 +140,7 @@
             //檔案下載
             exportExcel() {
                 const method = 'POST';
-                const url = `https://localhost:44323/api/Book/Export`;
+                const url = "https://localhost:44323/api/Book/ExportExcel";
                 let filter = {
                     title: this.title,
                     isbn: this.isbn,
