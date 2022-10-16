@@ -552,7 +552,6 @@ namespace LibraryWebAPI.Services
             }
         }
 
-
         /// <summary>
         /// 匯入Excel
         /// </summary>
@@ -586,7 +585,7 @@ namespace LibraryWebAPI.Services
                         var entity = new Book_PostDto();
                         int col = 1;
                         entity.Title = worksheet.Cells[row, col++].Value.ToString().Trim();
-                        
+
                         int _status = -1;
                         switch (worksheet.Cells[row, col++].Value?.ToString().Trim())
                         {
@@ -636,7 +635,7 @@ namespace LibraryWebAPI.Services
                         int _pages = 0;
                         int.TryParse(worksheet.Cells[row, col++].Value.ToString().Trim(), out _pages);
                         entity.Pages = _pages;
-                        
+
                         entity.Size = worksheet.Cells[row, col++].Value?.ToString().Trim();
                         entity.Binding = worksheet.Cells[row, col++].Value?.ToString().Trim();
                         entity.Language = worksheet.Cells[row, col++].Value?.ToString().Trim();
@@ -647,7 +646,7 @@ namespace LibraryWebAPI.Services
                         int _price = 0;
                         int.TryParse(worksheet.Cells[row, col++].Value.ToString().Trim(), out _price);
                         entity.Price = _price;
-                       
+
                         entity.TargetPeople = worksheet.Cells[row, col++].Value?.ToString().Trim();
                         entity.Types = worksheet.Cells[row, col++].Value?.ToString().Trim();
                         entity.Attachment = worksheet.Cells[row, col++].Value?.ToString().Trim();
@@ -655,7 +654,7 @@ namespace LibraryWebAPI.Services
                         entity.Duration = worksheet.Cells[row, col++].Value?.ToString().Trim();
                         entity.Numbers = worksheet.Cells[row, col++].Value?.ToString().Trim();
                         entity.Restriction = worksheet.Cells[row, col++].Value?.ToString().Trim();
-                        
+
                         var ceasedDate = worksheet.Cells[row, col++].Value?.ToString().Trim();
 
                         if (string.IsNullOrEmpty(ceasedDate))
@@ -668,7 +667,7 @@ namespace LibraryWebAPI.Services
                             DateTime.TryParse(ceasedDate, out _ceasedDate);
                             entity.CeasedDate = _ceasedDate;
                         }
-                        
+
                         entity.Authority = worksheet.Cells[row, col++].Value.ToString().Trim();
 
                         list.Add(entity);
@@ -680,6 +679,46 @@ namespace LibraryWebAPI.Services
             {
                 Success = true,
                 Data = list
+            };
+        }
+
+        /// <summary>
+        /// 批次新增
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<CommonResponse> AddMultiple(Book_MultiplePostDto entity)
+        {
+            var list = new List<Book_PostDto>();
+
+            if (entity.Books != null)
+            {
+                foreach (var book in entity.Books)
+                {
+                    var result = await Add(book);
+
+                    //新增失敗，加入清單
+                    if (result == null)
+                    {
+                        list.Add(book);
+                    }
+                }
+            }
+
+
+            if (list.Count > 0)
+            {
+                return new CommonResponse()
+                {
+                    Success = false,
+                    Data = list
+                };
+            }
+
+            return new CommonResponse()
+            {
+                Success = true,
+                Data = null
             };
         }
     }

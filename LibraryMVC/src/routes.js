@@ -4,6 +4,7 @@ import AccountEdit from '../src/views/Account/AccountEdit.vue'
 import ForgetPassword from '../src/views/ForgetPassword.vue'
 import Index from '../src/views/Index.vue'
 import BookIndex from '../src/views/Book/BookIndex.vue'
+import BookImport from '../src/views/Book/BookImport.vue'
 import BookEdit from '../src/views/Book/BookEdit.vue'
 import Layout from '../src/views/Layout.vue'
 import LoanIndex from '../src/views/Loan/LoanIndex.vue'
@@ -45,6 +46,12 @@ export const routes = [
                 path: '/Book/Book_Index',
                 name: "BookIndex",
                 component: BookIndex
+            },
+            {
+                //書籍匯入列表
+                path: '/Book/Book_Import',
+                name: "BookImport",
+                component: BookImport
             },
             {
                 //書籍編輯

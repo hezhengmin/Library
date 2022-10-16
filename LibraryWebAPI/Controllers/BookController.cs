@@ -93,7 +93,6 @@ namespace LibraryWebAPI.Controllers
             return NoContent();
         }
 
-
         /// <summary>
         /// 刪除書籍
         /// </summary>
@@ -123,7 +122,6 @@ namespace LibraryWebAPI.Controllers
             return Ok(result);
         }
 
-
         private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         [HttpPost("ExportExcel")]
@@ -136,9 +134,18 @@ namespace LibraryWebAPI.Controllers
         [HttpPost("ImportExcel")]
         public async Task<IActionResult> ImportExcel(IFormFile file)
         {
-            var list = await _bookService.ImportExcel(file);
+            var response = await _bookService.ImportExcel(file);
 
-            return Ok(list);
+            return Ok(response);
+        }
+
+  
+        [HttpPost("PostBooks")]
+        public async Task<ActionResult<Book_GetDto>> PostBooks([FromBody] Book_MultiplePostDto entity)
+        {
+            var response = await _bookService.AddMultiple(entity);
+
+            return Ok(response);
         }
     }
 }
