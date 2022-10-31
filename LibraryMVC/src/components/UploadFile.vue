@@ -5,6 +5,7 @@
     </div>
 </template>
 <script>
+    import { apiGetUploadFile, apiDeleteUploadFile } from 'api'
     export default {
         name: "UploadFile",
         props: {
@@ -33,7 +34,7 @@
                 const method = 'GET';
                 const url = `https://localhost:44323/api/UploadFile/Download/${this.uploadFileId}`;
 
-                this.$axios.request({
+                apiGetUploadFile({
                     url,
                     method,
                     responseType: 'blob', //important
@@ -54,7 +55,7 @@
                 let yes = confirm('你確定刪除檔案嗎？');
                 if (!yes) return;
 
-                this.$axios.delete(`https://localhost:44323/api/BookPhoto/${this.id}`)
+                apiDeleteUploadFile(`https://localhost:44323/api/BookPhoto/${this.id}`)
                     .then((response) => {
                         if (response.status === 204) {
                             alert("刪除成功");

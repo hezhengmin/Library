@@ -11,7 +11,7 @@ namespace LibraryWebAPI.Helpers
 {
     public class JwtHelper
     {
-        private static int keepTime = 10;
+        private static int keepTime = 30;
 
         private readonly IConfiguration _configuration;
 

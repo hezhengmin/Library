@@ -5,26 +5,36 @@ const domain = 'https://localhost:44323';
 const token = `Bearer ${localStorage.getItem("jwtToken")}`;
 
 // Account相關的 api
-const accountRequest = axios.create({
-    baseURL: `${domain}/api/Account/`
-});
+//const accountRequest = axios.create({
+//    baseURL: `${domain}/api/Account/`
+//});
 
-const bookRequest = axios.create({
-    baseURL: `${domain}/api/Book/`,
-    headers: {
-        Authorization: token
-    }
-});
+//const bookRequest = axios.create({
+//    baseURL: `${domain}/api/Book/`,
+//    headers: {
+//        Authorization: token
+//    }
+//});
 
 
-//登入
+//帳號Account
 export const apiAccountLogin = data => createAxios().post('/Account/Login', data);
-//註冊
 export const apiAccountSignup = data => createAxios().post(data);
-//書籍
-export const apiBookList = data => createAxios().post('/Book/List', data);
-//借閱
+//書籍Book
+export const apiPostBookList = data => createAxios().post('/Book/List', data);
+export const apiGetBook = (url) => createAxios().get(url);
+export const apiDeleteBook = (url) => createAxios().delete(url);
+export const apiPostBookExportExcel = (config) => createAxios().request(config);
+//BookPhoto
+
+//UploadFile
+export const apiGetUploadFile = (config) => createAxios().request(config);
+export const apiDeleteUploadFile = (url) => createAxios().delete(url);
+
+
+//Loan借閱
 export const apiLoanList = data => createAxios().post('/Loan/List', data);
+
 
 //bookRequest.interceptors.response.use(
 //    response => {

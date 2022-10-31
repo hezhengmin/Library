@@ -78,7 +78,7 @@
 </template>
 <script>
     import mixin from "../../mixin.js";
-    import { apiBookList } from "api";
+    import { apiPostBookList, apiDeleteBook, apiPostBookExportExcel } from "api";
 
     export default {
         name: "BookIndex",
@@ -100,7 +100,7 @@
                         PageSize: this.pageSize
                     }
                 };
-                apiBookList(filter)
+                apiPostBookList(filter)
                     .then((response) => {
 
                         this.bookList = response.data.data;
@@ -114,7 +114,9 @@
                     })
             },
             deleteBook(id) {
-                this.$axios.delete(`https://localhost:44323/api/Book/${id}`)
+                if (!confirm("確定要刪除?"))
+                    return;
+                apiDeleteBook(`https://localhost:44323/api/Book/${id}`)
                     .then((response) => {
                         if (response.status === 204) {
                             alert("刪除成功");
@@ -138,7 +140,7 @@
                 //空guid代表新增
                 this.$router.push({ name: 'BookEdit', params: { id: '00000000-0000-0000-0000-000000000000' } })
             },
-            //檔案下載
+            //匯出
             exportExcel() {
                 const method = 'POST';
                 const url = "https://localhost:44323/api/Book/ExportExcel";
@@ -151,7 +153,7 @@
                     }
                 };
 
-                this.$axios.request({
+                apiPostBookExportExcel({
                     url,
                     method,
                     data: filter,

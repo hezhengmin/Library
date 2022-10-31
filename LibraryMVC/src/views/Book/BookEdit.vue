@@ -348,6 +348,7 @@
     import UploadFile from "../../../src/components/UploadFile.vue";
     import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
     import 'swiper/css/swiper.css'
+    import { apiGetBook } from 'api'
 
     export default {
         name: "BookEdit",
@@ -487,7 +488,7 @@
                     })
             },
             init() {
-                this.$axios.get(`https://localhost:44323/api/Book/${this.$route.params.id}`)
+                apiGetBook(`https://localhost:44323/api/Book/${this.$route.params.id}`)
                     .then((response) => {
                         this.book = { ...response.data };
                     })
