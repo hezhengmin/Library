@@ -80,6 +80,7 @@
 </template>
 <script>
     import mixin from "../../mixin.js";
+    import { apiLoanList } from "api";
 
     export default {
         name: "LoanIndex",
@@ -101,8 +102,7 @@
                         PageSize: this.pageSize
                     }
                 };
-                this.$axios.post("https://localhost:44323/api/Loan/List",
-                    filter)
+                apiLoanList(filter)
                     .then((response) => {
 
                         this.LoanList = response.data.data;

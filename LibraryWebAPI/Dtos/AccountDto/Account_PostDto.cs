@@ -14,8 +14,8 @@ namespace LibraryWebAPI.Dtos.AccountDto
         [Required(ErrorMessage = "密碼必填")]
         public override string Password { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "信箱必填")]
+        [EmailAddress(ErrorMessage = "{0}格式錯誤")]
         public string Email { get; set; }
     }
 }

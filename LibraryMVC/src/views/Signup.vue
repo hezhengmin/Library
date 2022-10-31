@@ -30,6 +30,8 @@
     </div>
 </template>
 <script>
+    import { apiAccountSignup } from 'api'
+
     export default {
         name: "SignUp",
         data() {
@@ -41,7 +43,7 @@
         },
         methods: {
             signup() {
-                this.$axios.post('https://localhost:44323/api/Account',
+                apiAccountSignup(
                     {
                         UserId: this.UserId,
                         password: this.password,

@@ -11,6 +11,8 @@ namespace LibraryWebAPI.Helpers
 {
     public class JwtHelper
     {
+        private static int keepTime = 10;
+
         private readonly IConfiguration _configuration;
 
         public JwtHelper(IConfiguration configuration)
@@ -39,7 +41,7 @@ namespace LibraryWebAPI.Helpers
                 issuer: _configuration["JWT:Issuer"], //發行者
                 audience: _configuration["JWT:Audience"], //接收者
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(keepTime),
                 signingCredentials: credentials
             );
 

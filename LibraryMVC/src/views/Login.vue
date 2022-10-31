@@ -25,6 +25,9 @@
     </div>
 </template>
 <script>
+    import { apiAccountLogin } from "api";
+    import axios from 'axios';
+
     export default {
         name: "Login",
         data() {
@@ -35,7 +38,7 @@
         },
         methods: {
             login() {
-                this.$axios.post('https://localhost:44323/api/Account/Login', {
+                apiAccountLogin({
                     userId: this.userId,
                     password: this.password
                 })
@@ -58,8 +61,13 @@
 
                             this.$axios.defaults.headers.common['Authorization'] = `Bearer ${this.$store.state.jwtToken}`
 
+                            axios.defaults.headers.common["Authorization"] = `Bearer ${this.$store.getters.getJwtToken}`;
+
                             //登入後回主頁
                             this.$router.push("/Home/Index");
+                        }
+                        else {
+                            alert(response.data.errors.join('、'));
                         }
                     })
                     .catch((error) => {

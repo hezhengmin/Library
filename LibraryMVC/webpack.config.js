@@ -34,8 +34,10 @@ module.exports = {
     },
     // 模組的解析相關設定
     resolve: {
+        extensions: ['.js', '.vue', '.json'],
         alias: {
-            'vue$': 'vue/dist/vue.esm.js'
+            'vue$': 'vue/dist/vue.esm.js',
+            api$: path.resolve('src/api/api.js'),
         }
     },
     module: {

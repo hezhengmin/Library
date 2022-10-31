@@ -78,6 +78,7 @@
 </template>
 <script>
     import mixin from "../../mixin.js";
+    import { apiBookList } from "api";
 
     export default {
         name: "BookIndex",
@@ -99,8 +100,7 @@
                         PageSize: this.pageSize
                     }
                 };
-                this.$axios.post("https://localhost:44323/api/Book/List",
-                    filter)
+                apiBookList(filter)
                     .then((response) => {
 
                         this.bookList = response.data.data;
@@ -110,7 +110,7 @@
                         this.totalRecords = response.data.totalRecords;
                     })
                     .catch((error) => {
-                        console.log(error);
+                        console.log(`apiBookList`,error);
                     })
             },
             deleteBook(id) {

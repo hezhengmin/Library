@@ -16,6 +16,7 @@ namespace Zheng.Infrastructure.Models
         public string UserId { get; set; }
         public byte[] Password { get; set; }
         public string Email { get; set; }
+        public bool Status { get; set; }
         public DateTime SystemDate { get; set; }
 
         public virtual ICollection<Loan> Loans { get; set; }

@@ -20,10 +20,13 @@ namespace LibraryWebAPI.Services
     {
         private readonly LibraryDbContext _context;
         private readonly EmailSenderHelper _emailSenderHelper;
-        public AccountService(LibraryDbContext context, EmailSenderHelper emailSenderHelper)
+        private readonly JwtHelper _jwtHelper;
+
+        public AccountService(LibraryDbContext context, EmailSenderHelper emailSenderHelper, JwtHelper jwtHelper)
         {
             _context = context;
             _emailSenderHelper = emailSenderHelper;
+            _jwtHelper = jwtHelper;
         }
 
         /// <summary>
@@ -63,6 +66,7 @@ namespace LibraryWebAPI.Services
                 UserId = accountAddEntity.UserId,
                 Password = hashBytes,
                 Email = accountAddEntity.Email,
+                Status = true,
                 SystemDate = DateTime.Now
             };
 
@@ -230,20 +234,59 @@ namespace LibraryWebAPI.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public async Task<Account> Login(Account_LoginDto entity)
+        public async Task<AccountResponse> Login(Account_LoginDto entity)
         {
             var account = await Get(entity.UserId);
 
             //沒有該帳號，直接回傳false
-            if (account == null) return null;
+            if (account == null)
+            {
+                return new AccountResponse()
+                {
+                    Errors = new List<string>() {
+                        "帳號或密碼錯誤"
+                    },
+                    Success = false
+                };
+            }
+               
 
             //登入密碼加密
             var secondByteArray = SHAExtensions.PasswordSHA512Hash(entity.Password);
 
             //跟資料庫的，該帳號的密碼比對
-            if (!account.Password.CompareByteArray(secondByteArray)) return null;
+            if (!account.Password.CompareByteArray(secondByteArray))
+            {
+                return new AccountResponse()
+                {
+                    Errors = new List<string>() {
+                        "帳號或密碼錯誤"
+                    },
+                    Success = false
+                };
+            }
 
-            return account;
+            if(account.Status == false)
+            {
+                return new AccountResponse()
+                {
+                    Errors = new List<string>() {
+                        "帳號未啟用，請聯絡管理者！" 
+                    },
+                    Success = false
+                };
+            }
+
+            //登入成功
+            var token = _jwtHelper.GenerateJwtToken(account);
+            var accountDto = await GetDto(account.Id);
+
+            return new AccountResponse()
+            {
+                Success = true,
+                JwtToken = token,
+                Account = accountDto
+            };
         }
 
 

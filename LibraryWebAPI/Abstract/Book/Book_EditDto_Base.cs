@@ -288,6 +288,7 @@ namespace LibraryWebAPI.Abstract.Book
 
             var dto = (Book_EditDto_Base)validationContext.ObjectInstance;
 
+            //編輯才要驗證
             if (dto.Id != Guid.Empty)
             {
                 var leastNumberOfCopiesCount = _bookService.GetLeastNumberOfCopiesCount(dto.Id).Result;

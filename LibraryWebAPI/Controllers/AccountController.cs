@@ -18,12 +18,10 @@ namespace LibraryWebAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
-        private readonly JwtHelper _jwtHelper;
 
         public AccountController(AccountService accountService, JwtHelper jwtHelper)
         {
             _accountService = accountService;
-            _jwtHelper = jwtHelper;
         }
 
         [HttpGet]
@@ -130,31 +128,9 @@ namespace LibraryWebAPI.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] Account_LoginDto entity)
         {
-            var account = await _accountService.Login(entity);
+            var response = await _accountService.Login(entity);
 
-            //登入成功
-            if (account != null)
-            {
-                var token = _jwtHelper.GenerateJwtToken(account);
-                var accountDto = await _accountService.GetDto(account.Id);
-
-                return Ok(new AccountResponse()
-                {
-                    Success = true,
-                    JwtToken = token,
-                    Account = accountDto
-                });
-            }
-            else
-            {
-                return BadRequest(new AccountResponse()
-                {
-                    Errors = new List<string>() {
-                        "帳號或密碼錯誤"
-                    },
-                    Success = false
-                });
-            }
+            return Ok(response);
         }
 
         /// <summary>

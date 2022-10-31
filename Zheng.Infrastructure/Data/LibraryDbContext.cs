@@ -21,12 +21,13 @@ namespace Zheng.Infrastructure.Data
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<BookPhoto> BookPhotos { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Loan> Loans { get; set; }
         public virtual DbSet<UploadFile> UploadFiles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-       
+          
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,6 +53,8 @@ namespace Zheng.Infrastructure.Data
                     .HasMaxLength(64)
                     .IsFixedLength(true)
                     .HasComment("密碼");
+
+                entity.Property(e => e.Status).HasComment("狀態(1啟用0停用)");
 
                 entity.Property(e => e.SystemDate)
                     .HasColumnType("datetime")
@@ -246,6 +249,32 @@ namespace Zheng.Infrastructure.Data
                     .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BookPhoto_Book");
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("Category");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasComment("系統編號");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasComment("新增時間");
+
+                entity.Property(e => e.CreatedBy).HasComment("新增者");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .HasComment("名稱");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasComment("修改時間");
+
+                entity.Property(e => e.UpdatedBy).HasComment("修改者");
             });
 
             modelBuilder.Entity<Loan>(entity =>
