@@ -32,6 +32,8 @@
     </div>
 </template>
 <script>
+    import { apiPatchAccountEmail, apiPutAccountPassword, apiGetAccount } from 'api'
+    
     export default {
         name: "AccountEdit",
         data() {
@@ -49,8 +51,7 @@
         methods: {
             //更新電子郵件
             updateEmail() {
-
-                this.$axios.patch(`https://localhost:44323/api/Account/${this.$route.params.id}`,
+                apiPatchAccountEmail(`/Account/${this.$route.params.id}`,
                     [
                         {
                             "op": "replace",
@@ -78,7 +79,7 @@
                     NewPassword: this.newPassword,
                     ConfirmPassword: this.confirmPassword,
                 };
-                this.$axios.put(`https://localhost:44323/api/Account/ResetPassword`, data)
+                apiPutAccountPassword(data)
                     .then((response) => {
                         if (response.status === 204) {
                             alert("更新成功");
@@ -94,7 +95,7 @@
         },
         created() {
 
-            this.$axios.get(`https://localhost:44323/api/Account/${this.$route.params.id}`)
+            apiGetAccount(`/Account/${this.$route.params.id}`)
                 .then((response) => {
                     this.UserId = response.data.UserId;
                     this.email = response.data.email;

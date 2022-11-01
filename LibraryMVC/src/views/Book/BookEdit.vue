@@ -281,8 +281,13 @@
                             <input id="types" name="types" class="form-control" type="text" v-model="book.types" />
                         </div>
                         <div class="col-md">
+                            <span class="text-danger">*</span>
                             <label for="attachment" class="form-label">附件</label>
-                            <input id="attachment" name="attachment" class="form-control" type="text" v-model="book.attachment" />
+                            <ValidationProvider v-slot="{ valid, errors }" name="附件" rules="required">
+                                <input id="attachment" name="attachment" type="text" v-model="book.attachment"
+                                       :class="[{'is-invalid': valid===false}, 'form-control']" />
+                                <span class="invalid-feedback">{{ errors[0] }}</span>
+                            </ValidationProvider>
                         </div>
                         <div class="col-md">
                             <label for="targetPeople" class="form-label">適用對象</label>
@@ -348,7 +353,7 @@
     import UploadFile from "../../../src/components/UploadFile.vue";
     import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
     import 'swiper/css/swiper.css'
-    import { apiGetBook } from 'api'
+    import { apiGetBook, apiGetBookPhoto, apiPostBookPhoto, apiPutBook, apiPostBook } from 'api'
 
     export default {
         name: "BookEdit",
@@ -443,7 +448,7 @@
                 const formData = new FormData(this.$refs.observer.$el);
                 formData.append("id", this.$route.params.id);
 
-                this.$axios.put(`https://localhost:44323/api/Book/${this.$route.params.id}`,
+                apiPutBook(`/Book/${this.$route.params.id}`,
                     formData,
                     {
                         headers: {
@@ -472,7 +477,7 @@
             addBook() {
                 const formData = new FormData(this.$refs.observer.$el);
 
-                this.$axios.post('https://localhost:44323/api/Book',
+                apiPostBook('/Book',
                     formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data;',
@@ -514,7 +519,7 @@
                     formData.append('files', photo.files[i])
                 }
 
-                this.$axios.post(`https://localhost:44323/api/BookPhoto/${this.$route.params.id}`,
+                apiPostBookPhoto(`/BookPhoto/${this.$route.params.id}`,
                     formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data;',
@@ -535,7 +540,7 @@
             },
             //重載書籍圖片
             loadBookPhoto() {
-                this.$axios.get(`https://localhost:44323/api/BookPhoto/${this.$route.params.id}`)
+                apiGetBookPhoto(`https://localhost:44323/api/BookPhoto/${this.$route.params.id}`)
                     .then((response) => {
                         this.book.bookPhotos = response.data;
                     })

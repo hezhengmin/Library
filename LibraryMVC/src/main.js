@@ -62,35 +62,35 @@ router.beforeEach((to, from, next) => {
 
 
 //攔截器
-axios.interceptors.response.use(
-    response => {
-        return response;
-    },
-    error => {
-        console.log(`axios.interceptors.response.use ${error}`);
-        //未授權，回登入頁面
-        if (error.response.status === 401) {
-            localStorage.clear();
-            console.log("401", error);
-            router.push({ name: "Login" });
-            store.commit('setIsLogin', false);
-        }
-        return Promise.reject(error);
-    }
-);
+//axios.interceptors.response.use(
+//    response => {
+//        return response;
+//    },
+//    error => {
+//        console.log(`axios.interceptors.response.use ${error}`);
+//        //未授權，回登入頁面
+//        if (error.response.status === 401) {
+//            localStorage.clear();
+//            console.log("401", error);
+//            router.push({ name: "Login" });
+//            store.commit('setIsLogin', false);
+//        }
+//        return Promise.reject(error);
+//    }
+//);
 
 
 //Request interceptors for API calls
-axios.interceptors.request.use(
-    config => {
-        console.log(`axios.interceptors.request.use ${localStorage.getItem('jwtToken')}`);
-        config.headers['Authorization'] = `Bearer ${localStorage.getItem('jwtToken')}`;
-        return config;
-    },
-    error => {
-        return Promise.reject(error);
-    }
-);
+//axios.interceptors.request.use(
+//    config => {
+//        console.log(`axios.interceptors.request.use ${localStorage.getItem('jwtToken')}`);
+//        config.headers['Authorization'] = `Bearer ${localStorage.getItem('jwtToken')}`;
+//        return config;
+//    },
+//    error => {
+//        return Promise.reject(error);
+//    }
+//);
 
 
 new Vue({

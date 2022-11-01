@@ -116,7 +116,7 @@
             deleteBook(id) {
                 if (!confirm("確定要刪除?"))
                     return;
-                apiDeleteBook(`https://localhost:44323/api/Book/${id}`)
+                apiDeleteBook(`/Book/${id}`)
                     .then((response) => {
                         if (response.status === 204) {
                             alert("刪除成功");
@@ -143,7 +143,7 @@
             //匯出
             exportExcel() {
                 const method = 'POST';
-                const url = "https://localhost:44323/api/Book/ExportExcel";
+                const url = "/Book/ExportExcel";
                 let filter = {
                     title: this.title,
                     isbn: this.isbn,
