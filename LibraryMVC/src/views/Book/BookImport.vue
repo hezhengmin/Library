@@ -166,7 +166,7 @@
 <script>
     import mixin from "../../mixin.js";
     import modal from "bootstrap/js/dist/modal"
-
+    import { apiPostBooks, apiPostBookImportExcel } from 'api'
     export default {
         name: "BookImport",
         mixins: [mixin],
@@ -186,7 +186,7 @@
             },
             //批次儲存
             save() {
-                this.$axios.post("https://localhost:44323/api/Book/PostBooks", {
+                apiPostBooks({
                     books: this.bookList
                 })
                     .then((response) => {
@@ -217,7 +217,7 @@
                 let excelFile = document.getElementById('file');
                 formData.append('file', excelFile.files[0]);
 
-                this.$axios.post("https://localhost:44323/api/Book/ImportExcel",
+                apiPostBookImportExcel(
                     formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data;',

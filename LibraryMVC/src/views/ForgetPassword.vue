@@ -24,6 +24,7 @@
     </div>
 </template>
 <script>
+    import { apiPostAccountForgetPassword } from 'api'
     export default {
         name: "ForgetPassword",
         data() {
@@ -34,7 +35,7 @@
         },
         methods: {
             forgetPassword() {
-                this.$axios.post('https://localhost:44323/api/Account/ForgetPassword', {
+                apiPostAccountForgetPassword({
                     UserId: this.UserId,
                     email: this.email
                 })

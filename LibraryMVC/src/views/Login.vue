@@ -59,8 +59,6 @@
                             this.$store.commit('setIsLogin', response.data.success);
 
 
-                            this.$axios.defaults.headers.common['Authorization'] = `Bearer ${this.$store.state.jwtToken}`
-
                             axios.defaults.headers.common["Authorization"] = `Bearer ${this.$store.getters.getJwtToken}`;
 
                             //登入後回主頁

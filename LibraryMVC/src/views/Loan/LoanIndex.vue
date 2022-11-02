@@ -80,7 +80,7 @@
 </template>
 <script>
     import mixin from "../../mixin.js";
-    import { apiLoanList } from "api";
+    import { apiPostLoanList, apiPostLoanExportExcel, apiDeleteLoan } from "api";
 
     export default {
         name: "LoanIndex",
@@ -102,7 +102,7 @@
                         PageSize: this.pageSize
                     }
                 };
-                apiLoanList(filter)
+                apiPostLoanList(filter)
                     .then((response) => {
 
                         this.LoanList = response.data.data;
@@ -116,7 +116,7 @@
                     })
             },
             deleteLoan(id) {
-                this.$axios.delete(`https://localhost:44323/api/Loan/${id}`)
+                apiDeleteLoan(`/Loan/${id}`)
                     .then((response) => {
                         if (response.status === 204) {
                             alert("刪除成功");
@@ -142,13 +142,13 @@
             //檔案下載
             exportExcel() {
                 const method = 'POST';
-                const url = `https://localhost:44323/api/Loan/Export`;
+                const url = `/Loan/Export`;
                 let filter = {
                     BookTitle: this.BookTitle,
                     UserId: this.UserId
                 };
 
-                this.$axios.request({
+                apiPostLoanExportExcel({
                     url,
                     method,
                     data: filter,

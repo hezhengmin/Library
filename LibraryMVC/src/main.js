@@ -13,7 +13,7 @@ import Select2 from 'v-select2-component';//下拉選單
 import DatePicker from 'vue2-datepicker';//日期選擇器
 import 'vue2-datepicker/index.css';
 
-Vue.prototype.$axios = axios;
+//Vue.prototype.$axios = axios;
 Vue.use(Router);//路由
 Vue.component('paginate', Paginate) //分頁
 Vue.use(VueI18n);

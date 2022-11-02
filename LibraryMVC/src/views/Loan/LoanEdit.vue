@@ -96,6 +96,7 @@
     </div>
 </template>
 <script>
+    import { apiGetAccountSelectList, apiPostLoan ,apiGetBookSelectList, apiGetLoan, apiPutLoan } from 'api'
     export default {
         name: "LoanEdit",
         data() {
@@ -164,7 +165,7 @@
             //帳號列表清單
             initAccountSelectList() {
                 return new Promise((resolve, reject) => {
-                    this.$axios.get("https://localhost:44323/api/Account/SelectList")
+                    apiGetAccountSelectList()
                         .then((response) => {
                             this.accountSelectList = response.data;
                             console.log("initAccountSelectList載入完成");
@@ -179,7 +180,7 @@
             //書籍列表清單
             initBookSelectList() {
                 return new Promise((resolve, reject) => {
-                    this.$axios.get("https://localhost:44323/api/Book/SelectList")
+                    apiGetBookSelectList()
                         .then((response) => {
                             this.bookSelectList = response.data;
                             console.log("initBookSelectList載入完成");
@@ -193,7 +194,7 @@
             },
             initLoan() {
                 return new Promise((resolve, reject) => {
-                    this.$axios.get(`https://localhost:44323/api/Loan/${this.$route.params.id}`)
+                    apiGetLoan(`/Loan/${this.$route.params.id}`)
                         .then((response) => {
                             this.loan = response.data;
                             console.log("initLoan載入完成");
@@ -215,7 +216,7 @@
                     DueDate: this.loan.dueDate,
                     ReturnDate: this.loan.returnDate
                 };
-                this.$axios.post("https://localhost:44323/api/Loan", entity)
+                apiPostLoan(entity)
                     .then((response) => {
                         alert("新增成功");
                         //回書籍列表
@@ -242,7 +243,7 @@
                     DueDate: this.loan.dueDate,
                     ReturnDate: this.loan.returnDate
                 };
-                this.$axios.put(`https://localhost:44323/api/Loan/${this.$route.params.id}`, entity)
+                apiPutLoan(`/Loan/${this.$route.params.id}`, entity)
                     .then((response) => {
                         alert("更新成功");
                         //回書籍列表
@@ -250,6 +251,7 @@
                     })
                     .catch((error) => {
                         console.log(error);
+                        console.log(error.response.data.errors);
                     })
             }
         },

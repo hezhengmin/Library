@@ -27,7 +27,7 @@
 
             //axios在header附加token
             if (this.$store.getters.getJwtToken !== null) {
-                this.$axios.defaults.headers.common["Authorization"] = `Bearer ${this.$store.getters.getJwtToken}`;
+                //this.$axios.defaults.headers.common["Authorization"] = `Bearer ${this.$store.getters.getJwtToken}`;
                 axios.defaults.headers.common["Authorization"] = `Bearer ${this.$store.getters.getJwtToken}`;
             }
 
