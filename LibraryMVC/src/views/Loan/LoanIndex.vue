@@ -12,7 +12,7 @@
                 <div class="col-12 mt-3">
                     <button class="btn btn-primary" @click="search">搜尋</button>
                     <button class="btn btn-primary" @click="addLoan">新增</button>
-                    <button class="btn btn-primary" @click="exportExcel">匯出</button>
+                    <button class="btn btn-success" @click="exportExcel">匯出</button>
                 </div>
             </div>
         </div>

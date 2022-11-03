@@ -12,8 +12,8 @@
                 <div class="col-12 mt-3">
                     <button class="btn btn-primary" @click="search">搜尋</button>
                     <button class="btn btn-primary" @click="addBook">新增</button>
-                    <button class="btn btn-primary" @click="exportExcel">匯出</button>
-                    <router-link to="/Book/Book_Import" class="btn btn-primary">匯入</router-link>
+                    <button class="btn btn-success" @click="exportExcel">匯出</button>
+                    <router-link to="/Book/Book_Import" class="btn btn-warning">匯入</router-link>
                 </div>
             </div>
         </div>

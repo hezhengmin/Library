@@ -1,6 +1,6 @@
 ﻿import './scss/main.scss';//bootstrap
 import Vue from 'vue'
-import axios from 'axios'
+//import axios from 'axios'
 import Router from "vue-router";
 import App from "./App.vue";
 import store from './store.js' //Vuex 共享資訊

@@ -6,7 +6,7 @@ const token = `Bearer ${localStorage.getItem("jwtToken")}`;
 //帳號登入
 export const apiAccountLogin = data => createAxios().post('/Account/Login', data);
 //帳號註冊
-export const apiAccountSignup = data => createAxios().post(data);
+export const apiAccountSignup = data => createAxios().post('/Account', data);
 export const apiPatchAccountEmail = (url, data) => createAxios().patch(url, data);
 export const apiPutAccountPassword = (data) => createAxios().put('/Account/ResetPassword', data);
 export const apiGetAccount = (url, data) => createAxios().get(url, data);

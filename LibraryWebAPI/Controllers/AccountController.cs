@@ -1,5 +1,4 @@
 ﻿using LibraryWebAPI.Dtos.AccountDto;
-using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Helpers;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -41,7 +40,7 @@ namespace LibraryWebAPI.Controllers
         }
 
         /// <summary>
-        /// 新增帳號
+        /// 新增/註冊帳號
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
