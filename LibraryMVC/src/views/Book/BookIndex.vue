@@ -1,79 +1,87 @@
 ﻿<template>
     <div class="bookIndex">
-        <h2>書籍</h2>
-        <div class="filter rounded border px-2 py-3 bg-light">
-            <div class="row">
-                <div class="col-auto">
-                    書名：<input type="text" v-model="title" class="form-control" />
-                </div>
-                <div class="col-auto">
-                    ISBN：<input type="text" v-model="isbn" class="form-control" />
-                </div>
-                <div class="col-12 mt-3">
-                    <button class="btn btn-primary" @click="search">搜尋</button>
-                    <button class="btn btn-primary" @click="addBook">新增</button>
-                    <button class="btn btn-success" @click="exportExcel">匯出</button>
-                    <router-link to="/Book/Book_Import" class="btn btn-warning">匯入</router-link>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">書籍列表</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-auto">
+                        書名：<input type="text" v-model="title" class="form-control" />
+                    </div>
+                    <div class="col-auto">
+                        ISBN：<input type="text" v-model="isbn" class="form-control" />
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button class="btn btn-primary btn-fill" @click="search">搜尋</button>
+                        <button class="btn btn-primary btn-fill" @click="addBook">新增</button>
+                        <button class="btn btn-success btn-fill" @click="exportExcel">匯出</button>
+                        <button class="btn btn-warning btn-fill" @click="importExcel" >匯入</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="p-2">
-                第 {{pageNumber}} 頁，總共 {{totalRecords}} 筆
-            </div>
-            <div class="p-2">
-                <paginate v-model="pageNumber"
-                          :page-count="totalPages"
-                          :click-handler="getBookList"
-                          :prev-text="'上一頁'"
-                          :next-text="'下一頁'"
-                          :container-class="'pagination'"
-                          :page-class="'page-item'"
-                          :page-link-class="'page-link'"
-                          :prev-link-class="'page-link'"
-                          :next-link-class="'page-link'">
-                </paginate>
-            </div>
-        </div>
-        <table class="table table-bordered table-hover">
-            <colgroup>
-                <col style="width: 3em;">
-                <col style="width: 20em;">
-                <col style="width: 8em;">
-                <col style="width: 14em;">
-                <col style="width: 7em;">
-                <col style="width: 5em;">
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>書名</th>
-                    <th>ISBN</th>
-                    <th>出版單位</th>
-                    <th>出版日期</th>
-                    <th>功能</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item, index) in bookList" :key="item.id">
-                    <td>{{index + 1}}</td>
-                    <td>{{item.title}}</td>
-                    <td>{{item.isbn}}</td>
-                    <td>{{item.publisher}}</td>
-                    <td>{{item.publishDate | momentTW}}</td>
-                    <td>
-                        <router-link :to="{
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="p-2">
+                        第 {{pageNumber}} 頁，總共 {{totalRecords}} 筆
+                    </div>
+                    <div class="p-2">
+                        <paginate v-model="pageNumber"
+                                  :page-count="totalPages"
+                                  :click-handler="getBookList"
+                                  :prev-text="'上一頁'"
+                                  :next-text="'下一頁'"
+                                  :container-class="'pagination'"
+                                  :page-class="'page-item'"
+                                  :page-link-class="'page-link'"
+                                  :prev-link-class="'page-link'"
+                                  :next-link-class="'page-link'">
+                        </paginate>
+                    </div>
+                </div>
+                <table class="table table-bordered table-hover">
+                    <colgroup>
+                        <col style="width: 3em;">
+                        <col style="width: 20em;">
+                        <col style="width: 8em;">
+                        <col style="width: 14em;">
+                        <col style="width: 7em;">
+                        <col style="width: 5em;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>書名</th>
+                            <th>ISBN</th>
+                            <th>出版單位</th>
+                            <th>出版日期</th>
+                            <th>功能</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in bookList" :key="item.id">
+                            <td>{{index + 1}}</td>
+                            <td>{{item.title}}</td>
+                            <td>{{item.isbn}}</td>
+                            <td>{{item.publisher}}</td>
+                            <td>{{item.publishDate | momentTW}}</td>
+                            <td>
+                                <router-link :to="{
                                  name: 'BookEdit',
                                  params: { id: item.id }
                                  }">
-                            編輯
-                        </router-link>
-                        <a href="" @click.prevent="deleteBook(item.id)">刪除</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                                    編輯
+                                </router-link>
+                                <a href="" @click.prevent="deleteBook(item.id)">刪除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -110,7 +118,7 @@
                         this.totalRecords = response.data.totalRecords;
                     })
                     .catch((error) => {
-                        console.log(`apiBookList`,error);
+                        console.log(`apiBookList`, error);
                     })
             },
             deleteBook(id) {
@@ -173,6 +181,10 @@
                         reject(err);
                     })
             },
+            //匯入
+            importExcel() {
+                this.$router.push({ name: 'BookImport' })
+            }
         },
         created() {
             this.getBookList();

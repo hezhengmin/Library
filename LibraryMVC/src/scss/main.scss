@@ -1,8 +1,18 @@
 ﻿@import "~bootstrap/scss/bootstrap";
+@import "lbd/variables";
+@import "lbd/mixins/vendor-prefixes";
+@import "lbd/mixins/button";
+@import "lbd/mixins/transparency";
+
+@import "lbd/card";
+/*按鈕樣式*/
+@import "lbd/button";
+
 @import "global";
 @import "custom";
-
 /*導航欄*/
 @import "lbd/navbar";
 /*左側邊欄*/
 @import "lbd/sidebar";
+/*主內容*/
+@import "lbd/main-panel";

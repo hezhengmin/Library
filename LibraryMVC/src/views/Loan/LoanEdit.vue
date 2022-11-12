@@ -1,24 +1,24 @@
 ﻿<template>
     <div class="loanEdit">
-        <ValidationObserver ref="observer" v-slot="{ invalid }" tag="form">
-            <div class="d-flex justify-content-between">
-                <div class="py-2">
-                    <h2>{{title}}</h2>
-                </div>
-                <div class="py-2">
-                    <button class="btn btn-primary" :disabled="invalid" type="button" @click="onSubmit">確認</button>
-                    <button type="button" @click="$router.go(-1)" class="btn btn-primary">
-                        回上一頁
-                    </button>
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div class="py-2">
+                        <h2 class="card-title">{{title}}</h2>
+                    </div>
+                    <div class="py-2">
+                        <button class="btn btn-primary btn-fill " :disabled="invalid" type="button" @click="onSubmit">確認</button>
+                        <button type="button" @click="$router.go(-1)" class="btn btn-primary btn-fill ">
+                            回上一頁
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            借閱資訊
-                        </div>
-                        <div class="card-body">
+            <div class="card-body">
+                <ValidationObserver ref="observer" v-slot="{ invalid }" tag="form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>借閱資訊</h4>
                             <div class="pb-2">
                                 <span class="text-danger">*</span>
                                 <label for="accountId" class="form-label">借閱帳號</label>
@@ -34,7 +34,6 @@
                                     <span class="text-danger">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
-
                             <div class="pb-2">
                                 <span class="text-danger">*</span>
                                 <label for="bookTitle" class="form-label">借閱書名</label>
@@ -52,7 +51,7 @@
                             <div class="pb-2">
                                 <span class="text-danger">*</span>
                                 <label for="issueDate" class="form-label">借閱開始日期</label>
-                                <ValidationProvider v-slot="{ valid, errors }" 
+                                <ValidationProvider v-slot="{ valid, errors }"
                                                     name="借閱開始日期" rules="required">
                                     <date-picker ref="issueDate"
                                                  v-model="loan.issueDate"
@@ -65,7 +64,7 @@
                             <div class="pb-2">
                                 <span class="text-danger">*</span>
                                 <label for="dueDate" class="form-label">借閱結束日期</label>
-                                <ValidationProvider v-slot="{ valid, errors }" 
+                                <ValidationProvider v-slot="{ valid, errors }"
                                                     name="借閱結束日期" rules="required">
                                     <date-picker ref="dueDate"
                                                  v-model="loan.dueDate"
@@ -83,20 +82,21 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="d-flex my-2">
-                <button class="btn btn-primary me-2" :disabled="invalid" type="button" @click="onSubmit">確認</button>
-                <button type="button" @click="$router.go(-1)" class="btn btn-primary">
-                    回上一頁
-                </button>
+                    <div class="d-flex my-2">
+                        <button class="btn btn-primary btn-fill me-2" :disabled="invalid" type="button" @click="onSubmit">確認</button>
+                        <button type="button" @click="$router.go(-1)" class="btn btn-primary btn-fill ">
+                            回上一頁
+                        </button>
+                    </div>
+                </ValidationObserver>
             </div>
-        </ValidationObserver>
+        </div>
+
     </div>
 </template>
 <script>
-    import { apiGetAccountSelectList, apiPostLoan ,apiGetBookSelectList, apiGetLoan, apiPutLoan } from 'api'
+    import { apiGetAccountSelectList, apiPostLoan, apiGetBookSelectList, apiGetLoan, apiPutLoan } from 'api'
     export default {
         name: "LoanEdit",
         data() {
@@ -283,5 +283,4 @@
 </script>
 
 <style lang="scss" scoped>
-   
 </style>

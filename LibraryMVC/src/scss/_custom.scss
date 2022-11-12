@@ -1,13 +1,7 @@
-﻿
-@import "lbd/_variables.scss";
-@import "lbd/mixins/_vendor-prefixes.scss";
-
-
-.wrapper {
+﻿.wrapper {
     position: relative;
     top: 0;
     height: 100vh;
-
 
     .sidebar,
     .main-panel {
@@ -15,19 +9,5 @@
         max-height: 100%;
         height: 100%;
     }
-
-
-    /*主內容*/
-    .main-panel {
-        background: rgba(203, 203, 210, 0.15);
-        position: relative;
-        float: right;
-        width: calc(100% - 260px);
-        min-height: 100%;
-    }
 }
 
-/*搜尋框*/
-.filter{
-    margin:20px 0;
-}

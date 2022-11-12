@@ -1,4 +1,10 @@
-﻿a {
+﻿/*超連結不要有底線*/
+a {
     text-decoration: none;
     background-color: transparent;
+}
+
+/*搜尋框*/
+.filter {
+    margin: 20px 0;
 }

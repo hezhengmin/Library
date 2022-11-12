@@ -9,11 +9,9 @@
             <!-- 導覽頁 start -->
             <Navigation />
             <!-- 導覽頁 end -->
-            <main class="p-4">
-                <div class="container page-content rounded p-4">
-                    <router-view></router-view>
-                </div>
-            </main>
+            <div class="content">
+                 <router-view></router-view>
+            </div>
         </div>
     </div>
 </template>
