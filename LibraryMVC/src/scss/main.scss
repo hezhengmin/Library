@@ -1,2 +1,8 @@
-﻿@import "custom";
-@import "~bootstrap/scss/bootstrap";
+﻿@import "~bootstrap/scss/bootstrap";
+@import "global";
+@import "custom";
+
+/*導航欄*/
+@import "lbd/navbar";
+/*左側邊欄*/
+@import "lbd/sidebar";

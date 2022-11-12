@@ -1,15 +1,24 @@
 ﻿<template>
-    <div class="navigation border bg-light">
-        <ul class="nav justify-content-end">
-            <li class="nav-item my-auto">
-                <!-- 登入帳號Id -->
-                <span>{{UserId}}</span>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link text-danger" @click="signOut">登出</a>
-            </li>
-        </ul>
-    </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <!-- 登入帳號Id -->
+                        <a class="nav-link" href="">
+                            <span class="no-icon">{{UserId}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" @click="signOut">
+                            <span class="no-icon">登出</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </template>
 
 <script>

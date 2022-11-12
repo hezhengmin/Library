@@ -1,19 +1,23 @@
 ﻿<template>
-    <div class="sidebar border bg-light"  v-if="hasAccountInfo && hasIsLogin">
-        <ul class="nav list-unstyled flex-column">
-            <!-- 首頁Library -->
-            <li class="nav-item navbar-brand">
-                <router-link to="/Home/Index" class="nav-link">
-                    Library
-                </router-link>
-            </li>
+    <div class="sidebar-wrapper" v-if="hasAccountInfo && hasIsLogin">
+        <div class="logo">
+            <!--首頁 Library-->
+            <router-link to="/Home/Index" class="simple-text">
+                Library
+            </router-link>
+        </div>
+        <ul class="nav">
             <!--書籍列表-->
             <li class="nav-item">
-                <router-link to="/Book/Book_Index" class="nav-link">書籍列表</router-link>
+                <router-link to="/Book/Book_Index" class="nav-link">
+                    <p>書籍列表</p>
+                </router-link>
             </li>
             <!--書籍借閱-->
             <li class="nav-item">
-                <router-link to="/Loan/Loan_Index" class="nav-link">書籍借閱</router-link>
+                <router-link to="/Loan/Loan_Index" class="nav-link">
+                    <p>書籍借閱</p>
+                </router-link>
             </li>
             <!--未登入不能編輯-->
             <li class="nav-item">
@@ -21,7 +25,7 @@
                          name: 'AccountEdit',
                          params: { id: primaryKeyId }
                          }" class="nav-link">
-                    帳號編輯
+                    <p>帳號編輯</p>
                 </router-link>
             </li>
         </ul>
@@ -47,9 +51,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .sidebar {
-        width: 200px;
-        height: 100%;
-
-    }
+    
 </style>

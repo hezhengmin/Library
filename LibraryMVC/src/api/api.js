@@ -1,6 +1,8 @@
 ﻿import axios from 'axios';
 
-const domain = 'https://localhost:44323';
+const domain = 'https://localhost:44323';//WebApi
+const website = 'https://localhost:44331';//前台
+
 const token = `Bearer ${localStorage.getItem("jwtToken")}`;
 
 //帳號登入
@@ -27,16 +29,16 @@ export const apiPostBooks = (data) => createAxios().post('/Book/PostBooks', data
 export const apiPostBookImportExcel = (data, config) => createAxios().post('/Book/ImportExcel', data, config);
 export const apiGetBookSelectList = () => createAxios().get('/Book/SelectList');
 
-//BookPhoto
+//書籍圖片BookPhoto
 export const apiGetBookPhoto = (url) => createAxios().get(url);
 export const apiPostBookPhoto = (url, data, config) => createAxios().post(url,data, config);
 
-//UploadFile
+//上傳檔案UploadFile
 export const apiGetUploadFile = (config) => createAxios().request(config);
 export const apiDeleteUploadFile = (url) => createAxios().delete(url);
 
 
-//Loan借閱
+//借閱Loan
 export const apiGetLoan = (url) => createAxios().get(url);
 export const apiPostLoan = (data) => createAxios().post('/Loan', data);
 export const apiPutLoan = (url, data) => createAxios().put(url, data);
@@ -59,6 +61,8 @@ const createAxios = () => {
                 console.log("401 未授權，回登入頁面", error);
                 alert("未授權，回登入頁面");
                 localStorage.clear();
+
+                window.location = `${website}/Home/Login`;
             }
             return Promise.reject(error);
         }

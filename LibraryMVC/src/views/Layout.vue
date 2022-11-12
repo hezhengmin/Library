@@ -1,17 +1,19 @@
 ﻿<template>
-    <div class="layout">
-        <div class="d-flex">
-            <div class="page-left ">
-                <Sidebar />
-            </div>
-            <div class="page-right">
-                <Navigation />
-                <main class="p-4 bg-secondary">
-                    <div class="container page-content rounded p-4">
-                        <router-view></router-view>
-                    </div>
-                </main>
-            </div>
+    <div class="wrapper">
+        <div class="sidebar">
+            <!-- Sidebar -->
+            <Sidebar />
+            <!-- End Sidebar -->
+        </div>
+        <div class="main-panel">
+            <!-- 導覽頁 start -->
+            <Navigation />
+            <!-- 導覽頁 end -->
+            <main class="p-4">
+                <div class="container page-content rounded p-4">
+                    <router-view></router-view>
+                </div>
+            </main>
         </div>
     </div>
 </template>
@@ -28,22 +30,4 @@
 </script>
 
 <style lang="scss" scoped>
-    .layout {
-        .page-left {
-            min-height: 100vh;
-        }
-
-        .page-right {
-            min-width: 0;
-            width: 100%;
-        }
-
-        main {
-
-            .page-content {
-                background-color: white;
-                min-height: 100vh;
-            }
-        }
-    }
 </style> 
