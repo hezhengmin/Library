@@ -66,6 +66,7 @@ export const routes = [
                 component: LoanIndex
             },
             {
+                //借閱編輯
                 path: '/Loan/Loan_Edit/:id',
                 name: 'LoanEdit',
                 component: LoanEdit

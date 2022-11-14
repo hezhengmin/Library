@@ -32,7 +32,7 @@
             //檔案下載
             downloadFile() {
                 const method = 'GET';
-                const url = `https://localhost:44323/api/UploadFile/Download/${this.uploadFileId}`;
+                const url = `/UploadFile/Download/${this.uploadFileId}`;
 
                 apiGetUploadFile({
                     url,
@@ -55,7 +55,7 @@
                 let yes = confirm('你確定刪除檔案嗎？');
                 if (!yes) return;
 
-                apiDeleteUploadFile(`https://localhost:44323/api/BookPhoto/${this.id}`)
+                apiDeleteUploadFile(`/BookPhoto/${this.id}`)
                     .then((response) => {
                         if (response.status === 204) {
                             alert("刪除成功");

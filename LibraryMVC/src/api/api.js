@@ -28,6 +28,8 @@ export const apiPostBook = (url, data, config) => createAxios().post(url, data, 
 export const apiPostBooks = (data) => createAxios().post('/Book/PostBooks', data);
 export const apiPostBookImportExcel = (data, config) => createAxios().post('/Book/ImportExcel', data, config);
 export const apiGetBookSelectList = () => createAxios().get('/Book/SelectList');
+//下載書籍匯入範本Excel
+export const apiGetBookImportExcelExample = (config) => createAxios().request(config);
 
 //書籍圖片BookPhoto
 export const apiGetBookPhoto = (url) => createAxios().get(url);

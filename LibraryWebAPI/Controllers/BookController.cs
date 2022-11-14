@@ -122,7 +122,6 @@ namespace LibraryWebAPI.Controllers
             return Ok(result);
         }
 
-        private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         [HttpPost("ExportExcel")]
         public async Task<IActionResult> ExportExcel([FromBody] BookSelectParameter filter)
@@ -147,5 +146,21 @@ namespace LibraryWebAPI.Controllers
 
             return Ok(response);
         }
+
+        /// <summary>
+        /// 匯入範本(供下載用)
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("ImportExcelExample")]
+        public async Task<IActionResult> ExportExcelExample()
+        {
+            var excelData = await _bookService.ImportExcelExample();
+            return File(excelData, ContentType, "書籍列表匯出範本.xlsx");
+        }
+
+        /// <summary>
+        /// excel Content-Type
+        /// </summary>
+        private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     }
 }

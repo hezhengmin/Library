@@ -721,5 +721,26 @@ namespace LibraryWebAPI.Services
                 Data = null
             };
         }
+
+
+        /// <summary>
+        /// 匯入範本(供下載用)
+        /// </summary>
+        /// <returns></returns>
+        public async Task<MemoryStream> ImportExcelExample()
+        {
+            var filePath = $"{_env.ContentRootPath}\\Template\\Excel\\書籍列表匯入範本.xlsx";
+
+            var memory = new MemoryStream();
+
+            await using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+
+            memory.Position = 0;
+
+            return memory;
+        }
     }
 }

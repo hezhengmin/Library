@@ -1,42 +1,47 @@
 ﻿<template>
     <div class="bookImport">
-        <h2>書籍匯入</h2>
-        <div class="filter rounded border px-2 py-3 bg-light">
-            <div class="row">
-                <div class="col-auto">
-                    <!--檔案上傳-->
-                    <ValidationProvider v-slot="{ valid, errors, validate}" name="檔案" rules="ext:xlsx,xls">
-                        <div class="input-group">
-                            <input id="file" :class="[{'is-invalid': valid===false}, 'form-control']"
-                                   name="file" type="file" @change="validate">
-                            <button class="btn btn-primary" type="button" @click="uploadExcel">上傳</button>
-                            <span class="invalid-feedback">{{ errors[0] }}</span>
-                        </div>
-                    </ValidationProvider>
-                </div>
-                <div class="col-12 mt-3">
-                    <template v-if="bookList.length>0">
-                        <button class="btn btn-primary" @click="save">批次儲存</button>
-                        <button class="btn btn-primary" @click="clear">清除(資料)</button>
-                    </template>
-                    <!-- 錯誤解析(Button) -->
-                    <button v-if="isfailLog" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        錯誤解析
-                    </button>
-                    <!-- 互動視窗(Modal) -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">錯誤解析</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    {{errorList}}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                                    <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">書籍匯入</h2>
+                <button type="submit" class="btn btn-info btn-fill" @click="ExportExcelExample">書籍列表匯入範本</button>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-auto">
+                        <!--檔案上傳-->
+                        <ValidationProvider v-slot="{ valid, errors, validate}" name="檔案" rules="ext:xlsx,xls">
+                            <div class="input-group">
+                                <input id="file" :class="[{'is-invalid': valid===false}, 'form-control']"
+                                       name="file" type="file" @change="validate">
+                                <button class="btn btn-primary btn-fill" type="button" @click="uploadExcel">上傳</button>
+                                <span class="invalid-feedback">{{ errors[0] }}</span>
+                            </div>
+                        </ValidationProvider>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <template v-if="bookList.length>0">
+                            <button class="btn btn-primary btn-fill" @click="save">批次儲存</button>
+                            <button class="btn btn-primary btn-fill" @click="clear">清除(資料)</button>
+                        </template>
+                        <!-- 錯誤解析(Button) -->
+                        <button v-if="isfailLog" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            錯誤解析
+                        </button>
+                        <!-- 互動視窗(Modal) -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">錯誤解析</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{errorList}}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-fill" data-bs-dismiss="modal">關閉</button>
+                                        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -44,129 +49,134 @@
                 </div>
             </div>
         </div>
-        <!--匯入資料-->
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <colgroup>
-                    <col style="min-width: 3em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 6em;">
-                    <col style="min-width: 6em;">
-                    <col style="min-width: 9em;">
-                    <col style="min-width: 9em;">
-                    <col style="min-width: 9em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                    <col style="min-width: 14em;">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>書名</th>
-                        <th>狀態</th>
-                        <th>庫存數量</th>
-                        <th>ISBN</th>
-                        <th>ISSN</th>
-                        <th>GPN(必填)</th>
-                        <th>出版單位(必填)</th>
-                        <th>出版情況(必填)</th>
-                        <th>作者資訊(必填)</th>
-                        <th>出版日期(必填)</th>
-                        <th>版次</th>
-                        <th>書封連結</th>
-                        <th>書籍分類</th>
-                        <th>出版品分類(必填)</th>
-                        <th>主題分類</th>
-                        <th>施政分類</th>
-                        <th>級別</th>
-                        <th>頁數(必填)</th>
-                        <th>開數</th>
-                        <th>裝訂</th>
-                        <th>語言(必填)</th>
-                        <th>書籍介紹</th>
-                        <th>目次</th>
-                        <th>價格(必填)</th>
-                        <th>適用對象</th>
-                        <th>資料類型</th>
-                        <th>附件(必填)</th>
-                        <th>出版品網址-線上版或試閱版</th>
-                        <th>播放時間長度(必填)</th>
-                        <th>字號</th>
-                        <th>權利範圍</th>
-                        <th>停刊註記</th>
-                        <th>授權資訊(必填)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, index) in bookList">
-                        <td>{{index + 1}}</td>
-                        <td>{{item.title}}</td>
-                        <td>{{item.status}}</td>
-                        <td>{{item.numberOfCopies}}</td>
-                        <td>{{item.isbn}}</td>
-                        <td>{{item.issn}}</td>
-                        <td>{{item.gpn}}</td>
-                        <td>{{item.publisher}}</td>
-                        <td>{{item.rightCondition}}</td>
-                        <td>{{item.creator}}</td>
-                        <td>{{item.publishDate | momentTW}}</td>
-                        <td>{{item.edition}}</td>
-                        <td>{{item.cover}}</td>
-                        <td>{{item.classify}}</td>
-                        <td>{{item.gpntype}}</td>
-                        <td>{{item.subject}}</td>
-                        <td>{{item.governance}}</td>
-                        <td>{{item.grade}}</td>
-                        <td>{{item.pages}}</td>
-                        <td>{{item.size}}</td>
-                        <td>{{item.binding}}</td>
-                        <td>{{item.language}}</td>
-                        <td>{{item.introduction}}</td>
-                        <td>{{item.catalog}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.targetPeople}}</td>
-                        <td>{{item.types}}</td>
-                        <td>{{item.attachment}}</td>
-                        <td>{{item.url}}</td>
-                        <td>{{item.duration}}</td>
-                        <td>{{item.numbers}}</td>
-                        <td>{{item.restriction}}</td>
-                        <td>{{item.ceasedDate}}</td>
-                        <td>{{item.authority}}</td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <!--匯入資料-->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <colgroup>
+                            <col style="min-width: 3em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 6em;">
+                            <col style="min-width: 6em;">
+                            <col style="min-width: 9em;">
+                            <col style="min-width: 9em;">
+                            <col style="min-width: 9em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                            <col style="min-width: 14em;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>書名</th>
+                                <th>狀態</th>
+                                <th>庫存數量</th>
+                                <th>ISBN</th>
+                                <th>ISSN</th>
+                                <th>GPN(必填)</th>
+                                <th>出版單位(必填)</th>
+                                <th>出版情況(必填)</th>
+                                <th>作者資訊(必填)</th>
+                                <th>出版日期(必填)</th>
+                                <th>版次</th>
+                                <th>書封連結</th>
+                                <th>書籍分類</th>
+                                <th>出版品分類(必填)</th>
+                                <th>主題分類</th>
+                                <th>施政分類</th>
+                                <th>級別</th>
+                                <th>頁數(必填)</th>
+                                <th>開數</th>
+                                <th>裝訂</th>
+                                <th>語言(必填)</th>
+                                <th>書籍介紹</th>
+                                <th>目次</th>
+                                <th>價格(必填)</th>
+                                <th>適用對象</th>
+                                <th>資料類型</th>
+                                <th>附件(必填)</th>
+                                <th>出版品網址-線上版或試閱版</th>
+                                <th>播放時間長度(必填)</th>
+                                <th>字號</th>
+                                <th>權利範圍</th>
+                                <th>停刊註記</th>
+                                <th>授權資訊(必填)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in bookList">
+                                <td>{{index + 1}}</td>
+                                <td>{{item.title}}</td>
+                                <td>{{item.status}}</td>
+                                <td>{{item.numberOfCopies}}</td>
+                                <td>{{item.isbn}}</td>
+                                <td>{{item.issn}}</td>
+                                <td>{{item.gpn}}</td>
+                                <td>{{item.publisher}}</td>
+                                <td>{{item.rightCondition}}</td>
+                                <td>{{item.creator}}</td>
+                                <td>{{item.publishDate | momentTW}}</td>
+                                <td>{{item.edition}}</td>
+                                <td>{{item.cover}}</td>
+                                <td>{{item.classify}}</td>
+                                <td>{{item.gpntype}}</td>
+                                <td>{{item.subject}}</td>
+                                <td>{{item.governance}}</td>
+                                <td>{{item.grade}}</td>
+                                <td>{{item.pages}}</td>
+                                <td>{{item.size}}</td>
+                                <td>{{item.binding}}</td>
+                                <td>{{item.language}}</td>
+                                <td>{{item.introduction}}</td>
+                                <td>{{item.catalog}}</td>
+                                <td>{{item.price}}</td>
+                                <td>{{item.targetPeople}}</td>
+                                <td>{{item.types}}</td>
+                                <td>{{item.attachment}}</td>
+                                <td>{{item.url}}</td>
+                                <td>{{item.duration}}</td>
+                                <td>{{item.numbers}}</td>
+                                <td>{{item.restriction}}</td>
+                                <td>{{item.ceasedDate}}</td>
+                                <td>{{item.authority}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 <script>
     import mixin from "../../mixin.js";
     import modal from "bootstrap/js/dist/modal"
-    import { apiPostBooks, apiPostBookImportExcel } from 'api'
+    import { apiPostBooks, apiPostBookImportExcel, apiGetBookImportExcelExample } from 'api'
     export default {
         name: "BookImport",
         mixins: [mixin],
@@ -237,8 +247,30 @@
                         }
                     })
                     .catch((error) => {
+                        alert("Error 匯入失敗");
                         console.log(error);
                     })
+            },
+            //下載書籍匯入範本
+            ExportExcelExample() {
+                const method = 'GET';
+                const url = `/Book/ImportExcelExample`;
+                const name = '書籍列表匯出範本';
+
+                apiGetBookImportExcelExample({
+                    url,
+                    method,
+                    responseType: 'blob', //important
+                })
+                    .then(({ data }) => {
+                        const downloadUrl = window.URL.createObjectURL(new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', name); //any other extension
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                    });
             },
         },
         created() {

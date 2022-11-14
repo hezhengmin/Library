@@ -109,7 +109,7 @@
                                         <div class="input-group">
                                             <input id="photo" :class="[{'is-invalid': valid===false}, 'form-control']"
                                                    name="files" type="file" multiple @change="validate">
-                                            <button class="btn btn-primary" type="button" @click="uploadImage">上傳</button>
+                                            <button class="btn btn-primary btn-fill" type="button" @click="uploadImage">上傳</button>
                                             <span class="invalid-feedback">{{ errors[0] }}</span>
                                         </div>
                                     </ValidationProvider>

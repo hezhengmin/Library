@@ -7,7 +7,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="p-3 border bg-light rounded">
+                        <div class="p-3 border rounded">
                             <h4>信箱編輯</h4>
                             <form @submit.prevent="updateEmail">
                                 電子郵件：<input type="email" class="form-control" v-model="email" required />
@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="col-md-6 ">
-                        <div class="p-3 border bg-light rounded">
+                        <div class="p-3 border rounded">
                             <h4>更改密碼</h4>
                             <form @submit.prevent="updatePassword">
                                 舊密碼：<input type="password" class="form-control" v-model="oldPassword" required />
