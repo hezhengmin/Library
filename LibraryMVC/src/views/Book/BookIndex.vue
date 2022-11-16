@@ -1,27 +1,29 @@
 ﻿<template>
     <div class="bookIndex">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">書籍列表</h2>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-auto">
-                        書名：<input type="text" v-model="title" class="form-control" />
-                    </div>
-                    <div class="col-auto">
-                        ISBN：<input type="text" v-model="isbn" class="form-control" />
-                    </div>
-                    <div class="col-12 mt-3">
-                        <button class="btn btn-primary btn-fill" @click="search">搜尋</button>
-                        <button class="btn btn-primary btn-fill" @click="addBook">新增</button>
-                        <button class="btn btn-success btn-fill" @click="exportExcel">匯出</button>
-                        <button class="btn btn-warning btn-fill" @click="importExcel" >匯入</button>
-                    </div>
+        <loading loader="spinner"
+                 :active.sync="isLoading"
+                 :can-cancel="true"
+                 :is-full-page="false">
+        </loading>
+        <div class="card-header">
+            <h2 class="card-title">書籍列表</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-auto">
+                    書名：<input type="text" v-model="title" class="form-control" />
+                </div>
+                <div class="col-auto">
+                    ISBN：<input type="text" v-model="isbn" class="form-control" />
+                </div>
+                <div class="col-12 mt-3">
+                    <button class="btn btn-primary btn-fill" @click="search">搜尋</button>
+                    <button class="btn btn-primary btn-fill" @click="addBook">新增</button>
+                    <button class="btn btn-success btn-fill" @click="exportExcel">匯出</button>
+                    <button class="btn btn-warning btn-fill" @click="importExcel">匯入</button>
                 </div>
             </div>
         </div>
-
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
@@ -45,8 +47,9 @@
                 <table class="table table-bordered table-hover">
                     <colgroup>
                         <col style="width: 3em;">
-                        <col style="width: 20em;">
+                        <col style="width: 18em;">
                         <col style="width: 8em;">
+                        <col style="width: 3em;">
                         <col style="width: 14em;">
                         <col style="width: 7em;">
                         <col style="width: 5em;">
@@ -56,6 +59,7 @@
                             <th>#</th>
                             <th>書名</th>
                             <th>ISBN</th>
+                            <th>數量</th>
                             <th>出版單位</th>
                             <th>出版日期</th>
                             <th>功能</th>
@@ -66,6 +70,7 @@
                             <td>{{index + 1}}</td>
                             <td>{{item.title}}</td>
                             <td>{{item.isbn}}</td>
+                            <td>{{item.numberOfCopies}}</td>
                             <td>{{item.publisher}}</td>
                             <td>{{item.publishDate | momentTW}}</td>
                             <td>
@@ -87,6 +92,8 @@
 <script>
     import mixin from "../../mixin.js";
     import { apiPostBookList, apiDeleteBook, apiPostBookExportExcel } from "api";
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
 
     export default {
         name: "BookIndex",
@@ -96,7 +103,11 @@
                 title: '',
                 isbn: '',
                 bookList: [],
+                isLoading: true, //載入
             }
+        },
+        components: {
+            Loading
         },
         methods: {
             getBookList() {
@@ -116,6 +127,9 @@
                         this.totalPages = response.data.totalPages;
                         //總筆數
                         this.totalRecords = response.data.totalRecords;
+
+                        //資料Loading載入結束
+                        this.isLoading = false
                     })
                     .catch((error) => {
                         console.log(`apiBookList`, error);

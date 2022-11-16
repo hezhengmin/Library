@@ -83,6 +83,11 @@ https://github.com/mengxiong10/vue2-datepicker
 格式化日期的 JavaScript 函式庫
 https://momentjs.com/
 ```
+* npm install vue-loading-overlay@^3
+```
+載入loading...特效
+https://github.com/ankurk91/vue-loading-overlay
+```
 ## 使用 Node.js npm 安裝 bootstrap
 Webpack 和其他 bundlers 將 [Bootstrap](https://bootstrap5.hexschool.com/docs/5.0/getting-started/webpack/)  加入到你的專案
 * npm install bootstrap --save)
@@ -120,3 +125,5 @@ https://webpack.js.org/loaders/postcss-loader/#autoprefixer
 * save：在開發、發佈時都需要依賴的套件，安裝於 dependencies (已發布環境)
 * save-dev：在開發時才會依賴的套件，發佈後不需要使用，安裝於 devDependencies (開發中環境)
 
+## 套件所有版本
+* npm view webpack versions

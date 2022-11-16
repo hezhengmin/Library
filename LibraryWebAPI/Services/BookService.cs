@@ -337,7 +337,9 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task Delete(Guid id)
         {
-            var entity = await _context.Books.Include(x => x.BookPhotos).SingleOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Books
+                .Include(x=>x.Loans)
+                .Include(x => x.BookPhotos).SingleOrDefaultAsync(x => x.Id == id);
 
             foreach (var photo in entity.BookPhotos)
             {
@@ -345,6 +347,7 @@ namespace LibraryWebAPI.Services
                 await _uploadFileService.Delete(fileId);
             }
 
+            _context.Loans.RemoveRange(entity.Loans);
             _context.BookPhotos.RemoveRange(entity.BookPhotos);
             _context.Books.Remove(entity);
             _context.SaveChanges();

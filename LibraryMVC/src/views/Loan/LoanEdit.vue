@@ -1,21 +1,21 @@
 ﻿<template>
     <div class="loanEdit">
-        <div class="card">
-            <div class="card-header">
-                <div class="d-flex justify-content-between">
-                    <div class="py-2">
-                        <h2 class="card-title">{{title}}</h2>
-                    </div>
-                    <div class="py-2">
-                        <button class="btn btn-primary btn-fill " :disabled="invalid" type="button" @click="onSubmit">確認</button>
-                        <button type="button" @click="$router.go(-1)" class="btn btn-primary btn-fill ">
-                            回上一頁
-                        </button>
+        <ValidationObserver ref="observer" v-slot="{ invalid }" tag="form">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="py-2">
+                            <h2 class="card-title">{{title}}</h2>
+                        </div>
+                        <div class="py-2">
+                            <button class="btn btn-primary btn-fill " :disabled="invalid" type="button" @click="onSubmit">確認</button>
+                            <button type="button" @click="$router.go(-1)" class="btn btn-primary btn-fill ">
+                                回上一頁
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <ValidationObserver ref="observer" v-slot="{ invalid }" tag="form">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <h4>借閱資訊</h4>
@@ -82,17 +82,15 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="d-flex my-2">
                         <button class="btn btn-primary btn-fill me-2" :disabled="invalid" type="button" @click="onSubmit">確認</button>
                         <button type="button" @click="$router.go(-1)" class="btn btn-primary btn-fill ">
                             回上一頁
                         </button>
                     </div>
-                </ValidationObserver>
+                </div>
             </div>
-        </div>
-
+        </ValidationObserver>
     </div>
 </template>
 <script>
