@@ -11,7 +11,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="" @click="signOut">
+                        <a class="nav-link text-danger" href="" @click="signOut">
                             <span class="no-icon">登出</span>
                         </a>
                     </li>

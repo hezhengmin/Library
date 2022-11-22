@@ -55,7 +55,11 @@
                 //點選
                 element.parentNode.classList.add("active");
             }
+        },
+        created() {
+            console.log("現在路徑" ,this.$router.currentRoute);
         }
+
     }
 </script>
 

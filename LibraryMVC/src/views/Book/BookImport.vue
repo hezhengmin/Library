@@ -24,11 +24,12 @@
                             <button class="btn btn-primary btn-fill" @click="clear">清除(資料)</button>
                         </template>
                         <!-- 錯誤解析(Button) -->
-                        <button v-if="isfailLog" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button v-if="isfailLog" type="button" class="btn btn-danger btn-fill" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             錯誤解析
                         </button>
+                        <Modal :modal-title="錯誤解析" :modal-body="errorList" />
                         <!-- 互動視窗(Modal) -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -39,12 +40,12 @@
                                         {{errorList}}
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary btn-fill" data-bs-dismiss="modal">關閉</button>
+                                        <button type="button" class="btn btn-secondary btn-fill" data-bs-dismiss="modal">關閉</button>-->
                                         <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-                                    </div>
+                                    <!--</div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -174,8 +175,8 @@
     </div>
 </template>
 <script>
+    import Modal from "../../../src/components/Modal.vue";
     import mixin from "../../mixin.js";
-    import modal from "bootstrap/js/dist/modal"
     import { apiPostBooks, apiPostBookImportExcel, apiGetBookImportExcelExample } from 'api'
     export default {
         name: "BookImport",
@@ -186,6 +187,9 @@
                 isfailLog: false,
                 errorList: {},
             }
+        },
+        components:{
+            Modal
         },
         methods: {
             //清除上傳的列表資料
