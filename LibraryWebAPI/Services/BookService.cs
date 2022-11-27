@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using Dapper;
 using LibraryWebAPI.Dtos.BookDto;
 using LibraryWebAPI.Dtos.BookPhotoDto;
 using LibraryWebAPI.Dtos.Responses;
+using LibraryWebAPI.Helpers;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -359,12 +362,32 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task<List<Book_SelectListDto>> GetSelectList()
         {
-            var list = await _context.Books
-                .Select(x => new Book_SelectListDto()
-                {
-                    Id = x.Id.ToString().ToLower(),
-                    Text = x.Title
-                }).ToListAsync();
+            // 設計SQL語法
+            string strSqlQuery = @"
+            select 
+            convert(nvarchar(36), B.Id) as Id, /*guid 轉換成字串*/
+            B.Title +'(剩餘' + Cast((B.NumberOfCopies- ISNULL(L.cnt,0)) as varchar(10)) + '本)' as 'Text'
+            from Book B
+            left join (
+              select BookId,count(*) as CNT from Loan
+              group by BookId
+            ) L on B.Id = L.BookId 
+            order by B.NumberOfCopies - ISNULL(L.cnt,0) desc
+            ";
+
+            await using var connection = _context.Database.GetDbConnection();
+            await _context.Database.OpenConnectionAsync();
+
+            var list = new List<Book_SelectListDto>();
+            try
+            {
+                list = (List<Book_SelectListDto>)await connection
+                    .QueryAsync<Book_SelectListDto>(strSqlQuery);
+            }
+            catch (Exception ex)
+            {
+
+            }
 
             list.Insert(0, new Book_SelectListDto() { Id = Guid.Empty.ToString(), Text = "請選擇" });
 

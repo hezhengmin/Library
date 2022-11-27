@@ -5,25 +5,29 @@
                  :can-cancel="true"
                  :is-full-page="false">
         </loading>
-        <div class="card-header">
-            <h2 class="card-title">書籍列表</h2>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-auto">
-                    書名：<input type="text" v-model="title" class="form-control" />
-                </div>
-                <div class="col-auto">
-                    ISBN：<input type="text" v-model="isbn" class="form-control" />
-                </div>
-                <div class="col-12 mt-3">
-                    <button class="btn btn-primary btn-fill" @click="search">搜尋</button>
-                    <button class="btn btn-primary btn-fill" @click="addBook">新增</button>
-                    <button class="btn btn-success btn-fill" @click="exportExcel">匯出</button>
-                    <button class="btn btn-warning btn-fill" @click="importExcel">匯入</button>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">書籍列表</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-auto">
+                        書名：<input type="text" v-model="title" class="form-control" />
+                    </div>
+                    <div class="col-auto">
+                        ISBN：<input type="text" v-model="isbn" class="form-control" />
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button class="btn btn-primary btn-fill" @click="search">搜尋</button>
+                        <button class="btn btn-primary btn-fill" @click="addBook">新增</button>
+                        <button class="btn btn-success btn-fill" @click="exportExcel">匯出</button>
+                        <button class="btn btn-warning btn-fill" @click="importExcel">匯入</button>
+                    </div>
                 </div>
             </div>
         </div>
+        <!--資料列-->
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
