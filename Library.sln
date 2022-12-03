@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Utilities", "Zheng.Ut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryMVC", "LibraryMVC\LibraryMVC.csproj", "{6CBE9C53-14DD-4620-99B1-4F91D0DE1830}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebAPI.Tests", "LibraryWebAPI.Tests\LibraryWebAPI.Tests.csproj", "{9A9A6D9A-EE37-409D-92F2-E985091D7238}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6CBE9C53-14DD-4620-99B1-4F91D0DE1830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CBE9C53-14DD-4620-99B1-4F91D0DE1830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CBE9C53-14DD-4620-99B1-4F91D0DE1830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A9A6D9A-EE37-409D-92F2-E985091D7238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A9A6D9A-EE37-409D-92F2-E985091D7238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A9A6D9A-EE37-409D-92F2-E985091D7238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A9A6D9A-EE37-409D-92F2-E985091D7238}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

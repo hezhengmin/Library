@@ -1,5 +1,11 @@
 ﻿<template>
     <div class="LoanIndex">
+        <loading loader="spinner"
+                 :active.sync="isLoading"
+                 :can-cancel="true"
+                 :is-full-page="false">
+        </loading>
+
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">書籍借閱</h2>
@@ -20,7 +26,6 @@
                 </div>
             </div>
         </div>
-
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
@@ -89,6 +94,8 @@
 <script>
     import mixin from "../../mixin.js";
     import { apiPostLoanList, apiPostLoanExportExcel, apiDeleteLoan } from "api";
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
 
     export default {
         name: "LoanIndex",
@@ -99,6 +106,9 @@
                 UserId: '',
                 LoanList: [],
             }
+        },
+        components: {
+            Loading
         },
         methods: {
             getLoanList() {

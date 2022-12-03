@@ -365,11 +365,14 @@ namespace LibraryWebAPI.Services
             // 設計SQL語法
             string strSqlQuery = @"
             select 
+            --B.NumberOfCopies as '總共幾本',
+            --ISNULL(L.cnt,0) as '借閱幾本', 
             convert(nvarchar(36), B.Id) as Id, /*guid 轉換成字串*/
-            B.Title +'(剩餘' + Cast((B.NumberOfCopies- ISNULL(L.cnt,0)) as varchar(10)) + '本)' as 'Text'
+            B.Title +' (剩餘' + Cast((B.NumberOfCopies- ISNULL(L.cnt,0)) as varchar(10)) + '本)' as 'Text'
             from Book B
             left join (
               select BookId,count(*) as CNT from Loan
+              where ReturnDate is null or ReturnDate > GETDATE()
               group by BookId
             ) L on B.Id = L.BookId 
             order by B.NumberOfCopies - ISNULL(L.cnt,0) desc
@@ -406,7 +409,10 @@ namespace LibraryWebAPI.Services
             var book = await Get(id);
             bookStockCount = book.NumberOfCopies;
 
-            countLoan = await _context.Loans.CountAsync(x => x.BookId == id);
+            //現在借閱的數量
+            countLoan = await _context.Loans
+                .Where(x=>x.ReturnDate == null || x.ReturnDate < DateTime.Now)
+                .CountAsync(x => x.BookId == id);
 
             return bookStockCount - countLoan;
         }
