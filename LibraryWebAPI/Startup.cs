@@ -79,7 +79,7 @@ namespace LibraryWebAPI
             services.AddScoped<AccountService>(); //帳號
             services.AddScoped<BookService>(); //書籍
             services.AddScoped<BookPhotoService>(); //書籍圖片
-            services.AddScoped<LoanService>(); //借閱書籍
+            services.AddScoped<ILoanService,LoanService>(); //借閱書籍
             
             //登入的帳號資訊
             services.AddTransient<IUserService, UserService>();
