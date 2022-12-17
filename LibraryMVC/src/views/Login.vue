@@ -16,6 +16,14 @@
             </div>
             <div class="mb-2">
                 <div class="d-flex">
+                    <label class="form-label fs-5">驗證碼</label>
+                    <input type="text" v-model="validateCode" class="form-control" required />
+                    <img :src="imageValidateCode" />
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <div class="d-flex">
                     <button type="submit" class="btn btn-primary me-2 btn-fill">登入</button>
                     <router-link to="/Home/SignUp" tag="button" class="btn btn-primary btn-fill">註冊帳號</router-link>
                     <router-link to="/Home/ForgetPassword" class="link-danger ms-auto align-self-center">忘記密碼</router-link>
@@ -25,7 +33,7 @@
     </div>
 </template>
 <script>
-    import { apiAccountLogin } from "api";
+    import { apiAccountLogin, apiGetValidateCode } from "api";
     import axios from 'axios';
 
     export default {
@@ -34,13 +42,18 @@
             return {
                 userId: '',
                 password: '',
+                validateCode: '',//輸入的驗證碼
+                validateCodeHash: '',//驗證碼雜湊
+                imageValidateCode: '',
             };
         },
         methods: {
             login() {
                 apiAccountLogin({
                     userId: this.userId,
-                    password: this.password
+                    password: this.password,
+                    validateCode: this.validateCode,
+                    validateCodeHash: this.validateCodeHash,
                 })
                     .then((response) => {
 
@@ -72,6 +85,27 @@
                         console.log(error);
                     })
             },
+            //初始化驗證碼
+            initValidateCode() {
+                apiGetValidateCode({
+                    url: '/ValidateCode',
+                    method: "GET",
+                    //headers: {
+                    //    'Content-type': 'image/jpeg'
+                    //},
+                })
+                    .then((response) => {
+                        console.log(response.data);
+                        this.imageValidateCode = response.data.base64;
+                        this.validateCodeHash = response.data.hash;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            },
+        },
+        created() {
+            this.initValidateCode();
         }
     };
 </script>

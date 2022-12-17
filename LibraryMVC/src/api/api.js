@@ -48,6 +48,9 @@ export const apiPostLoanList = data => createAxios().post('/Loan/List', data);
 export const apiDeleteLoan = (url) => createAxios().delete(url);
 export const apiPostLoanExportExcel = (config) => createAxios().request(config);
 
+//登入驗證碼圖片
+export const apiGetValidateCode = (config) => createAxios().request(config);
+
 const createAxios = () => {
     const newInstance = axios.create({
         baseURL: `${domain}/api`,

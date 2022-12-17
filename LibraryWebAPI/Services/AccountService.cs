@@ -236,6 +236,17 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task<AccountResponse> Login(Account_LoginDto entity)
         {
+            if( MD5Extensions.EncryptByte(entity.ValidateCode) != entity.ValidateCodeHash)
+            {
+                return new AccountResponse()
+                {
+                    Errors = new List<string>() {
+                        "驗證碼錯誤"
+                    },
+                    Success = false
+                };
+            }
+
             var account = await Get(entity.UserId);
 
             //沒有該帳號，直接回傳false

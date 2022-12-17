@@ -11,7 +11,14 @@ namespace LibraryWebAPI.Dtos.AccountDto
         [Required(ErrorMessage = "帳號必填")]
         [MaxLength(20)]
         public override string UserId { get; set; }
+        
         [Required(ErrorMessage = "密碼必填")]
         public override string Password { get; set; }
+       
+        [Required(ErrorMessage = "驗證碼必填")]
+        public string ValidateCode { get; set; }
+        public string ValidateCodeHash { get; set; }
+
+
     }
 }

@@ -15,13 +15,15 @@ namespace LibraryWebAPI.Tests
     public class LoanTests
     {
         #region Variables
-        ILoanService _loanService;
+
+        private Mock<ILoanService> _loanService;
+
         #endregion
 
         [SetUp]
         public void Setup()
         {
-            _loanService = new Mock<ILoanService>().Object;
+            _loanService = new Mock<ILoanService>();
             // Arragne: 測試物件的初始化、定義需要使用的參數資訊
 
             var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44323/api/Account/Login");
@@ -53,9 +55,9 @@ namespace LibraryWebAPI.Tests
             };
 
             //var loan = await _loanService.Add(loan_PostDto);
-            var loan = await _loanService.Get(new Guid("8D85A02D-9148-41C5-AD2E-78F4E096E8E7"));
+            var loan = await _loanService.Object.Get(new Guid("8D85A02D-9148-41C5-AD2E-78F4E096E8E7"));
 
-            var _compare = await _loanService.GetLast();
+            var _compare = await _loanService.Object.GetLast();
             // Assert: 驗證結果
             Assert.That(loan, Is.EqualTo(_compare));
         }
