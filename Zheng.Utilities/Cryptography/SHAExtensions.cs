@@ -10,7 +10,7 @@ namespace Zheng.Utilities.Cryptography
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static byte[] PasswordSHA512Hash(string password)
+        public static byte[] SHA512Hash(string password)
         {
             byte[] hashBytes = new byte[64];
             using (SHA512 sha512Hash = SHA512.Create())

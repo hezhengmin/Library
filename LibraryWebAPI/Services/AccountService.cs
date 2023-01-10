@@ -58,7 +58,7 @@ namespace LibraryWebAPI.Services
             }
 
 
-            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(accountAddEntity.Password);
+            byte[] hashBytes = SHAExtensions.SHA512Hash(accountAddEntity.Password);
 
             var account = new Account()
             {
@@ -183,7 +183,7 @@ namespace LibraryWebAPI.Services
                 if (result) return false;
             }
 
-            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(entity.Password);
+            byte[] hashBytes = SHAExtensions.SHA512Hash(entity.Password);
 
             //更新欄位
             account.UserId = entity.UserId;
@@ -263,7 +263,7 @@ namespace LibraryWebAPI.Services
                
 
             //登入密碼加密
-            var secondByteArray = SHAExtensions.PasswordSHA512Hash(entity.Password);
+            var secondByteArray = SHAExtensions.SHA512Hash(entity.Password);
 
             //跟資料庫的，該帳號的密碼比對
             if (!account.Password.CompareByteArray(secondByteArray))
@@ -314,7 +314,7 @@ namespace LibraryWebAPI.Services
             //無帳號，回傳false
             if (account == null) return false;
             //舊密碼
-            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(password);
+            byte[] hashBytes = SHAExtensions.SHA512Hash(password);
 
             if(!account.Password.CompareByteArray(hashBytes)) return false;
 
@@ -332,7 +332,7 @@ namespace LibraryWebAPI.Services
             //無此帳號
             if (account == null) return false;
 
-            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(entity.NewPassword);
+            byte[] hashBytes = SHAExtensions.SHA512Hash(entity.NewPassword);
 
             //更新欄位
             account.Password = hashBytes;
@@ -377,7 +377,7 @@ namespace LibraryWebAPI.Services
             }
 
             string newPassword = RandomExtensions.GetRandom();
-            byte[] hashBytes = SHAExtensions.PasswordSHA512Hash(newPassword);
+            byte[] hashBytes = SHAExtensions.SHA512Hash(newPassword);
 
             var subject = "【Library】申請重設登入密碼回覆";
             StringBuilder sb = new StringBuilder();

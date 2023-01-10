@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using System.Collections.Generic;
+using Zheng.Utilities.Cryptography;
 
 namespace LibraryWebAPI.Controllers
 {
@@ -59,6 +60,18 @@ namespace LibraryWebAPI.Controllers
                 var fileName = "MyWorkbook.xlsx";
                 return File(excelData, ContentType, fileName);
             }
+        }
+
+        /// <summary>
+        /// 輸入明文取得MD5字串
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        [HttpGet("GetMD5/{source}")]
+        public IActionResult GetMD5(string source)
+        {
+            string result = MD5Extensions.EncryptByte(source);
+            return Ok(result);
         }
     }
 }

@@ -39,9 +39,9 @@ namespace LibraryWebAPI
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("http://127.0.0.1:8080",
-                                                          "https://localhost:44323",
-                                                          "https://localhost:44331")
+                                      policy.WithOrigins("https://localhost:44323",
+                                                          "https://localhost:44331",
+                                                          "http://localhost:8080")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                                   });
