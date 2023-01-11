@@ -90,7 +90,7 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("裝訂");
 
                 entity.Property(e => e.Catalog)
-                    .HasMaxLength(3000)
+                    .HasMaxLength(4000)
                     .HasComment("目次");
 
                 entity.Property(e => e.CeasedDate)
@@ -147,7 +147,7 @@ namespace Zheng.Infrastructure.Data
                     .HasComment("級別");
 
                 entity.Property(e => e.Introduction)
-                    .HasMaxLength(2000)
+                    .HasMaxLength(4000)
                     .HasComment("abstract(書籍介紹)");
 
                 entity.Property(e => e.Isbn)
