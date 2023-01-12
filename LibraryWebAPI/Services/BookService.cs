@@ -367,7 +367,7 @@ namespace LibraryWebAPI.Services
             select 
             --B.NumberOfCopies as '總共幾本',
             --ISNULL(L.cnt,0) as '借閱幾本', 
-            convert(nvarchar(36), B.Id) as Id, /*guid 轉換成字串*/
+            convert(nvarchar(36), lower(B.Id)) as Id, /*guid 轉換成字串*/
             B.Title +' (剩餘' + Cast((B.NumberOfCopies- ISNULL(L.cnt,0)) as varchar(10)) + '本)' as 'Text'
             from Book B
             left join (
