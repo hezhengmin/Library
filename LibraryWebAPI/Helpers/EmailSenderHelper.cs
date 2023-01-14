@@ -1,5 +1,7 @@
-﻿using MailKit.Net.Smtp;
+﻿using LibraryWebAPI.Controllers;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MimeKit;
 using MimeKit.Text;
 using System;
@@ -32,10 +34,11 @@ namespace LibraryWebAPI.Helpers
 
 
         private readonly IConfiguration _configuration;
-
-        public EmailSenderHelper(IConfiguration configuration)
+        private readonly ILogger<TestController> _logger;
+        public EmailSenderHelper(IConfiguration configuration, ILogger<TestController> logger)
         {
             _configuration = configuration;
+            _logger = logger;
 
             HostUrl = _configuration["SMTP:HostUrl"];
             Port = int.Parse(_configuration["SMTP:Port"]);
@@ -93,6 +96,7 @@ namespace LibraryWebAPI.Helpers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.ToString());
                 return false;
             }
 

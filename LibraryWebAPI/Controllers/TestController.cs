@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
+using Serilog;
+using Serilog.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Zheng.Utilities.Cryptography;
 
 namespace LibraryWebAPI.Controllers
@@ -13,6 +18,13 @@ namespace LibraryWebAPI.Controllers
         {
             public int A { get; set; }
             public int B { get; set; }
+        }
+
+        private readonly ILogger<TestController> _logger;
+
+        public TestController(ILogger<TestController> logger)
+        {
+            _logger = logger;
         }
 
         [HttpGet("{id}")]
@@ -72,6 +84,27 @@ namespace LibraryWebAPI.Controllers
         {
             string result = MD5Extensions.EncryptByte(source);
             return Ok(result);
+        }
+
+        /// <summary>
+        /// 日誌記錄檔 Serilog Log 
+        /// <para>https://www.youtube.com/watch?v=IDsiVeOe6Uw</para>
+        /// <para>https://github.com/serilog/serilog-aspnetcore</para>
+        /// <para>https://github.com/Nehanthworld/Asp.Net-Core-Web-API-Tutorial</para>
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetLog")]
+        public IActionResult GetLog()
+        {
+            _logger.LogInformation("Hello, world!");
+            _logger.LogTrace("Log message from trace method");
+            _logger.LogDebug("Log message from Debug method");
+            _logger.LogInformation("Log message from Information method");
+            _logger.LogWarning("Log message from Warning method");
+            _logger.LogError("Log message from Error method");
+            _logger.LogCritical("Log message from Critical method");
+
+            return Ok();
         }
     }
 }
