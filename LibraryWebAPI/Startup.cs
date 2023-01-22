@@ -89,6 +89,8 @@ namespace LibraryWebAPI
             services.AddScoped<OpenDataService>();
 
             services.AddControllers().AddNewtonsoftJson();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,6 +102,18 @@ namespace LibraryWebAPI
             }
 
             app.UseHttpsRedirection();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "/api/swagger/{documentName}/swagger.json";
+            });
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Library V1");
+            });
 
             app.UseRouting();
 
