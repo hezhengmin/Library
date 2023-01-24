@@ -15,6 +15,8 @@ using System;
 using System.IO;
 using System.Text;
 using Zheng.Infrastructure.Data;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace LibraryWebAPI
 {
@@ -90,7 +92,61 @@ namespace LibraryWebAPI
 
             services.AddControllers().AddNewtonsoftJson();
 
-            services.AddSwaggerGen();
+
+            //參考 https://igouist.github.io/post/2021/10/swagger-enable-authorize/
+            // 註冊 Swagger 產生器
+            services.AddSwaggerGen(options =>
+            {
+                // API 服務簡介
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Demo",
+                    Description = "hezhengmin API",
+                    TermsOfService = new Uri("https://hezhengmin.github.io/"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "zhengmin",
+                        Email = string.Empty,
+                        Url = new Uri("https://hezhengmin.github.io/"),
+                    }
+                });
+
+                // Authorization
+                options.AddSecurityDefinition("Bearer",
+                new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization"
+                });
+
+                options.AddSecurityRequirement(
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                        }
+                    });
+
+                // XML設定方式 https://igouist.github.io/post/2021/05/newbie-4-swagger/
+                // 讀取 XML 檔案產生 API 說明
+                // https://localhost:44323/swagger/index.html 的Authorize按鈕value 輸入 Bearer {JwtToken}
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

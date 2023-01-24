@@ -29,6 +29,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="filter"></param>
         /// <returns></returns>
         [HttpPost("List")]
+        [Produces("application/json")]
         public async Task<ActionResult<PagedResponse<List<Book_GetDto>>>> Get([FromBody] BookSelectParameter filter)
         {
             return await _bookService.Get(filter);
@@ -40,6 +41,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [Produces("application/json")]
         public async Task<ActionResult<Book_GetDto>> Get([FromRoute] Guid id)
         {
             var result = await _bookService.GetDto(id);
@@ -53,6 +55,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
+        [Produces("application/json")]
         public async Task<ActionResult<Book_GetDto>> Post([FromForm] Book_PostDto entity)
         {
             var book = await _bookService.Add(entity);
@@ -99,6 +102,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Produces("application/json")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             if (!_bookService.Check(id))
@@ -116,6 +120,8 @@ namespace LibraryWebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("SelectList")]
+        [Produces("application/json")]
+
         public async Task<IActionResult> GetSelectList()
         {
             var result = await _bookService.GetSelectList();

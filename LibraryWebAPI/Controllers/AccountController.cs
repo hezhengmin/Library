@@ -25,12 +25,14 @@ namespace LibraryWebAPI.Controllers
         }
 
         [HttpGet]
+        [Produces("application/json")]
         public async Task<ActionResult<List<Account_GetDto>>> Get()
         {
             return await _accountService.Get();
         }
 
         [HttpGet("{id}")]
+        [Produces("application/json")]
         public async Task<ActionResult<Account_GetDto>> Get(Guid id)
         {
             var result = await _accountService.GetDto(id);
@@ -47,6 +49,7 @@ namespace LibraryWebAPI.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
+        [Produces("application/json")]
         public async Task<IActionResult> Post([FromBody] Account_PostDto entity)
         {
             var regResponse = await _accountService.Add(entity);
@@ -61,6 +64,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Produces("application/json")]
         public async Task<IActionResult> PutAsync(Guid id, [FromBody] Account_PutDto entity)
         {
             if (id != entity.Id)
@@ -91,6 +95,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
+        [Produces("application/json")]
         public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<Account> patchEntity)
         {
             //https://docs.microsoft.com/zh-tw/aspnet/core/web-api/jsonpatch?view=aspnetcore-5.0
@@ -107,6 +112,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Produces("application/json")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             if (!_accountService.Check(id))
@@ -126,6 +132,7 @@ namespace LibraryWebAPI.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("Login")]
+        [Produces("application/json")]
         public async Task<IActionResult> Login([FromBody] Account_LoginDto entity)
         {
             var response = await _accountService.Login(entity);
@@ -139,6 +146,7 @@ namespace LibraryWebAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPut("ResetPassword")]
+        [Produces("application/json")]
         public async Task<IActionResult> ResetPassword([FromBody] Account_ResetPasswordDto entity)
         {
 
@@ -154,6 +162,7 @@ namespace LibraryWebAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("ForgetPassword")]
+        [Produces("application/json")]
         public async Task<IActionResult> ForgetPassword([FromBody] Account_ForgetPasswordDto entity)
         {
             var response = await _accountService.ForgetPassword(entity);
@@ -166,6 +175,7 @@ namespace LibraryWebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("SelectList")]
+        [Produces("application/json")]
         public async Task<IActionResult> GetSelectList()
         {
             var result = await _accountService.GetSelectList();
