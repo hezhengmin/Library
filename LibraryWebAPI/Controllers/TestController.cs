@@ -88,14 +88,16 @@ namespace LibraryWebAPI.Controllers
 
         /// <summary>
         /// 日誌記錄檔 Serilog Log 
-        /// <para>https://www.youtube.com/watch?v=IDsiVeOe6Uw</para>
-        /// <para>https://github.com/serilog/serilog-aspnetcore</para>
-        /// <para>https://github.com/Nehanthworld/Asp.Net-Core-Web-API-Tutorial</para>
         /// </summary>
         /// <returns></returns>
         [HttpGet("GetLog")]
         public IActionResult GetLog()
         {
+           /* 參考寫法
+           https://www.youtube.com/watch?v=IDsiVeOe6Uw
+           https://github.com/serilog/serilog-aspnetcore
+           https://github.com/Nehanthworld/Asp.Net-Core-Web-API-Tutorial
+           */
             _logger.LogInformation("Hello, world!");
             _logger.LogTrace("Log message from trace method");
             _logger.LogDebug("Log message from Debug method");

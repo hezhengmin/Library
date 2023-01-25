@@ -24,6 +24,10 @@ namespace LibraryWebAPI.Controllers
             _accountService = accountService;
         }
 
+        /// <summary>
+        /// 多筆帳號
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Produces("application/json")]
         public async Task<ActionResult<List<Account_GetDto>>> Get()
@@ -31,6 +35,11 @@ namespace LibraryWebAPI.Controllers
             return await _accountService.Get();
         }
 
+        /// <summary>
+        /// 單筆帳號
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Produces("application/json")]
         public async Task<ActionResult<Account_GetDto>> Get(Guid id)

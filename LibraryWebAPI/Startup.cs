@@ -101,7 +101,7 @@ namespace LibraryWebAPI
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Demo",
+                    Title = "Zheng 圖書館後台系統 API",
                     Description = "hezhengmin API",
                     TermsOfService = new Uri("https://hezhengmin.github.io/"),
                     Contact = new OpenApiContact
