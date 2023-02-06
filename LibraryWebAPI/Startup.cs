@@ -89,6 +89,8 @@ namespace LibraryWebAPI
             //ÀÉ®×¤W¶Ç
             services.AddScoped<UploadFileService>();
             services.AddScoped<OpenDataService>();
+            services.AddScoped<FileService>();
+
 
             services.AddControllers().AddNewtonsoftJson();
 
