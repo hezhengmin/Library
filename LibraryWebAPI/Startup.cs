@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IO;
 using System.Text;
-using Zheng.Infrastructure.Data;
+using Zheng.Infra.Data.Data;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 

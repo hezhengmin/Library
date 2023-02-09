@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Zheng.Infrastructure.Models
+namespace Zheng.Infra.Data.Models
 {
     public partial class Category
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Zheng.Infrastructure.Models;
+using Zheng.Infra.Data.Models;
 
 #nullable disable
 
-namespace Zheng.Infrastructure.Data
+namespace Zheng.Infra.Data.Data
 {
     public partial class LibraryDbContext : DbContext
     {

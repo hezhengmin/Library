@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Zheng.Infrastructure.Models;
+using Zheng.Infra.Data.Models;
 
 namespace LibraryWebAPI.Controllers
 {

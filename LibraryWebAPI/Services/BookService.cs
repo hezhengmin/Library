@@ -20,8 +20,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Zheng.Infrastructure.Data;
-using Zheng.Infrastructure.Models;
+using Zheng.Infra.Data.Data;
+using Zheng.Infra.Data.Models;
 using Zheng.Utilities.Annotations;
 using Zheng.Utilities.Helpers;
 

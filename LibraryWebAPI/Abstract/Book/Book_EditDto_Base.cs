@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using static Zheng.Infrastructure.Models.Book;
+using static Zheng.Infra.Data.Models.Book;
 
 namespace LibraryWebAPI.Abstract.Book
 {

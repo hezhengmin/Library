@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using LibraryWebAPI.Dtos.LoanDto;
-using Zheng.Infrastructure.Models;
+using Zheng.Infra.Data.Models;
 
 namespace LibraryWebAPI.Profiles
 {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Infrastructure", "Zheng.Infrastructure\Zheng.Infrastructure.csproj", "{294C2E46-2364-48B4-B5EF-2E978DF803CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Infra.Data", "Zheng.Infrastructure\Zheng.Infra.Data.csproj", "{294C2E46-2364-48B4-B5EF-2E978DF803CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI", "LibraryWebAPI\LibraryWebAPI.csproj", "{C92908CE-50AC-4141-AB21-676CE6DE5B48}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zheng.Utilities", "Zheng.Ut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryMVC", "LibraryMVC\LibraryMVC.csproj", "{6CBE9C53-14DD-4620-99B1-4F91D0DE1830}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebAPI.Tests", "LibraryWebAPI.Tests\LibraryWebAPI.Tests.csproj", "{9A9A6D9A-EE37-409D-92F2-E985091D7238}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI.Tests", "LibraryWebAPI.Tests\LibraryWebAPI.Tests.csproj", "{9A9A6D9A-EE37-409D-92F2-E985091D7238}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

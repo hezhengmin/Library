@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zheng.Infrastructure.Models
+namespace Zheng.Infra.Data.Models
 {
     public partial class Book
     {

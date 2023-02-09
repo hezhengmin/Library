@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Zheng.Infrastructure.Models;
+using Zheng.Infra.Data.Models;
 
 namespace LibraryWebAPI.Helpers
 {

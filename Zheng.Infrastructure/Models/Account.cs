@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Zheng.Infrastructure.Models
+namespace Zheng.Infra.Data.Models
 {
     public partial class Account
     {
@@ -11,7 +11,7 @@ namespace Zheng.Infrastructure.Models
         {
             Loans = new HashSet<Loan>();
         }
-
+        
         public Guid Id { get; set; }
         public string UserId { get; set; }
         public byte[] Password { get; set; }
