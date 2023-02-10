@@ -1,7 +1,7 @@
 ﻿using LibraryWebAPI.Dtos.LoanDto;
 using LibraryWebAPI.Dtos.Responses;
+using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Loan;
-using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

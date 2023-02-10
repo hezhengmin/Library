@@ -16,20 +16,6 @@ using OfficeOpenXml.Style;
 
 namespace LibraryWebAPI.Services
 {
-    public interface ILoanService 
-    {
-        Task<Loan_GetDto> GetDto(Guid id);
-        Task<PagedResponse<List<Loan_GetDto>>> Get(LoanSelectParameter filter);
-        Task<Loan> Add(Loan_PostDto entity);
-        Task<Loan> Get(Guid id);
-        bool Check(Guid id);
-        Task<bool> Update(Loan_PutDto entity);
-        Task Delete(Guid id);
-        Task<byte[]> ExportExcel(LoanSelectParameter filter);
-        Task<Loan> GetLast();
-    }
-
-
     public class LoanService : ILoanService
     {
         private readonly LibraryDbContext _context;
