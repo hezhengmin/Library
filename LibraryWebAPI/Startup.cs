@@ -46,7 +46,10 @@ namespace LibraryWebAPI
                                                           "https://localhost:44323",
                                                           "https://localhost:44331")
                                             .AllowAnyHeader()
-                                            .AllowAnyMethod();
+                                            .AllowAnyOrigin()
+                                            .AllowAnyMethod()
+                                            //取得filename=檔案名稱
+                                            .WithExposedHeaders("Content-Disposition");
                                   });
             });
 
