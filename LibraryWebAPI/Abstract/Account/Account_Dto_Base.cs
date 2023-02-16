@@ -11,7 +11,6 @@ namespace LibraryWebAPI.Abstract.Account
         /// <summary>
         /// 密碼
         /// </summary>
-        /// </summary>
         public virtual string Password { get; set; }
     }
 }
