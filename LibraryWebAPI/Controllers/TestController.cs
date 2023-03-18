@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
 using Serilog;
 using Serilog.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using Zheng.Infra.Data.Data;
 using Zheng.Utilities.Cryptography;
 
 namespace LibraryWebAPI.Controllers
@@ -14,18 +17,21 @@ namespace LibraryWebAPI.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        private readonly LibraryDbContext _context;
+        private readonly ILogger<TestController> _logger;
+
+        public TestController(LibraryDbContext context, ILogger<TestController> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
         public class TestDto
         {
             public int A { get; set; }
             public int B { get; set; }
         }
 
-        private readonly ILogger<TestController> _logger;
-
-        public TestController(ILogger<TestController> logger)
-        {
-            _logger = logger;
-        }
 
         [HttpGet("{id}")]
         public dynamic Get([FromRoute] string id,
@@ -93,11 +99,11 @@ namespace LibraryWebAPI.Controllers
         [HttpGet("GetLog")]
         public IActionResult GetLog()
         {
-           /* 參考寫法
-           https://www.youtube.com/watch?v=IDsiVeOe6Uw
-           https://github.com/serilog/serilog-aspnetcore
-           https://github.com/Nehanthworld/Asp.Net-Core-Web-API-Tutorial
-           */
+            /* 參考寫法
+            https://www.youtube.com/watch?v=IDsiVeOe6Uw
+            https://github.com/serilog/serilog-aspnetcore
+            https://github.com/Nehanthworld/Asp.Net-Core-Web-API-Tutorial
+            */
             _logger.LogInformation("Hello, world!");
             _logger.LogTrace("Log message from trace method");
             _logger.LogDebug("Log message from Debug method");
@@ -105,6 +111,61 @@ namespace LibraryWebAPI.Controllers
             _logger.LogWarning("Log message from Warning method");
             _logger.LogError("Log message from Error method");
             _logger.LogCritical("Log message from Critical method");
+
+            return Ok();
+        }
+
+        [HttpGet("GetLeftJoin")]
+        public IActionResult GetLeftJoin()
+        {
+            #region SQL
+            /*
+            SELECT [b].[Id] AS [BookId], [b].[Title] AS [BookTitle], [b0].[UploadFileId]
+            FROM [Book] AS [b]
+            LEFT JOIN [BookPhoto] AS [b0] ON [b].[Id] = [b0].[BookId]
+            */
+            #endregion
+            var result = (from b in _context.Books
+                          join bp in _context.BookPhotos
+                          on b.Id equals bp.BookId into g
+                          from bp in g.DefaultIfEmpty()
+                          select new
+                          {
+                              BookId = b.Id,
+                              BookTitle = b.Title,
+                              UploadFileId = bp.UploadFileId != null ? bp.UploadFileId : (Guid?)null
+                          }
+                ).ToList();
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetGroupJoin")]
+        public IActionResult GetGroupJoin()
+        {
+            //var result = _context.Books
+            //             .GroupJoin(
+            //                 _context.BookPhotos,
+            //                 book => book.Id,
+            //                 photo => photo.BookId,
+            //                 (book, photos) => new
+            //                 {
+            //                     BookId = book.Id,
+            //                     BookTitle = book.Title,
+            //                     Photos = photos.DefaultIfEmpty()
+            //                 }
+            //             )
+            //             .SelectMany(
+            //                 x => x.Photos,
+            //                 (book, photo) => new
+            //                 {
+            //                     BookId = book.BookId,
+            //                     BookTitle = book.BookTitle,
+            //                     UploadFileId = photo == null ? "Unknown" : photo.UploadFileId.ToString()
+            //                 }
+            //             )
+            //             .ToList();
+
 
             return Ok();
         }
