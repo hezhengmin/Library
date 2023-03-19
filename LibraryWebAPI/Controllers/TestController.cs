@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using Zheng.Infra.Data.Data;
 using Zheng.Utilities.Cryptography;
+using static LibraryWebAPI.Controllers.TestController;
 
 namespace LibraryWebAPI.Controllers
 {
@@ -160,34 +161,50 @@ namespace LibraryWebAPI.Controllers
         {
             var courses = new List<Course>()
             {
-                new Course() { CourseId = 1, Name = "國文" },
-                new Course() { CourseId = 2, Name = "英文" },
-                new Course() { CourseId = 3, Name = "數學" },
-                new Course() { CourseId = 4, Name = "理化" },
+                new Course() { CourseId = 1, StudentId = 1,  CourseName = "國文" },
+                new Course() { CourseId = 2, StudentId = 1,  CourseName = "英文" },
+                new Course() { CourseId = 3, StudentId = 3,  CourseName = "數學" },
+                new Course() { CourseId = 4, StudentId = 3,  CourseName = "英文" },
+
             };
 
             var students = new List<Student>()
             {
-                new Student(){ StudentId = 1 ,Name = "Amy", CourseId= 1},
-                new Student(){ StudentId = 2 ,Name = "Amy", CourseId= 2},
-                new Student(){ StudentId = 3 ,Name = "Neci", CourseId= 2},
-                new Student(){ StudentId = 4 ,Name = "Tommy", CourseId= 3},
+                new Student(){ StudentId = 1 ,Name = "Amy"},
+                new Student(){ StudentId = 2 ,Name = "Neci"},
+                new Student(){ StudentId = 3 ,Name = "Tommy"},
             };
 
-            return Ok();
+            var result = students.GroupJoin(courses,
+                                   s => s.StudentId,
+                                   c => c.StudentId,
+                                   (student, course) => new
+                                   {
+                                       StudentName = student.Name,
+                                       Course = course
+                                   })
+                                 .SelectMany(x => x.Course.DefaultIfEmpty(),
+                                   (student, course) => new
+                                   {
+                                       StudentName = student.StudentName,
+                                       CourseId = course?.CourseId,
+                                       CourseName = course?.CourseName
+                                   }).ToList();
+
+            return Ok(result);
         }
 
         public class Student
         {
             public int StudentId { get; set; }
             public string Name { get; set; }
-            public int CourseId { get; set; }
         }
 
         public class Course
         {
             public int CourseId { get; set; }
-            public string Name { get; set; }
+            public int StudentId { get; set; }
+            public string CourseName { get; set; }
         }
     }
 }
