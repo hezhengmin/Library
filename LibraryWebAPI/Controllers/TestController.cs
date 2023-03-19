@@ -140,34 +140,54 @@ namespace LibraryWebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetGroupJoin")]
-        public IActionResult GetGroupJoin()
+        /// <summary>
+        /// 多個單詞的字串陣列，將每個單詞拆分成字母
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetSelectMany")]
+        public IActionResult GetSelectMany()
         {
-            //var result = _context.Books
-            //             .GroupJoin(
-            //                 _context.BookPhotos,
-            //                 book => book.Id,
-            //                 photo => photo.BookId,
-            //                 (book, photos) => new
-            //                 {
-            //                     BookId = book.Id,
-            //                     BookTitle = book.Title,
-            //                     Photos = photos.DefaultIfEmpty()
-            //                 }
-            //             )
-            //             .SelectMany(
-            //                 x => x.Photos,
-            //                 (book, photo) => new
-            //                 {
-            //                     BookId = book.BookId,
-            //                     BookTitle = book.BookTitle,
-            //                     UploadFileId = photo == null ? "Unknown" : photo.UploadFileId.ToString()
-            //                 }
-            //             )
-            //             .ToList();
+            //結果 {"h", "e", "l", "l", "o", "w", "o", "r", "l", "d"}
+            string[] words = { "hello", "world" };
+            char[] letters = words.SelectMany(word => word).ToArray();
 
+            return Ok(letters);
+        }
+
+
+        [HttpGet("GetSelectMany2")]
+        public IActionResult GetSelectMany2()
+        {
+            var courses = new List<Course>()
+            {
+                new Course() { CourseId = 1, Name = "國文" },
+                new Course() { CourseId = 2, Name = "英文" },
+                new Course() { CourseId = 3, Name = "數學" },
+                new Course() { CourseId = 4, Name = "理化" },
+            };
+
+            var students = new List<Student>()
+            {
+                new Student(){ StudentId = 1 ,Name = "Amy", CourseId= 1},
+                new Student(){ StudentId = 2 ,Name = "Amy", CourseId= 2},
+                new Student(){ StudentId = 3 ,Name = "Neci", CourseId= 2},
+                new Student(){ StudentId = 4 ,Name = "Tommy", CourseId= 3},
+            };
 
             return Ok();
+        }
+
+        public class Student
+        {
+            public int StudentId { get; set; }
+            public string Name { get; set; }
+            public int CourseId { get; set; }
+        }
+
+        public class Course
+        {
+            public int CourseId { get; set; }
+            public string Name { get; set; }
         }
     }
 }
