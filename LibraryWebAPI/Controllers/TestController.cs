@@ -206,5 +206,23 @@ namespace LibraryWebAPI.Controllers
             public int StudentId { get; set; }
             public string CourseName { get; set; }
         }
+
+        /// <summary>
+        /// Dictionary<TKey,TValue> 範例
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetToDictionary")]
+        public IActionResult GetToDictionary()
+        {
+            var list = _context.Accounts.Select(x => new { x.Id, x.UserId }).ToDictionary(x => x.Id, x => x.UserId);
+
+            foreach (var acc in list)
+            {
+                Console.WriteLine("Id: {0}, UserId: {1}", acc.Key, acc.Value);
+            }
+
+            return Ok(list);
+        }
+
     }
 }
