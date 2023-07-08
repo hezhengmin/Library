@@ -18,6 +18,21 @@ D:\Github\Library>cd librarymvc
 D:\Github\Library\LibraryMVC>npm run watch
 ```
 
+## 重新執行的命令
+```
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.2.6
+** Copyright (c) 2022 Microsoft Corporation
+**********************************************************************
+
+D:\Github\Library>cd librarymvc
+刪除D:\Github\Library\LibraryMVC\node_modules內的所有檔案、package-lock.json
+開啟cmd，在package.json關於swiper有關的套件先排除再重安裝
+D:\Github\Library\LibraryMVC> npm install
+D:\Github\Library\LibraryMVC> npm install swiper@5.2.0
+D:\Github\Library\LibraryMVC> npm install vue-awesome-swiper@4.1.1
+```
+
 ## 安裝套件
 * npm install axios
 * npm install vue@2.7.6
