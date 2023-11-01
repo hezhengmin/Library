@@ -185,6 +185,11 @@ namespace LibraryWebAPI
             //授權身分
             app.UseAuthorization();
 
+            if (!Directory.Exists(Path.Combine(env.ContentRootPath, "Uploads")))
+            {
+                Directory.CreateDirectory(Path.Combine(env.ContentRootPath, "Uploads"));
+            }
+
             //靜態檔案，用來讀取路徑
             app.UseStaticFiles(new StaticFileOptions
             {
