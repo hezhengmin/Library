@@ -289,13 +289,16 @@ namespace LibraryWebAPI.Services
             }
 
             //登入成功
-            var token = _jwtHelper.GenerateJwtToken(account);
+            var token = _jwtHelper.GenerateAccessToken(account);
+            var refreshToken = _jwtHelper.GenerateRefreshToken();
+
             var accountDto = await GetDto(account.Id);
 
             return new AccountResponse()
             {
                 Success = true,
                 JwtToken = token,
+                RefreshToken = refreshToken,
                 Account = accountDto
             };
         }

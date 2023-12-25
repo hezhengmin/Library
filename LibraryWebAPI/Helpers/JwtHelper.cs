@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Zheng.Infra.Data.Models;
 
@@ -20,7 +21,7 @@ namespace LibraryWebAPI.Helpers
             _configuration = configuration;
         }
 
-        public string GenerateJwtToken(Account account)
+        public string GenerateAccessToken(Account account)
         {
             //設定使用者資訊
             var claims = new List<Claim>
@@ -46,6 +47,17 @@ namespace LibraryWebAPI.Helpers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
         }
     }
 }
