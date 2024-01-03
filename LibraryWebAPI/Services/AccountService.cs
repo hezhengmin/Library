@@ -1,4 +1,5 @@
 ﻿using LibraryWebAPI.Dtos.AccountDto;
+using LibraryWebAPI.Dtos.InputModel;
 using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
@@ -135,7 +136,7 @@ namespace LibraryWebAPI.Services
         public async Task<Account> GetByEmail(string email)
         {
             return await _context.Accounts.SingleOrDefaultAsync(x => x.Email == email);
-        
+
         }
         public async Task<List<Account_GetDto>> Get()
         {
@@ -236,7 +237,7 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task<AccountResponse> Login(Account_LoginDto entity)
         {
-            if( MD5Extensions.EncryptByte(entity.ValidateCode) != entity.ValidateCodeHash)
+            if (MD5Extensions.EncryptByte(entity.ValidateCode) != entity.ValidateCodeHash)
             {
                 return new AccountResponse()
                 {
@@ -260,7 +261,7 @@ namespace LibraryWebAPI.Services
                     Success = false
                 };
             }
-               
+
 
             //登入密碼加密
             var secondByteArray = SHAExtensions.SHA512Hash(entity.Password);
@@ -277,12 +278,12 @@ namespace LibraryWebAPI.Services
                 };
             }
 
-            if(account.Status == false)
+            if (account.Status == false)
             {
                 return new AccountResponse()
                 {
                     Errors = new List<string>() {
-                        "帳號未啟用，請聯絡管理者！" 
+                        "帳號未啟用，請聯絡管理者！"
                     },
                     Success = false
                 };
@@ -319,7 +320,7 @@ namespace LibraryWebAPI.Services
             //舊密碼
             byte[] hashBytes = SHAExtensions.SHA512Hash(password);
 
-            if(!account.Password.CompareByteArray(hashBytes)) return false;
+            if (!account.Password.CompareByteArray(hashBytes)) return false;
 
             return true;
         }
@@ -372,7 +373,7 @@ namespace LibraryWebAPI.Services
                 return response;
             }
 
-            if(account.UserId != entity.UserId)
+            if (account.UserId != entity.UserId)
             {
                 response.Success = false;
                 response.Errors.Add("信箱找不到相符合的帳號");
@@ -405,7 +406,7 @@ namespace LibraryWebAPI.Services
 
             //更新欄位
             account.Password = hashBytes;
-            
+
             try
             {
                 _context.Entry(account).State = EntityState.Modified;
@@ -440,6 +441,43 @@ namespace LibraryWebAPI.Services
             list.Insert(0, new Account_SelectListDto() { Id = Guid.Empty.ToString(), Text = "請選擇" });
 
             return list;
+        }
+
+        /// <summary>
+        /// 從過期的 jwtToken 取得新的 token
+        /// </summary>
+        /// <param name="tokenInputModel"></param>
+        /// <returns></returns>
+        public async Task<TokenResponse> GetNewToken(TokenInputModel tokenInputModel)
+        {
+            var tokenResponse = new TokenResponse();
+            string accessToken = tokenInputModel.AccessToken;
+            string refreshToken = tokenInputModel.RefreshToken;
+            //由原本的accessToken 取得account
+            var principal = _jwtHelper.GetPrincipalFromExpiredToken(accessToken);
+
+            var allClaims = principal.Claims;
+            //[Account]資料表[Id]
+            var id = allClaims.FirstOrDefault(x => x.Type == AccountId);
+
+            Account account = await Get(Guid.Parse(id.Value));
+            var newAccessToken = _jwtHelper.GenerateAccessToken(account);
+
+            return new TokenResponse()
+            {
+                RefreshToken = refreshToken,
+                AccessToken = newAccessToken,
+                Success = true,
+            };
+        }
+
+
+        public static string AccountId
+        {
+            get
+            {
+                return "id";
+            }
         }
     }
 }

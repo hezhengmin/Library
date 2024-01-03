@@ -12,7 +12,10 @@ namespace LibraryWebAPI.Helpers
 {
     public class JwtHelper
     {
-        private static int keepTime = 30;
+        /// <summary>
+        /// Token 過期時間(分)
+        /// </summary>
+        private static int keepTime = 1;
 
         private readonly IConfiguration _configuration;
 
@@ -23,7 +26,7 @@ namespace LibraryWebAPI.Helpers
 
         public string GenerateAccessToken(Account account)
         {
-            //設定使用者資訊
+            //建立使用者資訊 Claim
             var claims = new List<Claim>
                 {
                     new Claim("id",account.Id.ToString()),//主key
@@ -49,7 +52,6 @@ namespace LibraryWebAPI.Helpers
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
@@ -58,6 +60,44 @@ namespace LibraryWebAPI.Helpers
                 rng.GetBytes(randomNumber);
                 return Convert.ToBase64String(randomNumber);
             }
+        }
+
+
+
+        /// <summary>
+        /// 從過期的token中取得用戶主體
+        /// </summary>
+        /// <param name="token">accessToken</param>
+        /// <returns></returns>
+        /// <exception cref="SecurityTokenException"></exception>
+        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:KEY"])),
+                ValidateIssuer = true,
+                ValidIssuer = _configuration["JWT:Issuer"],
+                ValidateAudience = true,
+                ValidAudience = _configuration["JWT:Audience"],
+                ValidateLifetime = false, // 禁用過期時間驗證以取得過期的 Token
+                ClockSkew = TimeSpan.Zero // 將時鐘偏移設為零，以進行精確的過期時間比較
+            };
+
+            SecurityToken securityToken;
+            ClaimsPrincipal principal = null;
+
+            try
+            {
+                principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+            }
+            catch (SecurityTokenException ex)
+            {
+                throw new SecurityTokenException($"invalid token: {ex}");
+            }
+
+            return principal;
         }
     }
 }

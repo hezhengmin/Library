@@ -1,4 +1,5 @@
 ﻿using LibraryWebAPI.Dtos.AccountDto;
+using LibraryWebAPI.Dtos.InputModel;
 using LibraryWebAPI.Helpers;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -169,6 +170,11 @@ namespace LibraryWebAPI.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// 忘記密碼
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("ForgetPassword")]
         [Produces("application/json")]
@@ -189,6 +195,27 @@ namespace LibraryWebAPI.Controllers
         {
             var result = await _accountService.GetSelectList();
             return Ok(result);
+        }
+
+        /// <summary>
+        /// 從過期的 jwtToken 取得新的 token
+        /// </summary>
+        /// <param name="tokenInputModel"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("GetNewToken")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetNewToken(TokenInputModel tokenInputModel)
+        {
+            try
+            {
+                var result = await _accountService.GetNewToken(tokenInputModel);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest( $"取得新的AccessToken發生錯誤：{ex.Message}");
+            }
         }
     }
 }
