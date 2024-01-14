@@ -11,8 +11,8 @@ namespace LibraryWebAPI.Controllers
     [ApiController]
     public class ValidateCodeController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult GetValidateCode(string identify = "")
+        [HttpGet("GetValidateCode")]
+        public IActionResult GetValidateCode()
         {
             string codeValue = "";
             var codeImg = ValidateCodeHelper.CreateImage(out codeValue, 6);

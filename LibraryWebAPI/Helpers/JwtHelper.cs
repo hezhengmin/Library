@@ -12,11 +12,6 @@ namespace LibraryWebAPI.Helpers
 {
     public class JwtHelper
     {
-        /// <summary>
-        /// Token 過期時間(分)
-        /// </summary>
-        private static int keepTime = 1;
-
         private readonly IConfiguration _configuration;
 
         public JwtHelper(IConfiguration configuration)
@@ -98,6 +93,18 @@ namespace LibraryWebAPI.Helpers
             }
 
             return principal;
+        }
+
+
+        /// <summary>
+        /// Token 過期時間(分)
+        /// </summary>
+        private int keepTime
+        {
+            get
+            {
+                return int.Parse(_configuration["JWT:KeepTime"]);
+            }
         }
     }
 }
