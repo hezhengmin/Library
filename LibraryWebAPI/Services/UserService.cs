@@ -24,7 +24,7 @@ namespace LibraryWebAPI.Services
         {
             get
             {
-                string id = _httpContextAccessor.HttpContext.User.FindFirst(_accountKey).Value;
+                string id = _httpContextAccessor.HttpContext?.User.FindFirst(_accountKey).Value;
                 return Guid.Parse(id);
             }
         }

@@ -3,7 +3,6 @@ using Dapper;
 using LibraryWebAPI.Dtos.BookDto;
 using LibraryWebAPI.Dtos.BookPhotoDto;
 using LibraryWebAPI.Dtos.Responses;
-using LibraryWebAPI.Helpers;
 using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Parameters.Book;
 using Microsoft.AspNetCore.Hosting;
@@ -14,15 +13,11 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Zheng.Infra.Data.Data;
 using Zheng.Infra.Data.Models;
-using Zheng.Utilities.Annotations;
 using Zheng.Utilities.Helpers;
 
 namespace LibraryWebAPI.Services
@@ -127,6 +122,8 @@ namespace LibraryWebAPI.Services
         /// <returns></returns>
         public async Task<PagedResponse<List<Book_GetDto>>> Get(BookSelectParameter filter)
         {
+            var x = _userService.CurrentUserId;
+
             var query = _context.Books
                 .Include(x => x.BookPhotos)
                 .AsQueryable();

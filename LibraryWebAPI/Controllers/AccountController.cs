@@ -1,11 +1,14 @@
 ﻿using LibraryWebAPI.Dtos.AccountDto;
 using LibraryWebAPI.Dtos.InputModel;
+using LibraryWebAPI.Dtos.RefreshToken;
 using LibraryWebAPI.Helpers;
+using LibraryWebAPI.Interfaces;
 using LibraryWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,10 +22,12 @@ namespace LibraryWebAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(AccountService accountService, JwtHelper jwtHelper)
+        public AccountController(AccountService accountService, ITokenService tokenService)
         {
             _accountService = accountService;
+            _tokenService = tokenService;
         }
 
         /// <summary>
@@ -145,9 +150,29 @@ namespace LibraryWebAPI.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> Login([FromBody] Account_LoginDto entity)
         {
-            var response = await _accountService.Login(entity);
+            try
+            {
+                var response = await _accountService.Login(entity);
 
-            return Ok(response);
+                #region 新增token紀錄
+                var accountDto = (Account_GetDto)(response.Account);
+
+                var refreshTokenEntity = new RefreshToken_PostDto()
+                {
+                    AccountId = accountDto.Id,
+                    AccessToken = response.JwtToken,
+                    RefreshToken = response.RefreshToken,
+                };
+
+                var refreshResponse = await _tokenService.AddRefreshToken(refreshTokenEntity);
+                #endregion
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -210,11 +235,19 @@ namespace LibraryWebAPI.Controllers
             try
             {
                 var result = await _accountService.GetNewToken(tokenInputModel);
+
+
+                var tokenResult = _tokenService.UpdateRefreshToken(new RefreshToken_PostDto()
+                {
+                    RefreshToken = result.RefreshToken,
+                    AccessToken = result.AccessToken,
+                });
+
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest( $"取得新的AccessToken發生錯誤：{ex.Message}");
+                return BadRequest($"取得新的AccessToken發生錯誤：{ex.Message}");
             }
         }
     }

@@ -2,6 +2,7 @@
 using LibraryWebAPI.Dtos.LoanDto;
 using LibraryWebAPI.Dtos.RefreshToken;
 using LibraryWebAPI.Dtos.Responses;
+using LibraryWebAPI.Helpers;
 using LibraryWebAPI.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,16 +21,14 @@ namespace LibraryWebAPI.Services
     public class TokenService: ITokenService
     {
         private readonly LibraryDbContext _context;
-        private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        private readonly TokenValidationParameters _tokenValidationParams;
+        private readonly JwtHelper _jwtHelper;
 
-        public TokenService(LibraryDbContext context, IUserService userService, IMapper mapper, TokenValidationParameters tokenValidationParams)
+        public TokenService(LibraryDbContext context, IMapper mapper, JwtHelper jwtHelper)
         {
             _context = context;
-            _userService = userService;
             _mapper = mapper;
-            _tokenValidationParams = tokenValidationParams;
+            _jwtHelper = jwtHelper;
         }
 
         public async Task<CommonResponse> AddRefreshToken(RefreshToken_PostDto entity)
@@ -53,7 +52,7 @@ namespace LibraryWebAPI.Services
 
         public async Task<CommonResponse> UpdateRefreshToken(RefreshToken_PostDto entity)
         {
-            var token = await _context.Tokens.SingleOrDefaultAsync(x => x.RefreshToken == entity.RefreshToken);
+            var token = _context.Tokens.SingleOrDefault(x => x.RefreshToken == entity.RefreshToken);
            
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -66,12 +65,17 @@ namespace LibraryWebAPI.Services
                 };
             }
 
+            var principal = _jwtHelper.GetPrincipalFromExpiredToken(entity.AccessToken);
+            var allClaims = principal.Claims;
+            //[Account]資料表[Id]
+            var accountId = allClaims.FirstOrDefault(x => x.Type == "id");
+
             token.AccessToken = entity.AccessToken;
-            token.UpdatedBy = _userService.CurrentUserId;
+            token.UpdatedBy = Guid.Parse(accountId.Value);
             token.UpdatedAt = DateTime.Now;
 
             _context.Entry(token).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return new CommonResponse()
             {
