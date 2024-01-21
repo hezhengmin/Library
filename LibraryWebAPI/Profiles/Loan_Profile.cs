@@ -4,9 +4,9 @@ using Zheng.Infra.Data.Models;
 
 namespace LibraryWebAPI.Profiles
 {
-    public class Loan_PostProfile : Profile
+    public class Loan_Profile : Profile
     {
-        public Loan_PostProfile()
+        public Loan_Profile()
         {
             CreateMap<Loan_PostDto, Loan>();
         }

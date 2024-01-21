@@ -53,23 +53,27 @@ namespace LibraryWebAPI
                                   });
             });
 
+            var tokenValidationParams = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = Configuration["Jwt:Issuer"],// 簽發者
+                ValidateAudience = true,
+                ValidAudience = Configuration["Jwt:Audience"],// 接收者
+                ValidateLifetime = true,// 驗證時間
+                ClockSkew = TimeSpan.Zero,//時間偏移，確定發行到期
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:KEY"]))// Key
+            };
+
             //JWT 設定
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],// 簽發者
-                    ValidateAudience = true,
-                    ValidAudience = Configuration["Jwt:Audience"],// 接收者
-                    ValidateLifetime = true,// 驗證時間
-                    ClockSkew = TimeSpan.Zero,//時間偏移，確定發行到期
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:KEY"]))// Key
-                };
+                options.TokenValidationParameters = tokenValidationParams;
             });
 
+            //TokenValidationParameters
+            services.AddSingleton(tokenValidationParams);
             //AutoMapper
             services.AddAutoMapper(typeof(Startup));
             //註冊HttpClient
@@ -86,6 +90,7 @@ namespace LibraryWebAPI
             services.AddScoped<BookService>(); //書籍
             services.AddScoped<BookPhotoService>(); //書籍圖片
             services.AddScoped<ILoanService, LoanService>(); //借閱書籍
+            services.AddScoped<ITokenService, TokenService>(); //Token
 
             //登入的帳號資訊
             services.AddTransient<IUserService, UserService>();
@@ -185,6 +190,7 @@ namespace LibraryWebAPI
             //授權身分
             app.UseAuthorization();
 
+            //檢查有無Uploads資料夾，若沒有自動創建一個資料夾
             if (!Directory.Exists(Path.Combine(env.ContentRootPath, "Uploads")))
             {
                 Directory.CreateDirectory(Path.Combine(env.ContentRootPath, "Uploads"));

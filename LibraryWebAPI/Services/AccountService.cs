@@ -2,6 +2,7 @@
 using LibraryWebAPI.Dtos.InputModel;
 using LibraryWebAPI.Dtos.Responses;
 using LibraryWebAPI.Helpers;
+using LibraryWebAPI.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,12 +23,14 @@ namespace LibraryWebAPI.Services
         private readonly LibraryDbContext _context;
         private readonly EmailSenderHelper _emailSenderHelper;
         private readonly JwtHelper _jwtHelper;
+        private readonly IUserService _userService;
 
-        public AccountService(LibraryDbContext context, EmailSenderHelper emailSenderHelper, JwtHelper jwtHelper)
+        public AccountService(LibraryDbContext context, EmailSenderHelper emailSenderHelper, JwtHelper jwtHelper, IUserService userService)
         {
             _context = context;
             _emailSenderHelper = emailSenderHelper;
             _jwtHelper = jwtHelper;
+            _userService = userService;
         }
 
         /// <summary>
@@ -300,7 +303,8 @@ namespace LibraryWebAPI.Services
                 Success = true,
                 JwtToken = token,
                 RefreshToken = refreshToken,
-                Account = accountDto
+                Account = accountDto,
+                Message = "登入成功"
             };
         }
 

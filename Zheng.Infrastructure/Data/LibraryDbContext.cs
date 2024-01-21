@@ -23,11 +23,16 @@ namespace Zheng.Infra.Data.Data
         public virtual DbSet<BookPhoto> BookPhotos { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Loan> Loans { get; set; }
+        public virtual DbSet<Token> Tokens { get; set; }
         public virtual DbSet<UploadFile> UploadFiles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-          
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-UR67AEH0\\SQLEXPRESS;Initial Catalog=Library;User ID=sa;Password=123456");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -320,6 +325,43 @@ namespace Zheng.Infra.Data.Data
                     .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Loan_Book");
+            });
+
+            modelBuilder.Entity<Token>(entity =>
+            {
+                entity.ToTable("Token");
+
+                entity.Property(e => e.Id)
+                    .HasDefaultValueSql("(newid())")
+                    .HasComment("系統編號");
+
+                entity.Property(e => e.AccessToken)
+                    .IsRequired()
+                    .HasComment("JWT Token");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasComment("新增時間");
+
+                entity.Property(e => e.CreatedBy).HasComment("新增者");
+
+                entity.Property(e => e.ExpiryDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Refresh Token到期日");
+
+                entity.Property(e => e.IsRevorked).HasComment("是否出於安全原因已將其撤銷");
+
+                entity.Property(e => e.IsUsed).HasComment("不想使用相同的 refresh token 生成新的 JWT token");
+
+                entity.Property(e => e.RefreshToken)
+                    .IsRequired()
+                    .HasComment("Refresh Token");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasComment("修改時間");
+
+                entity.Property(e => e.UpdatedBy).HasComment("修改者");
             });
 
             modelBuilder.Entity<UploadFile>(entity =>

@@ -11,7 +11,7 @@ namespace Zheng.Infra.Data.Models
         {
             Loans = new HashSet<Loan>();
         }
-        
+
         public Guid Id { get; set; }
         public string UserId { get; set; }
         public byte[] Password { get; set; }
