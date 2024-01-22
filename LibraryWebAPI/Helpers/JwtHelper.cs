@@ -95,6 +95,30 @@ namespace LibraryWebAPI.Helpers
             return principal;
         }
 
+        public ClaimsPrincipal GetPrincipalFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            try
+            {
+                // 读取 JWT 令牌
+                var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+                if (jwtToken == null)
+                {
+                    return null;
+                }
+
+                // 创建 ClaimsPrincipal 对象
+                var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(jwtToken.Claims));
+
+                return claimsPrincipal;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// Token 過期時間(分)

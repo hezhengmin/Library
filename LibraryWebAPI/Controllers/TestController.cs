@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LibraryWebAPI.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
@@ -20,11 +21,12 @@ namespace LibraryWebAPI.Controllers
     {
         private readonly LibraryDbContext _context;
         private readonly ILogger<TestController> _logger;
-
-        public TestController(LibraryDbContext context, ILogger<TestController> logger)
+        private readonly JwtHelper _jwtHelper;
+        public TestController(LibraryDbContext context, ILogger<TestController> logger, JwtHelper jwtHelper)
         {
             _context = context;
             _logger = logger;
+            _jwtHelper = jwtHelper;
         }
 
         public class TestDto
@@ -194,7 +196,15 @@ namespace LibraryWebAPI.Controllers
             return Ok(result);
         }
 
+
         [HttpPost("GetPrincipalFromToken")]
+        public IActionResult GetPrincipalFromToken([FromBody] string token)
+        {
+            var result = _jwtHelper.GetPrincipalFromToken(token);
+
+            return Ok(result);
+        }
+
         public class Student
         {
             public int StudentId { get; set; }

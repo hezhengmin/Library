@@ -55,7 +55,6 @@ namespace LibraryWebAPI.Services
             var token = _context.Tokens.SingleOrDefault(x => x.RefreshToken == entity.RefreshToken);
            
             var jwtTokenHandler = new JwtSecurityTokenHandler();
-
             if (token == null)
             {
                 return new CommonResponse()
