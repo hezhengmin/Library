@@ -194,6 +194,7 @@ namespace LibraryWebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPost("GetPrincipalFromToken")]
         public class Student
         {
             public int StudentId { get; set; }
