@@ -11,7 +11,6 @@ namespace LibraryWebAPI.Profiles
         public Token_Profile()
         {
             CreateMap<RefreshToken_PostDto, Token>();
-                
         }
     }
 }

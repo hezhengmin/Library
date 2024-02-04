@@ -18,7 +18,7 @@ using Zheng.Infra.Data.Models;
 
 namespace LibraryWebAPI.Services
 {
-    public class TokenService: ITokenService
+    public class TokenService : ITokenService
     {
         private readonly LibraryDbContext _context;
         private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ namespace LibraryWebAPI.Services
 
         public async Task<CommonResponse> AddRefreshToken(RefreshToken_PostDto entity)
         {
-            var token =  _mapper.Map<Token>(entity);
+            var token = _mapper.Map<Token>(entity);
 
             //設定 refresh token 到期時間
             token.ExpiryDate = DateTime.Now.AddHours(10);
@@ -42,7 +42,7 @@ namespace LibraryWebAPI.Services
 
             await _context.Tokens.AddAsync(token);
             _context.SaveChanges();
-            
+
             return new CommonResponse()
             {
                 Success = true,
@@ -53,7 +53,7 @@ namespace LibraryWebAPI.Services
         public async Task<CommonResponse> UpdateRefreshToken(RefreshToken_PostDto entity)
         {
             var token = _context.Tokens.SingleOrDefault(x => x.RefreshToken == entity.RefreshToken);
-           
+
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             if (token == null)
             {

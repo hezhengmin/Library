@@ -110,9 +110,15 @@ namespace LibraryWebAPI.Controllers
                 return NotFound();
             }
 
-            await _bookService.Delete(id);
-
-            return NoContent();
+            try
+            {
+                var result = await _bookService.Delete(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"刪除書籍發生錯誤：{ex.Message}");
+            }
         }
 
         /// <summary>

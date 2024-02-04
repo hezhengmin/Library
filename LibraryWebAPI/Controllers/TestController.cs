@@ -201,7 +201,6 @@ namespace LibraryWebAPI.Controllers
         public IActionResult GetPrincipalFromToken([FromBody] string token)
         {
             var result = _jwtHelper.GetPrincipalFromToken(token);
-
             return Ok(result);
         }
 

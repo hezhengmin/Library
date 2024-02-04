@@ -335,7 +335,7 @@ namespace LibraryWebAPI.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task Delete(Guid id)
+        public async Task<CommonResponse> Delete(Guid id)
         {
             var entity = await _context.Books
                 .Include(x=>x.Loans)
@@ -351,6 +351,13 @@ namespace LibraryWebAPI.Services
             _context.BookPhotos.RemoveRange(entity.BookPhotos);
             _context.Books.Remove(entity);
             _context.SaveChanges();
+
+            return new CommonResponse()
+            {
+                Success = true,
+                Data = null,
+                Message = "刪除成功"
+            };
         }
 
         /// <summary>
