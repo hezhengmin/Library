@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
+using Org.BouncyCastle.Utilities;
 using Serilog;
 using Serilog.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using Zheng.Infra.Data.Data;
@@ -47,6 +49,43 @@ namespace LibraryWebAPI.Controllers
             list.Add(testDto);
 
             return list;
+        }
+
+        [HttpGet("GetArray/{len}")]
+        public dynamic GetArray([FromRoute] int len)
+        {
+            List<dynamic> list = new List<dynamic>();
+
+            for (int i = 0; i < len; i++)
+            {
+                var items = Enumerable.Range(1, len).Select(x => x * (i + 1)).ToArray();
+                list.Add(items);
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// 取得九九乘法表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetMultiplicationTable")]
+        public dynamic GetMultiplicationTable()
+        {
+            List<dynamic> list = new List<dynamic>();
+
+            foreach (var item in Enumerable.Range(1, 9))
+            {
+                var l = Enumerable.Range(1, 9).Select(x => new
+                {
+                    x,
+                    item,
+                    r = $"{x} * {item} = {x*item}"
+                }).ToArray();
+                list.Add(l);
+            }
+
+            return new { result = list };
         }
 
 
